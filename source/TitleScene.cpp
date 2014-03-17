@@ -29,18 +29,22 @@ void TitleScene::Init()
 	Scene::Init();
 
 	// Create background sprite
+	
 	mpBackground = new CSprite();
 	mpBackground->m_X = (float)IwGxGetScreenWidth() * 0.5f;
 	mpBackground->m_Y = (float)IwGxGetScreenHeight() * 0.5f;
-	mpBackground->SetImage(g_pResources->getBackground());
+	mpBackground->SetImage(g_pResources->getTitleBackground());
 	mpBackground->m_W = mpBackground->GetImage()->GetWidth();
+	
 	mpBackground->m_H = mpBackground->GetImage()->GetHeight();
+	
 	mpBackground->m_AnchorX = 0.5;
 	mpBackground->m_AnchorY = 0.5;
  
+	float backgroundScale = (float)IwGxGetScreenWidth() / mpBackground->m_W;
 	// Fit background to screen size
-	mpBackground->m_ScaleX = (float)IwGxGetScreenWidth() / mpBackground->GetImage()->GetWidth();
-	mpBackground->m_ScaleY = (float)IwGxGetScreenHeight() / mpBackground->GetImage()->GetHeight();
+	mpBackground->m_ScaleX = backgroundScale;
+	mpBackground->m_ScaleY = backgroundScale;
 	AddChild(mpBackground);
 
 	// Create the title text

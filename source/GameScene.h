@@ -68,6 +68,7 @@ private:
 	SFAS2014::GridItem * mGrid[GridWidth*GridHeight];
 	CLabel* mpScoreText;
 	CLabel* mpTimeText;
+	CSprite * mpBackground;
 
 	float mTime;
 	int mScore;

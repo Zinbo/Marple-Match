@@ -7,6 +7,7 @@
 #define __GRIDITEM_H__
 
 #include "Iw2DSceneGraph.h"
+#include "IwGx.h"
 
 namespace SFAS2014
 {
@@ -33,7 +34,7 @@ public:
 	};
 
 
-    GridItem( float x, float y, Shape shape);
+    GridItem( float x, float y);
     ~GridItem();
 
     /**
@@ -43,14 +44,6 @@ public:
      *
      */
 	Iw2DSceneGraph::CSprite * GetSprite() { return mSprite; }
-
-    /**
-     * @fn    void GridItem::Highlight();
-     *
-     * @brief Highlights the gird item with the highlight colour
-     *
-     */
-	void Highlight();
 
     /**
      * @fn    void GridItem::Reset();
@@ -64,10 +57,6 @@ public:
 private: 
 
 	Iw2DSceneGraph::CSprite * mSprite;
-	Shape mShape;
-	
-	static Iw2DSceneGraph::CColor mShapeColours[NumberOfShapes];
-	static Iw2DSceneGraph::CColor mHighlightColour;
 };
 }
 

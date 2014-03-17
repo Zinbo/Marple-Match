@@ -35,19 +35,19 @@ using namespace Iw2DSceneGraph;
 class Resources
 {
 protected:
-    CIw2DImage*     Circle;
-    CIw2DImage*     Square;
-    CIw2DImage*     Triangle;
     CIw2DImage*     Star;
 	CIw2DImage*		Background;
+	CIw2DImage*		TitleBackground;
+	CIw2DImage*		ResultBackground;
+	CIw2DImage*		GameBackground;
     CIw2DFont*      Font;
 
 public:
-    CIw2DImage*     getCircle()					{ return Circle; }
-    CIw2DImage*     getSquare()					{ return Square; }
-    CIw2DImage*     getTriangle()				{ return Triangle; }
     CIw2DImage*     getStar()					{ return Star; }
     CIw2DImage*     getBackground()				{ return Background; }
+	CIw2DImage*     getTitleBackground()		{ return TitleBackground; }
+	CIw2DImage*     getGameBackground()			{ return GameBackground; }
+	CIw2DImage*     getResultBackground()			{ return ResultBackground; }
 	CIw2DFont*		getFont()					{ return Font; }
 
 public:

@@ -20,24 +20,20 @@
 Resources::Resources()
 {
     // Load images
-    Circle = Iw2DCreateImage("textures/Circle.png");
-    Square = Iw2DCreateImage("textures/Square.png");
-    Triangle= Iw2DCreateImage("textures/Triangle.png");
     Star = Iw2DCreateImage("textures/Star.png");
-	Background = Iw2DCreateImage( "textures/background.png" );
-
+	TitleBackground = Iw2DCreateImage( "textures/startMenu.png" );
+	GameBackground = Iw2DCreateImage( "textures/gameBackground.png" );
+	ResultBackground = Iw2DCreateImage( "textures/resultScreen.png" );
 	// Load fonts
     Font = Iw2DCreateFont("fonts/arial8.gxfont");
 }
 
 Resources::~Resources()
 {
-    delete Circle;
-    delete Square;
-    delete Triangle;
 	delete Star;
-    delete Background;
-
+	delete TitleBackground;
+	delete GameBackground;
+	delete ResultBackground;
 	delete Font;
 }
 

@@ -32,24 +32,42 @@ void GameScene::Init()
 
 	IwRandSeed( time( 0 ) );
 
+	//Add background
+	mpBackground = new CSprite();
+	mpBackground->m_X = (float)IwGxGetScreenWidth() * 0.5f;
+	mpBackground->m_Y = (float)IwGxGetScreenHeight() * 0.5f;
+	mpBackground->SetImage(g_pResources->getGameBackground());
+	mpBackground->m_W = mpBackground->GetImage()->GetWidth();
+	
+	mpBackground->m_H = mpBackground->GetImage()->GetHeight();
+	
+	mpBackground->m_AnchorX = 0.5;
+	mpBackground->m_AnchorY = 0.5;
+ 
+	float backgroundScale = (float)IwGxGetScreenWidth() / mpBackground->m_W;
+	// Fit background to screen size
+	mpBackground->m_ScaleX = backgroundScale;
+	mpBackground->m_ScaleY = backgroundScale;
+	AddChild(mpBackground);
+
 	// Create grid sprites
-	float x = 32.0f;
-	float y = 32.0f;
+	float x = 20.0f;
+	float y = 60.0f;
 	for( int row = 0; row < GridHeight; row++ )
 	{
-		x = 32.0f;
+		x = 20.0f;
 		for( int column = 0; column < GridWidth; column++ )
 		{
 			int shape = IwRand() % 4;
-			GridItem* grid = new GridItem( x, y, (GridItem::Shape)shape );
+			GridItem* grid = new GridItem( x, y );
 
 			mGrid[(row*GridWidth)+column] = grid; 
 			AddChild( grid->GetSprite() );
 
-			x += 64.0f;
+			x += 70.0f;
 		}
 
-		y += 64.0f;
+		y += 70.0f;
 	}
 
 	// Create the title text
@@ -109,7 +127,6 @@ void GameScene::Update(float deltaTime, float alphaMul)
 			{
 				if( mGrid[count]->GetSprite()->HitTest( g_pInput->m_X, g_pInput->m_Y ) )
 				{
-					mGrid[count]->Highlight();
 					mScore += TouchScore;
 				}
 			}
