@@ -30,7 +30,7 @@ GameSceneManager::GameSceneManager() : mTimeInGame( 0.0f )
 	m_pScenes[ResultsState]->SetName( "ResultsState" );
 
 	// Add and init all the scenes
-	for( int count = 0; count <= NumberOfStates; count++ )
+	for( int count = 0; count < NumberOfStates; count++ )
 	{
 		m_pScenes[count]->Init();
 		Add( m_pScenes[count] );

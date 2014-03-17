@@ -21,10 +21,12 @@
 #include "TitleScene.h"
 #include "GameScene.h"
 #include "ResultsScene.h"
+#include "GameSceneManager.h"
 
 // FRAME_TIME is the amount of time that a single frame should last in seconds
 #define FRAME_TIME  (30.0f / 1000.0f)
 
+using namespace SFAS2014;
 int main()
 {
     // Initialise the 2D graphics system
@@ -40,7 +42,7 @@ int main()
     g_pAudio = new Audio();
 
     // Create scene manager
-    SFAS2014::GameSceneManager * pSceneManager = new SFAS2014::GameSceneManager();
+    GameSceneManager * pSceneManager = new GameSceneManager();
 
     // Loop forever, until the user or the OS performs some action to quit the app
     while (!s3eDeviceCheckQuitRequest())
@@ -71,6 +73,7 @@ int main()
     delete g_pAudio;
     delete g_pInput;
     delete g_pResources;
+	delete pSceneManager;
     Iw2DTerminate();
 
     return 0;

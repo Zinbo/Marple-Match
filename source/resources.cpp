@@ -35,6 +35,7 @@ Resources::~Resources()
     delete Circle;
     delete Square;
     delete Triangle;
+	delete Star;
     delete Background;
 
 	delete Font;

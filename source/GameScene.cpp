@@ -116,7 +116,7 @@ void GameScene::Update(float deltaTime, float alphaMul)
 
 	// Update the hud strings
 
-	char scoreBuffer[2];
+	char scoreBuffer[9];
 	sprintf(scoreBuffer, "%.8d", mScore );
 	mpScoreText->SetText(scoreBuffer);
 

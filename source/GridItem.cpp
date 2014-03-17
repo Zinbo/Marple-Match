@@ -10,6 +10,7 @@
 using namespace Iw2DSceneGraphCore;
 using namespace Iw2DSceneGraph;
 
+using namespace SFAS2014;
 //
 //
 // GridItem class
