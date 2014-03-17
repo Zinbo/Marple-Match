@@ -53,7 +53,6 @@ public:
 private: 
 	
 	Scene * m_pScenes[NumberOfStates];
-	float mTimeInGame;
 
 };
 }

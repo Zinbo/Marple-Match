@@ -6,7 +6,7 @@
 #include "ResultsScene.h"
 #include "IwGx.h"
 #include "resources.h"
-
+#include "TitleScene.h"
 using namespace SFAS2014;
 
 //
@@ -29,7 +29,7 @@ void ResultsScene::Init()
 	Scene::Init();
 
 	// Create background sprite
-	CSprite* background = new CSprite();
+	background = new CSprite();
 	background->m_X = (float)IwGxGetScreenWidth() / 2;
 	background->m_Y = (float)IwGxGetScreenHeight() / 2;
 	background->SetImage(g_pResources->getBackground());
@@ -44,7 +44,7 @@ void ResultsScene::Init()
 	AddChild(background);
 
 	// Create the title text
-	CLabel * gameOver = new CLabel();
+	gameOver = new CLabel();
 	gameOver->m_X = (float)IwGxGetScreenWidth() * 0.5f;
 	gameOver->m_Y = (float)IwGxGetScreenHeight() * 0.15f;
 	gameOver->SetFont(g_pResources->getFont());
@@ -55,7 +55,7 @@ void ResultsScene::Init()
 	AddChild(gameOver);
 
 	// Create the title text
-	CLabel * tapContinue = new CLabel();
+	tapContinue = new CLabel();
 	tapContinue->m_X = (float)IwGxGetScreenWidth() * 0.5f;
 	tapContinue->m_Y = (float)IwGxGetScreenHeight() * 0.65f;
 	tapContinue->SetFont(g_pResources->getFont());
@@ -68,6 +68,18 @@ void ResultsScene::Init()
 
 void ResultsScene::Update(float deltaTime, float alphaMul)
 {
+	//if not current scene, don't bother updating.
+	if(!(m_Manager->GetCurrent() == this))
+	{
+		return;
+	}
+	Scene::Update(deltaTime, alphaMul);
+	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
+	{
+		g_pInput->Reset();
+		TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
+		m_Manager->SwitchTo(titleScene);
+	}
 }
 
 void ResultsScene::Render()

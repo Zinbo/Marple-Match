@@ -49,6 +49,7 @@ public:
     void                SetName(const char* name);
     unsigned int        GetNameHash() const                 { return m_NameHash; }
     void                SetInputActive(bool active)         { m_IsInputActive = active; }
+	void				SetManager(SceneManager * manager)	{ m_Manager = manager; }
 
 public:
     Scene();

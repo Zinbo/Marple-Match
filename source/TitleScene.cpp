@@ -41,7 +41,7 @@ void TitleScene::Init()
 	// Fit background to screen size
 	mpBackground->m_ScaleX = (float)IwGxGetScreenWidth() / mpBackground->GetImage()->GetWidth();
 	mpBackground->m_ScaleY = (float)IwGxGetScreenHeight() / mpBackground->GetImage()->GetHeight();
-	mpBackground->m_Color = CColor(255,255,255,255);
+	AddChild(mpBackground);
 
 	// Create the title text
 	mpTitleText = new CLabel();
@@ -57,7 +57,18 @@ void TitleScene::Init()
 
 void TitleScene::Update(float deltaTime, float alphaMul)
 {
+	//if not current scene, don't bother updating.
+	if(!(m_Manager->GetCurrent() == this))
+	{
+		return;
+	}
 	Scene::Update(deltaTime, alphaMul);
+	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
+	{
+		g_pInput->Reset();
+		GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
+		m_Manager->SwitchTo(gameScene);
+	}
 }
 
 void TitleScene::Render()

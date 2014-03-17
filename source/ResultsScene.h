@@ -51,7 +51,9 @@ public:
     void Render();
 
 private: 
-
+	CLabel * tapContinue;
+	CLabel * gameOver;
+	CSprite* background;
 };
 }
 

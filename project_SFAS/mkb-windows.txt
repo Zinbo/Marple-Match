@@ -1,1 +1,1 @@
-VC11X;build_SFAS_vc11x
+VC11;build_sfas_vc11

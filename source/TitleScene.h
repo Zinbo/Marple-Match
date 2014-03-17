@@ -7,6 +7,8 @@
 #define __TITLESCENE_H__
 
 #include "scene.h"
+#include "input.h"
+#include "GameScene.h"
 
 namespace SFAS2014
 {

@@ -47,6 +47,7 @@ int main()
     // Loop forever, until the user or the OS performs some action to quit the app
     while (!s3eDeviceCheckQuitRequest())
     {
+		uint64 new_time = s3eTimerGetMs();
         // Update input system
         g_pInput->Update();
 
@@ -65,8 +66,12 @@ int main()
         // Show the drawing surface
         Iw2DSurfaceShow();
 
-        // Yield to the OS
-        s3eDeviceYield(0);
+        // Lock frame rate
+        int yield = (int)(FRAME_TIME * 1000 - (s3eTimerGetMs() - new_time));
+        if (yield < 0)
+            yield = 0;
+        // Yield to OS
+        s3eDeviceYield(yield);
     }
 
     // Clean-up

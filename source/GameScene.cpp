@@ -16,7 +16,7 @@ using namespace SFAS2014;
 // GameScene class
 //
 //
-GameScene::GameScene() : mTime( 0.0f ), mScore(0)
+GameScene::GameScene() : mTime( (float)TimeLimit ), mScore(0)
 {
 
 }
@@ -68,7 +68,7 @@ void GameScene::Init()
 	mpTimeText->m_X = mpTimeText->m_W;
 	mpTimeText->m_Y = mpTimeText->m_H;
 	mpTimeText->SetFont(g_pResources->getFont());
-	mpTimeText->SetText("00:00");
+	mpTimeText->SetText("02:00");
 	mpTimeText->m_AnchorX = 0.0;
 	mpTimeText->m_AnchorY = 0.0;
 	mpTimeText->m_Color = CColor(255,255,255,255);
@@ -77,22 +77,28 @@ void GameScene::Init()
 
 void GameScene::Reset()
 {
-	mTime = 0.0f;
+	mTime = (float)TimeLimit;
 	mScore = 0;
 }
 
 void GameScene::Update(float deltaTime, float alphaMul)
 {
+	//if not current scene, don't bother updating.
+	if(!(m_Manager->GetCurrent() == this))
+	{
+		return;
+	}
 	Scene::Update( deltaTime, alphaMul);
 
 	// Update time in state
-	mTime += deltaTime;
-
 	// If it is time to exit then go in active
-	if( ( mTime / 60.0f ) >= TimeLimitInMinutes )
+	mTime -= deltaTime;
+	if( ( mTime) <= 0 )
 	{
-		m_IsActive = false;
-		mTime = TimeLimitInMinutes * 60.0f;
+		mTime = 0;
+		ResultsScene * resultsScene= (ResultsScene*) m_Manager->Find("ResultsState");
+		m_Manager->SwitchTo(resultsScene);
+		
 	}
 	else
 	{
@@ -121,11 +127,13 @@ void GameScene::Update(float deltaTime, float alphaMul)
 	mpScoreText->SetText(scoreBuffer);
 
 	int minutes, seconds;
-	minutes = ( mTime / 60 );
-	seconds = ( mTime - ( minutes * 60.0f ) );
+	minutes = (int)( mTime / 60 );
+	seconds = (int)( mTime - ( minutes * 60.0f ) );
+	
 	char timeBuffer[256];
 	sprintf(timeBuffer, "%.2d:%.2d", minutes, seconds );
 	mpTimeText->SetText(timeBuffer);
+	
 }
 
 void GameScene::Render()

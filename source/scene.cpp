@@ -74,6 +74,7 @@ SceneManager::~SceneManager()
 void SceneManager::Add(Scene* scene)
 {
     m_Scenes.push_back(scene);
+	scene->SetManager(this);
 }
 
 void SceneManager::Remove(Scene* scene)
@@ -124,10 +125,12 @@ void SceneManager::SwitchTo(Scene* scene)
         m_Next->SetInputActive(true);
         m_Next->SetActive(true);
         m_Next->m_IsVisible = true;
+		m_Next->Reset();
         // Deactivate and hide the old scene
         m_Current->SetInputActive(false);
         m_Current->SetActive(false);
         m_Current->m_IsVisible = false;
+		
         m_Current = m_Next;
         m_Next = 0;
     }

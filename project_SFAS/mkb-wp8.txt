@@ -1,1 +1,1 @@
-VC11X;build_SFAS_vc11x
+VC11_WP8TOOLSET;build_sfas_vc11_wp8toolset

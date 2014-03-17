@@ -7,6 +7,7 @@
 #define __GAMESCENE_H__
 
 #include "scene.h"
+#include "ResultsScene.h"
 
 namespace SFAS2014
 {
@@ -62,7 +63,7 @@ public:
 private: 
 
 	enum { GridWidth = 4, GridHeight = 6 };
-	enum { TouchScore = 10, TimeLimitInMinutes = 2 };
+	enum { TouchScore = 10, TimeLimit = 120 };
 
 	SFAS2014::GridItem * mGrid[GridWidth*GridHeight];
 	CLabel* mpScoreText;

@@ -24,7 +24,7 @@ Resources::Resources()
     Square = Iw2DCreateImage("textures/Square.png");
     Triangle= Iw2DCreateImage("textures/Triangle.png");
     Star = Iw2DCreateImage("textures/Star.png");
-	Background = Iw2DCreateImage( "textures/Background.png" );
+	Background = Iw2DCreateImage( "textures/background.png" );
 
 	// Load fonts
     Font = Iw2DCreateFont("fonts/arial8.gxfont");
