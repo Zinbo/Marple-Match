@@ -15,8 +15,8 @@
 #if !defined(__RESOURCES_H__)
 #define __RESOURCES_H__
 
-#define MAX_GEM_TYPES   5
-
+#define NUMBER_OF_CHARACTER_TYPES 3
+#define NUMBER_OF_CHARACTER_COLOURS 4
 #include "Iw2D.h"
 #include "Iw2DSceneGraph.h"
 
@@ -41,38 +41,16 @@ protected:
 	CIw2DImage*		ResultBackground;
 	CIw2DImage*		GameBackground;
     CIw2DFont*      Font;
-	CIw2DImage*		Char1Red;
-	CIw2DImage*		Char2Red;
-	CIw2DImage*		Char3Red;
-	CIw2DImage*		Char1Blue;
-	CIw2DImage*		Char2Blue;
-	CIw2DImage*		Char3Blue;
-	CIw2DImage*		Char1Green;
-	CIw2DImage*		Char2Green;
-	CIw2DImage*		Char3Green;
-	CIw2DImage*		Char1Orange;
-	CIw2DImage*		Char2Orange;
-	CIw2DImage*		Char3Orange;
+	CIw2DImage*		Characters[NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS];
 
 public:
     CIw2DImage*     getStar()					{ return Star; }
     CIw2DImage*     getBackground()				{ return Background; }
 	CIw2DImage*     getTitleBackground()		{ return TitleBackground; }
 	CIw2DImage*     getGameBackground()			{ return GameBackground; }
-	CIw2DImage*     getChar1Red()				{ return Char1Red; }
-	CIw2DImage*     getChar2Red()				{ return Char2Red; }
-	CIw2DImage*     getChar3Red()				{ return Char3Red; }
-	CIw2DImage*     getChar1Blue()				{ return Char1Blue; }
-	CIw2DImage*     getChar2Blue()				{ return Char2Blue; }
-	CIw2DImage*     getChar3Blue()				{ return Char3Blue; }
-	CIw2DImage*     getChar1Green()				{ return Char1Green; }
-	CIw2DImage*     getChar2Green()				{ return Char2Green; }
-	CIw2DImage*     getChar3Green()				{ return Char3Green; }
-	CIw2DImage*     getChar1Orange()			{ return Char1Orange; }
-	CIw2DImage*     getChar2Orange()			{ return Char2Orange; }
-	CIw2DImage*     getChar3Orange()			{ return Char3Orange; }
 	CIw2DImage*     getResultBackground()		{ return ResultBackground; }
 	CIw2DFont*		getFont()					{ return Font; }
+	CIw2DImage*		GetCharacter(int index)		{ return Characters[index]; }
 
 public:
     Resources();

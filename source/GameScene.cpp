@@ -50,11 +50,11 @@ void GameScene::Init()
 	mpBackground->m_ScaleY = backgroundScale;
 	AddChild(mpBackground);
 
-	//Initialise vector containing number for each grid space
-	std::vector<GridItem::Character> characters;
+	std::vector<int> characterTypes;
+	//Fill vector with exactly 2 of each character type
 	for(int i = 0; i < GridHeight*GridWidth; i++)
 	{
-		characters.push_back((GridItem::Character)(i%12)); 
+		characterTypes.push_back((i%(12))); 
 	}
 
 	float x = 55.0f;
@@ -64,10 +64,10 @@ void GameScene::Init()
 		x = 55.0f;
 		for( int column = 0; column < GridWidth; column++ )
 		{
-			int characterIndex = rand() % characters.size();
-			GridItem::Character c = characters.at(characterIndex);
-			GridItem* grid = new GridItem( x, y, (GridItem::Character)c);
-			characters.erase(characters.begin() + characterIndex);
+			int characterTypeIndex = rand() % characterTypes.size();
+			int characterIndex = characterTypes.at(characterTypeIndex);
+			GridItem* grid = new GridItem( x, y, (characterIndex));
+			characterTypes.erase(characterTypes.begin() + characterTypeIndex);
 
 			mGrid[(row*GridWidth)+column] = grid; 
 			AddChild( grid->GetStarSprite() );

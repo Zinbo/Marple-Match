@@ -14,7 +14,7 @@ using namespace Iw2DSceneGraph;
 
 using namespace SFAS2014;
 
-GridItem::GridItem( float x, float y, Character c)
+GridItem::GridItem( float x, float y, int characterIndex)
 {
 	mSprite = new CSprite();
 	mSprite->m_X = x;
@@ -38,7 +38,7 @@ GridItem::GridItem( float x, float y, Character c)
 	characterSprite = new CSprite();
 	characterSprite->m_X = x;
 	characterSprite->m_Y = y;
-	AssignCharacterAndColour(c);
+	characterSprite->SetImage(g_pResources->GetCharacter(characterIndex));
 	characterSprite->m_W = characterSprite->GetImage()->GetWidth();
 	characterSprite->m_H = characterSprite->GetImage()->GetHeight();
 	characterSprite->m_AnchorX = 0.5f;
@@ -53,51 +53,6 @@ GridItem::GridItem( float x, float y, Character c)
 
 GridItem::~GridItem()
 {
-}
-
-void GridItem::AssignCharacterAndColour(Character c)
-{
-	switch(c)
-	{
-	case char1Red:
-		characterSprite->SetImage(g_pResources->getChar1Red());
-		break;
-	case char2Red:
-		characterSprite->SetImage(g_pResources->getChar2Red());
-		break;
-	case char3Red:
-		characterSprite->SetImage(g_pResources->getChar3Red());
-		break;
-	case char1Blue:
-		characterSprite->SetImage(g_pResources->getChar1Blue());
-		break;
-	case char2Blue:
-		characterSprite->SetImage(g_pResources->getChar2Blue());
-		break;
-	case char3Blue:
-		characterSprite->SetImage(g_pResources->getChar3Blue());
-		break;
-	case char1Green:
-		characterSprite->SetImage(g_pResources->getChar1Green());
-		break;
-	case char2Green:
-		characterSprite->SetImage(g_pResources->getChar2Green());
-		break;
-	case char3Green:
-		characterSprite->SetImage(g_pResources->getChar3Green());
-		break;
-	case char1Orange:
-		characterSprite->SetImage(g_pResources->getChar1Orange());
-		break;
-	case char2Orange:
-		characterSprite->SetImage(g_pResources->getChar2Orange());
-		break;
-	case char3Orange:
-		characterSprite->SetImage(g_pResources->getChar3Orange());
-		break;
-		
-
-	}
 }
 
 void GridItem::Reset()

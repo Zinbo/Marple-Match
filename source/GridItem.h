@@ -22,25 +22,8 @@ class GridItem
 {
 
 public:	
-	
-	enum Character
-	{
-		char1Red,
-		char2Red,
-		char3Red,
-		char1Blue,
-		char2Blue,
-		char3Blue,
-		char1Green,
-		char2Green,
-		char3Green,
-		char1Orange,
-		char2Orange,
-		char3Orange
-	};
 
-
-    GridItem( float x, float y, Character c);
+    GridItem( float x, float y, int characterIndex);
     ~GridItem();
 
     /**
@@ -66,7 +49,6 @@ private:
 
 	Iw2DSceneGraph::CSprite * mSprite;
 	Iw2DSceneGraph::CSprite * characterSprite;
-	void AssignCharacterAndColour(Character c);
 };
 }
 
