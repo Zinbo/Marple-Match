@@ -8,6 +8,7 @@
 
 #include "scene.h"
 #include "ResultsScene.h"
+#include "GameSceneManager.h"
 
 namespace SFAS2014
 {
@@ -79,7 +80,6 @@ private:
 	CSprite * mpBackground;
 
 	float mTime;
-	int mScore;
 	int mNoOfMatchedPairs;
 	SFAS2014::GridItem * selected1;
 	SFAS2014::GridItem * selected2;

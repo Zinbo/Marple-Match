@@ -7,6 +7,7 @@
 #define __RESULTSSCENE_H__
 
 #include "scene.h"
+#include <sstream>
 
 namespace SFAS2014
 {
@@ -50,10 +51,13 @@ public:
      */
     void Render();
 
+	void    Reset();
+
 private: 
-	CLabel * tapContinue;
-	CLabel * gameOver;
+	CLabel * scoreText;
+	CLabel * tapToContinue;
 	CSprite* background;
+	float delay;
 };
 }
 

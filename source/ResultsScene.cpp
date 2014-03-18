@@ -44,26 +44,26 @@ void ResultsScene::Init()
 	AddChild(background);
 
 	// Create the title text
-	gameOver = new CLabel();
-	gameOver->m_X = (float)IwGxGetScreenWidth() * 0.5f;
-	gameOver->m_Y = (float)IwGxGetScreenHeight() * 0.15f;
-	gameOver->SetFont(g_pResources->getFont());
-	gameOver->SetText("GAME OVER!");
-	gameOver->m_AnchorX = 0.5;
-	gameOver->m_AnchorY = 0.5;
-	gameOver->m_Color = CColor(255,255,255,255);
-	AddChild(gameOver);
+	scoreText = new CLabel();
+	scoreText->m_X = (float)IwGxGetScreenWidth() * 0.5f;
+	scoreText->m_Y = (float)IwGxGetScreenHeight() * 0.65f;
+	scoreText->SetFont(g_pResources->getFont());
+	scoreText->m_AnchorX = 0.5;
+	scoreText->m_AnchorY = 0.5;
+	scoreText->m_Color = CColor(0,0,0,255);
+	AddChild(scoreText);
 
 	// Create the title text
-	tapContinue = new CLabel();
-	tapContinue->m_X = (float)IwGxGetScreenWidth() * 0.5f;
-	tapContinue->m_Y = (float)IwGxGetScreenHeight() * 0.65f;
-	tapContinue->SetFont(g_pResources->getFont());
-	tapContinue->SetText("TAP TO CONTINUE");
-	tapContinue->m_AnchorX = 0.5;
-	tapContinue->m_AnchorY = 0.5;
-	tapContinue->m_Color = CColor(0,0,0,255);
-	AddChild(tapContinue);
+	tapToContinue = new CLabel();
+	tapToContinue->m_X = (float)IwGxGetScreenWidth() * 0.5f;
+	tapToContinue->m_Y = (float)IwGxGetScreenHeight() * 0.8f;
+	tapToContinue->SetFont(g_pResources->getFont());
+	tapToContinue->m_AnchorX = 0.5;
+	tapToContinue->m_AnchorY = 0.5;
+	tapToContinue->m_Color = CColor(0,0,0,255);
+	tapToContinue->SetText("TAP TO CONTINUE");
+	tapToContinue->m_IsVisible = false;
+	AddChild(tapToContinue);
 }
 
 void ResultsScene::Update(float deltaTime, float alphaMul)
@@ -73,13 +73,37 @@ void ResultsScene::Update(float deltaTime, float alphaMul)
 	{
 		return;
 	}
+	std::stringstream ss;
+	ss << ((GameSceneManager*) m_Manager)->GetScore();
+	scoreText->SetText(ss.str());
+
 	Scene::Update(deltaTime, alphaMul);
-	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
+	
+	if(delay <= 0)
+	{
+		tapToContinue->m_IsVisible = true;
+		if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
+		{
+			
+			TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
+			m_Manager->SwitchTo(titleScene);
+			tapToContinue->m_IsVisible = false;
+		}
+	}
+	else
 	{
 		g_pInput->Reset();
-		TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
-		m_Manager->SwitchTo(titleScene);
+		delay -= deltaTime;
 	}
+	
+
+	
+}
+
+void ResultsScene::Reset()
+{
+	delay = 2.0f;
+	
 }
 
 void ResultsScene::Render()

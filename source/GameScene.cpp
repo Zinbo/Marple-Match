@@ -16,9 +16,8 @@ using namespace SFAS2014;
 // GameScene class
 //
 //
-GameScene::GameScene() : mTime( (float)TimeLimit ), mScore(0)
+GameScene::GameScene() : mTime( (float)TimeLimit )
 {
-
 }
 
 GameScene::~GameScene()
@@ -83,7 +82,7 @@ void GameScene::Init()
 void GameScene::Reset()
 {
 	mTime = (float)TimeLimit;
-	mScore = 0;
+	((GameSceneManager*) m_Manager)->SetScore(0);
 }
 
 void GameScene::Update(float deltaTime, float alphaMul)
@@ -118,13 +117,14 @@ void GameScene::Update(float deltaTime, float alphaMul)
 		mTime = 0;
 		ResultsScene * resultsScene= (ResultsScene*) m_Manager->Find("ResultsState");
 		m_Manager->SwitchTo(resultsScene);
+		ResetBoard();
 		
 	}
 
 	// Update the hud strings
 
 	char scoreBuffer[9];
-	sprintf(scoreBuffer, "%.8d", mScore );
+	sprintf(scoreBuffer, "%.8d", ((GameSceneManager*) m_Manager)->GetScore() );
 	mpScoreText->SetText(scoreBuffer);
 
 	int minutes, seconds;
@@ -175,7 +175,7 @@ void GameScene::initialiseBoard()
 
 	//Set time and score to starting values;
 	mTime = (float)TimeLimit;
-	mScore = 0;
+	((GameSceneManager*) m_Manager)->SetScore(0);
 }
 
 void GameScene::checkForMatches()
@@ -196,8 +196,7 @@ void GameScene::checkForMatches()
 
 					if(selected1->GetCharacterIndex() == mGrid[count]->GetCharacterIndex())
 					{
-						mScore += TouchScore;
-
+						((GameSceneManager*) m_Manager)->IncrementScore(10);
 						charactersToRemove.push_back(selected1);
 						charactersToRemove.push_back(selected2);
 

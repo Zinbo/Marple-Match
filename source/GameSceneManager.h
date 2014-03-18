@@ -50,9 +50,14 @@ public:
      */
 	void    SwitchTo(GameSceneManager::State state);
 
+	void IncrementScore(int incrementValue);
+	int GetScore();
+	void SetScore(int score);
+
 private: 
 	
 	Scene * m_pScenes[NumberOfStates];
+	int m_GameScore;
 
 };
 }

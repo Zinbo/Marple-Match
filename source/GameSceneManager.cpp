@@ -18,6 +18,7 @@ using namespace SFAS2014;
 //
 //
 GameSceneManager::GameSceneManager()
+	:m_GameScore(0)
 {
 	// Create the game scenes 
 	m_pScenes[TitleState] = new TitleScene();
@@ -32,11 +33,28 @@ GameSceneManager::GameSceneManager()
 	// Add and init all the scenes
 	for( int count = 0; count < NumberOfStates; count++ )
 	{
-		m_pScenes[count]->Init();
 		Add( m_pScenes[count] );
+		m_pScenes[count]->Init();
+		
 	}
 
 	SwitchTo( GameSceneManager::TitleState );
+
+}
+
+void GameSceneManager::IncrementScore(int incrementValue)
+{
+	m_GameScore += incrementValue;
+}
+
+void GameSceneManager::SetScore(int score)
+{
+	m_GameScore = score;
+}
+
+int GameSceneManager::GetScore()
+{
+	return m_GameScore;
 }
 
 GameSceneManager::~GameSceneManager()
