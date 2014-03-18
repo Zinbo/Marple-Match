@@ -64,7 +64,15 @@ private:
 
 	enum { GridWidth = 4, GridHeight = 6 };
 	enum { TouchScore = 10, TimeLimit = 120 };
-
+	enum GameState
+	{
+		keGameStart,
+		keGamePlaying,
+		keNonMatch,
+		keMatch,
+		keBoardReset
+	};
+	GameState m_GameState;
 	SFAS2014::GridItem * mGrid[GridWidth*GridHeight];
 	CLabel* mpScoreText;
 	CLabel* mpTimeText;
@@ -72,6 +80,18 @@ private:
 
 	float mTime;
 	int mScore;
+	int mNoOfMatchedPairs;
+	SFAS2014::GridItem * selected1;
+	SFAS2014::GridItem * selected2;
+	std::vector<GridItem *> charactersToRemove;
+	void initialiseBoard();
+	void checkForMatches();
+	void delayGameForNonmatch(float deltaTime);
+	void ResetBoard();
+
+	static void removeMatchedCharacters(Timer* timer, void* userData);
+
+	float delayTime;
 };
 }
 

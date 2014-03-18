@@ -48,7 +48,9 @@ void Scene::Update(float deltaTime, float alphaMul)
     if (!m_IsActive)
         return;
 
+	m_Timers.Update(deltaTime);
     CNode::Update(deltaTime, alphaMul);
+
 }
 
 void Scene::Render()

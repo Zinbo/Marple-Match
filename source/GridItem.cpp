@@ -34,6 +34,8 @@ GridItem::GridItem( float x, float y, int characterIndex)
 	mSprite->m_AnchorX = 0.5f;
 	mSprite->m_AnchorY = 0.5f;
 
+	mCharacterIndex = characterIndex;
+
 	//Assign character sprite
 	characterSprite = new CSprite();
 	characterSprite->m_X = x;
@@ -59,3 +61,9 @@ void GridItem::Reset()
 {
 }
 
+void GridItem::SetCharacterImage(int characterIndex)
+{
+	characterSprite->SetImage(g_pResources->GetCharacter(characterIndex));
+	characterSprite->m_IsVisible = false;
+	mCharacterIndex = characterIndex;
+}

@@ -39,6 +39,11 @@ files
 	GameScene.h
 	ResultsScene.h
 	GridItem.h
+
+	Timer.cpp
+
+	Timer.h
+	
 }
 
 assets

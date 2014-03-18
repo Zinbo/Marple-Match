@@ -36,6 +36,9 @@ public:
 
 	Iw2DSceneGraph::CSprite * GetCharacterSprite() { return characterSprite; }
 
+	int GetCharacterIndex() { return mCharacterIndex; }
+
+	void SetCharacterImage(int characterIndex);
     /**
      * @fn    void GridItem::Reset();
      *
@@ -49,6 +52,7 @@ private:
 
 	Iw2DSceneGraph::CSprite * mSprite;
 	Iw2DSceneGraph::CSprite * characterSprite;
+	int mCharacterIndex;
 };
 }
 

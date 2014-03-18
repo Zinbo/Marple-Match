@@ -18,6 +18,7 @@
 
 #include <list>
 #include "Iw2DSceneGraph.h"
+#include "timer.h"
 
 using namespace Iw2DSceneGraphCore;
 using namespace Iw2DSceneGraph;
@@ -42,6 +43,7 @@ protected:
     bool                m_IsActive;                     // Active state
     bool                m_IsInputActive;                // Input active state
     SceneManager*       m_Manager;                      // Scene manager
+	TimerManager        m_Timers;                       // Timers manager
 
 public:
     bool                IsActive() const                    { return m_IsActive; }
