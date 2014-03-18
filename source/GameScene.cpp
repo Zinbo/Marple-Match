@@ -50,25 +50,35 @@ void GameScene::Init()
 	mpBackground->m_ScaleY = backgroundScale;
 	AddChild(mpBackground);
 
-	// Create grid sprites
-	float x = 20.0f;
-	float y = 60.0f;
+	//Initialise vector containing number for each grid space
+	std::vector<GridItem::Character> characters;
+	for(int i = 0; i < GridHeight*GridWidth; i++)
+	{
+		characters.push_back((GridItem::Character)(i%12)); 
+	}
+
+	float x = 55.0f;
+	float y = 95.0f;
 	for( int row = 0; row < GridHeight; row++ )
 	{
-		x = 20.0f;
+		x = 55.0f;
 		for( int column = 0; column < GridWidth; column++ )
 		{
-			int shape = IwRand() % 4;
-			GridItem* grid = new GridItem( x, y );
+			int characterIndex = rand() % characters.size();
+			GridItem::Character c = characters.at(characterIndex);
+			GridItem* grid = new GridItem( x, y, (GridItem::Character)c);
+			characters.erase(characters.begin() + characterIndex);
 
 			mGrid[(row*GridWidth)+column] = grid; 
-			AddChild( grid->GetSprite() );
+			AddChild( grid->GetStarSprite() );
+			AddChild(grid->GetCharacterSprite());
 
 			x += 70.0f;
 		}
 
 		y += 70.0f;
 	}
+	
 
 	// Create the title text
 	mpScoreText = new CLabel();
@@ -125,8 +135,10 @@ void GameScene::Update(float deltaTime, float alphaMul)
 		{
 			if( g_pInput->m_Touched )
 			{
-				if( mGrid[count]->GetSprite()->HitTest( g_pInput->m_X, g_pInput->m_Y ) )
+				if( mGrid[count]->GetStarSprite()->HitTest( g_pInput->m_X, g_pInput->m_Y ) )
 				{
+					mGrid[count]->GetStarSprite()->m_IsVisible = false;
+					mGrid[count]->GetCharacterSprite()->m_IsVisible = true;
 					mScore += TouchScore;
 				}
 			}

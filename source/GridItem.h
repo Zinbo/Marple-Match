@@ -23,18 +23,24 @@ class GridItem
 
 public:	
 	
-	enum Shape
+	enum Character
 	{
-		Circle,
-		Square,
-		Triangle,
-		Star,
-
-		NumberOfShapes
+		char1Red,
+		char2Red,
+		char3Red,
+		char1Blue,
+		char2Blue,
+		char3Blue,
+		char1Green,
+		char2Green,
+		char3Green,
+		char1Orange,
+		char2Orange,
+		char3Orange
 	};
 
 
-    GridItem( float x, float y);
+    GridItem( float x, float y, Character c);
     ~GridItem();
 
     /**
@@ -43,7 +49,9 @@ public:
      * @brief Returns the sprite for this GridItem
      *
      */
-	Iw2DSceneGraph::CSprite * GetSprite() { return mSprite; }
+	Iw2DSceneGraph::CSprite * GetStarSprite() { return mSprite; }
+
+	Iw2DSceneGraph::CSprite * GetCharacterSprite() { return characterSprite; }
 
     /**
      * @fn    void GridItem::Reset();
@@ -57,6 +65,8 @@ public:
 private: 
 
 	Iw2DSceneGraph::CSprite * mSprite;
+	Iw2DSceneGraph::CSprite * characterSprite;
+	void AssignCharacterAndColour(Character c);
 };
 }
 
