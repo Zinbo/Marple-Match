@@ -15,6 +15,8 @@
 #include "IwHashString.h"
 
 Audio*  g_pAudio;
+bool Audio::m_musicIsOn = true;
+bool Audio::m_soundIsOn = true;
 
 bool AudioSound::Load(const char* filename)
 {
@@ -104,10 +106,24 @@ void Audio::PlaySound(const char* filename)
 void Audio::MuteSound()
 {
 	s3eSoundSetInt(S3E_SOUND_VOLUME, 0);
+	Audio::m_soundIsOn = false;
 }
 
 void Audio::UnmuteSound()
 {
 	s3eSoundSetInt(S3E_SOUND_VOLUME, S3E_SOUND_MAX_VOLUME);
+	Audio::m_soundIsOn = true;
+}
+
+void Audio::PauseMusic()
+{
+	s3eAudioSetInt(S3E_AUDIO_VOLUME, 0);
+	Audio::m_musicIsOn = false;
+}
+
+void Audio::ResumeMusic()
+{
+	s3eAudioSetInt(S3E_AUDIO_VOLUME, S3E_AUDIO_MAX_VOLUME);
+	Audio::m_musicIsOn = true;
 }
 

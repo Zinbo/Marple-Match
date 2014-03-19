@@ -58,6 +58,8 @@ private:
 	
 	Scene * m_pScenes[NumberOfStates];
 	int m_GameScore;
+	bool	m_MusicPlaying;
+	bool	m_SoundPlaying;
 
 };
 }

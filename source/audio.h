@@ -139,8 +139,13 @@ public:
      */
     void        PlaySound(const char* filename);
 
-	void		MuteSound();
-	void		UnmuteSound();
+	static void	MuteSound();
+	static void	UnmuteSound();
+	static void	PauseMusic();
+	static void	ResumeMusic();
+
+	static bool m_musicIsOn;
+	static bool m_soundIsOn;
 };
 
 /**

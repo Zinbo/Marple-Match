@@ -7,6 +7,12 @@
 #include "IwGx.h"
 #include "resources.h"
 #include "TitleScene.h"
+
+#define BUTTON_SPACING 25.0f
+#define BUTTON_X_OFFSET 30.0f
+#define BUTTON_STARTING_X 1.0f
+#define BUTTON_STARTING_Y 1.0f
+
 using namespace SFAS2014;
 
 //
@@ -62,6 +68,8 @@ void ResultsScene::Init()
 	tapToContinue->SetText("TAP TO CONTINUE");
 	tapToContinue->m_IsVisible = false;
 	AddChild(tapToContinue);
+
+	AddButtons();
 }
 
 void ResultsScene::Update(float deltaTime, float alphaMul)
@@ -104,11 +112,82 @@ void ResultsScene::Reset()
 {
 	delay = 2.0f;
 	Audio::PlayMusic(g_pResources->GetMenuMusicFilename(), true);
+
+	if(Audio::m_musicIsOn)
+	{
+		m_MusicButton->m_IsVisible = true;
+		m_MuteMusicButton->m_IsVisible = false;
+	}
+	else
+	{
+		m_MusicButton->m_IsVisible = false;
+		m_MuteMusicButton->m_IsVisible = true;
+	}
+
+	if(Audio::m_soundIsOn)
+	{
+		m_SoundButton->m_IsVisible = true;
+		m_MuteSoundButton->m_IsVisible = false;
+	}
+	else
+	{
+		m_SoundButton->m_IsVisible = false;
+		m_MuteSoundButton->m_IsVisible = true;
+	}
 	
 }
 
 void ResultsScene::Render()
 {
 	Scene::Render();
+}
+
+void ResultsScene::AddButtons()
+{
+	m_MusicButton = new CSprite();
+	m_MusicButton->m_X = ((float) IwGxGetScreenWidth() - (BUTTON_STARTING_X*m_XGraphicsScale) - (BUTTON_SPACING*m_XGraphicsScale));
+	m_MusicButton->m_Y = BUTTON_STARTING_Y*m_YGraphicsScale;
+	m_MusicButton->SetImage(g_pResources->GetMusicButton());
+	m_MusicButton->m_H = m_MusicButton->GetImage()->GetHeight();
+	m_MusicButton->m_W = m_MusicButton->GetImage()->GetWidth();
+	float buttonScale = BUTTON_SPACING / m_MusicButton->m_H;
+	float buttonXScale = m_XGraphicsScale * buttonScale;
+	float buttonYScale = m_YGraphicsScale * buttonScale;
+	m_MusicButton->m_ScaleX = buttonXScale;
+	m_MusicButton->m_ScaleY = buttonYScale;
+	AddChild(m_MusicButton);
+	
+	m_MuteMusicButton = new CSprite();
+	m_MuteMusicButton->m_X = ((float) IwGxGetScreenWidth() - (BUTTON_STARTING_X*m_XGraphicsScale) - (BUTTON_SPACING*m_XGraphicsScale));
+	m_MuteMusicButton->m_Y = BUTTON_STARTING_Y*m_YGraphicsScale;
+	m_MuteMusicButton->SetImage(g_pResources->GetMuteMusicButton());
+	m_MuteMusicButton->m_H = m_MuteMusicButton->GetImage()->GetHeight();
+	m_MuteMusicButton->m_W = m_MuteMusicButton->GetImage()->GetWidth();
+	m_MuteMusicButton->m_ScaleX = buttonXScale;
+	m_MuteMusicButton->m_ScaleY = buttonYScale;
+	m_MuteMusicButton->m_IsVisible = false;
+	AddChild(m_MuteMusicButton);
+
+	m_SoundButton = new CSprite();
+	m_SoundButton->m_X = ((float) IwGxGetScreenWidth() - (BUTTON_STARTING_X*m_XGraphicsScale) - (BUTTON_X_OFFSET*m_XGraphicsScale) - (BUTTON_SPACING*m_XGraphicsScale));
+	m_SoundButton->m_Y = BUTTON_STARTING_Y*m_YGraphicsScale;
+	m_SoundButton->SetImage(g_pResources->GetSoundButton());
+	m_SoundButton->m_H = m_SoundButton->GetImage()->GetHeight();
+	m_SoundButton->m_W = m_SoundButton->GetImage()->GetWidth();
+	m_SoundButton->m_ScaleX = buttonXScale;
+	m_SoundButton->m_ScaleY = buttonYScale;
+	AddChild(m_SoundButton);
+
+	m_MuteSoundButton = new CSprite();
+	m_MuteSoundButton->m_X = ((float) IwGxGetScreenWidth() - (BUTTON_STARTING_X*m_XGraphicsScale) - (BUTTON_X_OFFSET*m_XGraphicsScale) - (BUTTON_SPACING*m_XGraphicsScale));
+	m_MuteSoundButton->m_Y = BUTTON_STARTING_Y*m_YGraphicsScale;
+	m_MuteSoundButton->SetImage(g_pResources->GetMuteSoundButton());
+	m_MuteSoundButton->m_H = m_MuteSoundButton->GetImage()->GetHeight();
+	m_MuteSoundButton->m_W = m_MuteSoundButton->GetImage()->GetWidth();
+	m_MuteSoundButton->m_ScaleX = buttonXScale;
+	m_MuteSoundButton->m_ScaleY = buttonYScale;
+	m_MuteSoundButton->m_IsVisible = false;
+	AddChild(m_MuteSoundButton);
+	
 }
 

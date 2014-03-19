@@ -58,6 +58,13 @@ private:
 	CLabel * tapToContinue;
 	CSprite* background;
 	float delay;
+
+	CSprite* m_MusicButton;
+	CSprite* m_MuteMusicButton;
+	CSprite* m_SoundButton;
+	CSprite* m_MuteSoundButton;
+
+	void AddButtons();
 };
 }
 

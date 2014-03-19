@@ -95,6 +95,15 @@ private:
 	float delayTime;
 
 	void StartGame();
+
+	CSprite* m_ExitButton;
+	CSprite* m_PauseButton;
+	CSprite* m_MusicButton;
+	CSprite* m_MuteMusicButton;
+	CSprite* m_SoundButton;
+	CSprite* m_MuteSoundButton;
+
+	void AddButtons();
 };
 }
 

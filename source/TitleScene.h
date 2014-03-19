@@ -58,6 +58,12 @@ private:
 
 	CSprite* mpBackground;
 	CLabel* mpTitleText;
+	CSprite* m_MusicButton;
+	CSprite* m_MuteMusicButton;
+	CSprite* m_SoundButton;
+	CSprite* m_MuteSoundButton;
+
+	void AddButtons();
 };
 }
 

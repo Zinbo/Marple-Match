@@ -18,7 +18,7 @@ using namespace SFAS2014;
 //
 //
 GameSceneManager::GameSceneManager()
-	:m_GameScore(0)
+	:m_GameScore(0), m_MusicPlaying(true), m_SoundPlaying(true)
 {
 	// Create the game scenes 
 	m_pScenes[TitleState] = new TitleScene();

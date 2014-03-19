@@ -42,6 +42,15 @@ protected:
 	CIw2DImage*		GameBackground;
     CIw2DFont*      Font;
 	CIw2DImage*		Characters[NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS];
+	
+	//Buttons
+	CIw2DImage *	m_MusicButton;
+	CIw2DImage *	m_MuteMusicButton;
+	CIw2DImage *	m_SoundButton;
+	CIw2DImage *	m_MuteSoundButton;
+	CIw2DImage *	m_PauseButton;
+	CIw2DImage *	m_ExitButton;
+	
 	char*			m_MatchSound;
 	char*			m_NonmatchSound;
 	char*			m_GoldPickupSound;
@@ -59,6 +68,15 @@ public:
 	CIw2DImage*     getResultBackground()						{ return ResultBackground; }
 	CIw2DFont*		getFont()									{ return Font; }
 	CIw2DImage*		GetCharacter(int index)						{ return Characters[index]; }
+	
+	CIw2DImage*		GetMusicButton()							{ return m_MusicButton; }
+	CIw2DImage*		GetMuteMusicButton()						{ return m_MuteMusicButton; }
+	CIw2DImage*		GetSoundButton()							{ return m_SoundButton; }
+	CIw2DImage*		GetMuteSoundButton()						{ return m_MuteSoundButton; }
+	CIw2DImage*		GetPauseButton()							{ return m_PauseButton; }
+	CIw2DImage*		GetExitButton()								{ return m_ExitButton; }
+
+	
 	char*			GetMatchSoundFilename()						{ return m_MatchSound; }
 	char*			GetNonmatchSoundFilename()					{ return m_NonmatchSound; }
 	char*			GetGoldPickupSoundFilename()				{ return m_GoldPickupSound; }
@@ -67,6 +85,7 @@ public:
 	char*			GetTimeSoundFilename()						{ return m_TimeSound; }
 	char*			GetMenuMusicFilename()						{ return m_MenuMusic; }
 	char*			GetBoardCompleteSoundFilename()				{ return m_BoardComplete; }
+
 
 public:
     Resources();

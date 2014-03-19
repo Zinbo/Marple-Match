@@ -18,13 +18,20 @@
 
 [S3E]
 MemSize=50000000
+SysGlesVersion=2
+WinPosX=64
+WinPosY=16
 DispFixRot=FixedPortrait
 
 [GL]
-# This will make IwGL auto generate shader binaries when calling glCompileShader. 
-{OS=WINDOWS}
-PreCompileShaderBinaries=1
-{}
+AllowNegativeUniformLocation=1
+#VirtualWidth=320
+#VirtualHeight=480
+#VirtualResolution=1
+#VirtualLetterbox=1
 
 [GX]
 DataCacheSize=131072
+
+[SOUND]
+MaxChannels=16
