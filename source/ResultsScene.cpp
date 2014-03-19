@@ -30,20 +30,18 @@ void ResultsScene::Init()
 
 	// Create background sprite
 	background = new CSprite();
-	background->m_X = (float)IwGxGetScreenWidth() / 2;
-	background->m_Y = (float)IwGxGetScreenHeight() / 2;
+	background->m_X = 0;
+	background->m_Y = 0;
 	background->SetImage(g_pResources->getResultBackground());
 	background->m_W = background->GetImage()->GetWidth();
 	background->m_H = background->GetImage()->GetHeight();
-	background->m_AnchorX = 0.5;
-	background->m_AnchorY = 0.5;
  
 	// Fit background to screen size
 	background->m_ScaleX = (float)IwGxGetScreenWidth() / background->GetImage()->GetWidth();
 	background->m_ScaleY = (float)IwGxGetScreenHeight() / background->GetImage()->GetHeight();
 	AddChild(background);
 
-	// Create the title text
+	// Create the score text
 	scoreText = new CLabel();
 	scoreText->m_X = (float)IwGxGetScreenWidth() * 0.5f;
 	scoreText->m_Y = (float)IwGxGetScreenHeight() * 0.65f;
@@ -73,9 +71,9 @@ void ResultsScene::Update(float deltaTime, float alphaMul)
 	{
 		return;
 	}
-	std::stringstream ss;
-	ss << ((GameSceneManager*) m_Manager)->GetScore();
-	scoreText->SetText(ss.str());
+	char scoreBuffer[20];
+	sprintf(scoreBuffer, "%i", ((GameSceneManager*) m_Manager)->GetScore());
+	scoreText->SetText(scoreBuffer);
 
 	Scene::Update(deltaTime, alphaMul);
 	
@@ -84,7 +82,7 @@ void ResultsScene::Update(float deltaTime, float alphaMul)
 		tapToContinue->m_IsVisible = true;
 		if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
 		{
-			
+			g_pInput->Reset();
 			TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
 			m_Manager->SwitchTo(titleScene);
 			tapToContinue->m_IsVisible = false;

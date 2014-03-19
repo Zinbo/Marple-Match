@@ -24,6 +24,8 @@
 Scene::Scene() : m_NameHash(0), m_IsActive(true), m_IsInputActive(false)
 {
     m_IsVisible = false;
+	m_XGraphicsScale = (float) IwGxGetScreenWidth() / GRAPHIC_DESIGN_WIDTH;
+	m_YGraphicsScale = (float) IwGxGetScreenHeight() / GRAPHIC_DESIGN_HEIGHT;
 }
 
 Scene::~Scene()

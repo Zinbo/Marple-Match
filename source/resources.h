@@ -42,6 +42,12 @@ protected:
 	CIw2DImage*		GameBackground;
     CIw2DFont*      Font;
 	CIw2DImage*		Characters[NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS];
+	std::string		m_MatchSound;
+	std::string		m_NonmatchSound;
+	std::string		m_GoldPickupSound;
+	std::string		m_SilverPickupSound;
+	std::string		m_GameMusic;
+	std::string		m_TimeSound;
 
 public:
     CIw2DImage*     getStar()					{ return Star; }

@@ -15,6 +15,8 @@
 
 #if !defined(__SCENE_H__)
 #define __SCENE_H__
+#define GRAPHIC_DESIGN_WIDTH 320
+#define GRAPHIC_DESIGN_HEIGHT 480
 
 #include <list>
 #include "Iw2DSceneGraph.h"
@@ -44,6 +46,8 @@ protected:
     bool                m_IsInputActive;                // Input active state
     SceneManager*       m_Manager;                      // Scene manager
 	TimerManager        m_Timers;                       // Timers manager
+	float				m_XGraphicsScale;
+	float				m_YGraphicsScale;
 
 public:
     bool                IsActive() const                    { return m_IsActive; }

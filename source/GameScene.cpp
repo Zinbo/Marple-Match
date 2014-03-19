@@ -9,6 +9,13 @@
 #include "GridItem.h"
 #include "input.h"
 
+#define TIME_TEXT_X 2.0f
+#define TIME_TEXT_Y 13.0f
+#define TIME_TEXT_HEIGHT 19.0f
+#define TIME_TEXT_WIDTH 71.0f
+#define STAR_X_OFFSET 55.0f
+#define STAR_Y_OFFSET 85.0f
+#define STAR_SPACING 70.0f
 using namespace SFAS2014;
 
 //
@@ -36,43 +43,47 @@ void GameScene::Init()
 
 	//Add background
 	mpBackground = new CSprite();
-	mpBackground->m_X = (float)IwGxGetScreenWidth() * 0.5f;
-	mpBackground->m_Y = (float)IwGxGetScreenHeight() * 0.5f;
+	mpBackground->m_X = 0;
+	mpBackground->m_Y = 0;
 	mpBackground->SetImage(g_pResources->getGameBackground());
 	mpBackground->m_W = mpBackground->GetImage()->GetWidth();
-	
 	mpBackground->m_H = mpBackground->GetImage()->GetHeight();
-	
-	mpBackground->m_AnchorX = 0.5;
-	mpBackground->m_AnchorY = 0.5;
- 
-	float backgroundScale = (float)IwGxGetScreenWidth() / mpBackground->m_W;
+
+	float backgroundXScale = (float)IwGxGetScreenWidth() / mpBackground->m_W;
+	float backgroundYScale = (float)IwGxGetScreenHeight() / mpBackground->m_H;
 	// Fit background to screen size
-	mpBackground->m_ScaleX = backgroundScale;
-	mpBackground->m_ScaleY = backgroundScale;
+	mpBackground->m_ScaleX = backgroundXScale;
+	mpBackground->m_ScaleY = backgroundYScale;
 	AddChild(mpBackground);
 	
 
 	// Create the title text
 	mpScoreText = new CLabel();
-	mpScoreText->m_X = (float)IwGxGetScreenWidth() - mpScoreText->m_W;
-	mpScoreText->m_Y = mpScoreText->m_H;
+	mpScoreText->m_H = TIME_TEXT_HEIGHT*m_YGraphicsScale;
+	mpScoreText->m_W = TIME_TEXT_WIDTH*m_XGraphicsScale;
+	mpScoreText->m_X = (float)IwGxGetScreenWidth() - (TIME_TEXT_X*m_XGraphicsScale) - mpScoreText->m_W;
+	mpScoreText->m_Y = TIME_TEXT_Y*m_YGraphicsScale;
+	mpScoreText->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
+	mpScoreText->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
+
 	mpScoreText->SetFont(g_pResources->getFont());
-	mpScoreText->SetText("00000000");
-	mpScoreText->m_AnchorX = 1.0;
-	mpScoreText->m_AnchorY = 0.0;
-	mpScoreText->m_Color = CColor(255,255,255,255);
+	mpScoreText->SetText("0000");
+	mpScoreText->m_Color = CColor(0,0,0,255);
 	AddChild(mpScoreText);
 
 	// Create the title text
 	mpTimeText = new CLabel();
-	mpTimeText->m_X = mpTimeText->m_W;
-	mpTimeText->m_Y = mpTimeText->m_H;
+	mpTimeText->m_X = TIME_TEXT_X*m_XGraphicsScale;
+	mpTimeText->m_Y = TIME_TEXT_Y*m_YGraphicsScale;
+	mpTimeText->m_H = TIME_TEXT_HEIGHT*m_XGraphicsScale;
+	mpTimeText->m_W = TIME_TEXT_WIDTH*m_YGraphicsScale;
+	mpTimeText->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
+	mpTimeText->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	mpTimeText->SetFont(g_pResources->getFont());
 	mpTimeText->SetText("02:00");
-	mpTimeText->m_AnchorX = 0.0;
+	//mpTimeText->m_AnchorX = 0.0;
 	mpTimeText->m_AnchorY = 0.0;
-	mpTimeText->m_Color = CColor(255,255,255,255);
+	mpTimeText->m_Color = CColor(0,0,0,255);
 	AddChild(mpTimeText);
 
 	m_GameState = keGameStart;
@@ -124,7 +135,7 @@ void GameScene::Update(float deltaTime, float alphaMul)
 	// Update the hud strings
 
 	char scoreBuffer[9];
-	sprintf(scoreBuffer, "%.8d", ((GameSceneManager*) m_Manager)->GetScore() );
+	sprintf(scoreBuffer, "%.4d", ((GameSceneManager*) m_Manager)->GetScore() );
 	mpScoreText->SetText(scoreBuffer);
 
 	int minutes, seconds;
@@ -151,11 +162,11 @@ void GameScene::initialiseBoard()
 		characterTypes.push_back((i%(12))); 
 	}
 
-	float x = 55.0f;
-	float y = 95.0f;
+	float x = STAR_X_OFFSET*m_XGraphicsScale;
+	float y = STAR_Y_OFFSET*m_YGraphicsScale;
 	for( int row = 0; row < GridHeight; row++ )
 	{
-		x = 55.0f;
+		x = STAR_X_OFFSET*m_XGraphicsScale;
 		for( int column = 0; column < GridWidth; column++ )
 		{
 			int characterTypeIndex = rand() % characterTypes.size();
@@ -167,10 +178,10 @@ void GameScene::initialiseBoard()
 			AddChild( grid->GetStarSprite() );
 			AddChild(grid->GetCharacterSprite());
 
-			x += 70.0f;
+			x += STAR_SPACING*m_XGraphicsScale;
 		}
 
-		y += 70.0f;
+		y += STAR_SPACING*m_YGraphicsScale;
 	}
 
 	//Set time and score to starting values;

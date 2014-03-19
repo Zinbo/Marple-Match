@@ -9,6 +9,7 @@
 #include "scene.h"
 #include "ResultsScene.h"
 #include "GameSceneManager.h"
+#include "audio.h"
 
 namespace SFAS2014
 {
@@ -64,7 +65,7 @@ public:
 private: 
 
 	enum { GridWidth = 4, GridHeight = 6 };
-	enum { TouchScore = 10, TimeLimit = 120 };
+	enum { TouchScore = 10, TimeLimit = 5 };
 	enum GameState
 	{
 		keGameStart,

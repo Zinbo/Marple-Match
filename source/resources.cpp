@@ -36,7 +36,16 @@ Resources::Resources()
 	}
 
 	// Load fonts
-    Font = Iw2DCreateFont("fonts/arial8.gxfont");
+    Font = Iw2DCreateFont("fonts/zorque15.gxfont");
+
+	//Store sound filenames;
+	m_MatchSound = "audio/Match.wav";
+	m_NonmatchSound = "audio/Nonmatch.wav";
+	m_GoldPickupSound = "audio/GoldPickup.wav";
+	m_SilverPickupSound = "audio/SilverPickup.wav";
+	m_TimeSound = "audio/time.wav";
+	m_GameMusic = "audio/gameMusic.mp3";
+	
 }
 
 Resources::~Resources()

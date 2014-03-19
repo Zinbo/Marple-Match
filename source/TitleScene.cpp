@@ -41,10 +41,11 @@ void TitleScene::Init()
 	mpBackground->m_AnchorX = 0.5;
 	mpBackground->m_AnchorY = 0.5;
  
-	float backgroundScale = (float)IwGxGetScreenWidth() / mpBackground->m_W;
+	float backgroundXScale = (float)IwGxGetScreenWidth() / mpBackground->m_W;
+	float backgroundYScale = (float)IwGxGetScreenHeight() / mpBackground->m_H;
 	// Fit background to screen size
-	mpBackground->m_ScaleX = backgroundScale;
-	mpBackground->m_ScaleY = backgroundScale;
+	mpBackground->m_ScaleX = backgroundXScale;
+	mpBackground->m_ScaleY = backgroundYScale;
 	AddChild(mpBackground);
 
 	// Create the title text
