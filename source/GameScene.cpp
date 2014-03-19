@@ -88,12 +88,23 @@ void GameScene::Init()
 
 	m_GameState = keGameStart;
 	mNoOfMatchedPairs = 0;
+
+	//Known bug in Marmalade SDK, need to play a sound first before sound starts working in some environments. We turn off sound first, so that this sound never plays.
+	g_pAudio->MuteSound();
+	g_pAudio->PlaySound(g_pResources->GetMatchSoundFilename());
+	g_pAudio->UnmuteSound();
+
+	initialiseBoard();
 }
 
 void GameScene::Reset()
 {
-	mTime = (float)TimeLimit;
-	((GameSceneManager*) m_Manager)->SetScore(0);
+	//If we need to restart the game, then set the game state to gameStart
+	if(m_GameState == keGameOver)
+	{
+		m_GameState = keGameStart;
+	}
+	
 }
 
 void GameScene::Update(float deltaTime, float alphaMul)
@@ -108,7 +119,7 @@ void GameScene::Update(float deltaTime, float alphaMul)
 	switch(m_GameState)
 	{
 	case keGameStart:
-		initialiseBoard();
+		StartGame();
 		m_GameState = keGamePlaying;
 		break;
 	case keGamePlaying:
@@ -122,18 +133,28 @@ void GameScene::Update(float deltaTime, float alphaMul)
 	}
 	// Update time in state
 	// If it is time to exit then go in active
-	mTime -= deltaTime;
+
+	// If a minute has gone by, or we're in the final 10 seconds of the game, then beep to alert the user.
+	if((mTime < TimeLimit) && 
+		((((int)mTime % 60) == 0) && ((int)mTime > (int)(mTime - deltaTime))) || 
+		((mTime <= 11) && ((int)mTime > (int)(mTime - deltaTime))))
+	{
+		g_pAudio->PlaySound(g_pResources->GetTimeSoundFilename());
+	}
 	if( ( mTime) <= 0 )
 	{
 		mTime = 0;
 		ResultsScene * resultsScene= (ResultsScene*) m_Manager->Find("ResultsState");
+		Audio::StopMusic();
 		m_Manager->SwitchTo(resultsScene);
-		ResetBoard();
-		
+		//ResetBoard();
+			
+		m_GameState = keGameOver;
 	}
 
-	// Update the hud strings
+	mTime -= deltaTime;
 
+	// Update the hud strings
 	char scoreBuffer[9];
 	sprintf(scoreBuffer, "%.4d", ((GameSceneManager*) m_Manager)->GetScore() );
 	mpScoreText->SetText(scoreBuffer);
@@ -151,6 +172,15 @@ void GameScene::Update(float deltaTime, float alphaMul)
 void GameScene::Render()
 {
 	Scene::Render();
+}
+
+void GameScene::StartGame()
+{
+	ResetBoard();
+	//Set time and score to starting values;
+	mTime = (float)TimeLimit;
+	((GameSceneManager*) m_Manager)->SetScore(0);
+	Audio::PlayMusic(g_pResources->GetGameMusicFilename(), true);
 }
 
 void GameScene::initialiseBoard()
@@ -184,9 +214,7 @@ void GameScene::initialiseBoard()
 		y += STAR_SPACING*m_YGraphicsScale;
 	}
 
-	//Set time and score to starting values;
-	mTime = (float)TimeLimit;
-	((GameSceneManager*) m_Manager)->SetScore(0);
+	
 }
 
 void GameScene::checkForMatches()
@@ -210,7 +238,7 @@ void GameScene::checkForMatches()
 						((GameSceneManager*) m_Manager)->IncrementScore(10);
 						charactersToRemove.push_back(selected1);
 						charactersToRemove.push_back(selected2);
-
+						g_pAudio->PlaySound(g_pResources->GetMatchSoundFilename());
 						selected1 = NULL;
 						selected2 = NULL;
 						m_Timers.Add(new Timer(0.5f, 1, &GameScene::removeMatchedCharacters, (void*)this));
@@ -220,6 +248,7 @@ void GameScene::checkForMatches()
 						/*selectedStar->GetCharacterSprite()->m_IsVisible = false;
 						selectedStar->GetStarSprite()->m_IsVisible = true;
 						selectedStar = NULL;*/
+						g_pAudio->PlaySound(g_pResources->GetNonmatchSoundFilename());
 						delayTime = 0.5f;
 						m_GameState = keNonMatch;
 					}
@@ -270,6 +299,7 @@ void GameScene::removeMatchedCharacters(Timer* timer, void* userData)
 	self->mNoOfMatchedPairs++;
 	if(self->mNoOfMatchedPairs == 12)
 	{
+		g_pAudio->PlaySound(g_pResources->GetBoardCompleteSoundFilename());
 		self->mNoOfMatchedPairs = 0;
 		self->ResetBoard();
 	}

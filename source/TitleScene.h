@@ -52,6 +52,8 @@ public:
      */
     void Render();
 
+	void Reset();
+
 private: 
 
 	CSprite* mpBackground;

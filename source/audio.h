@@ -138,6 +138,9 @@ public:
      * @param filename    Filename of the sound effect.
      */
     void        PlaySound(const char* filename);
+
+	void		MuteSound();
+	void		UnmuteSound();
 };
 
 /**

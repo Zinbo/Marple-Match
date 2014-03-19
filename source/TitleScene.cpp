@@ -6,6 +6,7 @@
 #include "TitleScene.h"
 #include "IwGx.h"
 #include "resources.h"
+#include "audio.h"
 
 using namespace SFAS2014;
 
@@ -67,16 +68,24 @@ void TitleScene::Update(float deltaTime, float alphaMul)
 	{
 		return;
 	}
+	
 	Scene::Update(deltaTime, alphaMul);
 	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
 	{
 		g_pInput->Reset();
 		GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
+		Audio::StopMusic();
 		m_Manager->SwitchTo(gameScene);
+		
 	}
 }
 
 void TitleScene::Render()
 {
 	Scene::Render();
+}
+
+void TitleScene::Reset()
+{
+	Audio::PlayMusic(g_pResources->GetMenuMusicFilename(), true);
 }

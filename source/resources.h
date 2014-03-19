@@ -42,21 +42,31 @@ protected:
 	CIw2DImage*		GameBackground;
     CIw2DFont*      Font;
 	CIw2DImage*		Characters[NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS];
-	std::string		m_MatchSound;
-	std::string		m_NonmatchSound;
-	std::string		m_GoldPickupSound;
-	std::string		m_SilverPickupSound;
-	std::string		m_GameMusic;
-	std::string		m_TimeSound;
+	char*			m_MatchSound;
+	char*			m_NonmatchSound;
+	char*			m_GoldPickupSound;
+	char*			m_SilverPickupSound;
+	char*			m_GameMusic;
+	char*			m_TimeSound;
+	char*			m_MenuMusic;
+	char*			m_BoardComplete;
 
 public:
-    CIw2DImage*     getStar()					{ return Star; }
-    CIw2DImage*     getBackground()				{ return Background; }
-	CIw2DImage*     getTitleBackground()		{ return TitleBackground; }
-	CIw2DImage*     getGameBackground()			{ return GameBackground; }
-	CIw2DImage*     getResultBackground()		{ return ResultBackground; }
-	CIw2DFont*		getFont()					{ return Font; }
-	CIw2DImage*		GetCharacter(int index)		{ return Characters[index]; }
+    CIw2DImage*     getStar()									{ return Star; }
+    CIw2DImage*     getBackground()								{ return Background; }
+	CIw2DImage*     getTitleBackground()						{ return TitleBackground; }
+	CIw2DImage*     getGameBackground()							{ return GameBackground; }
+	CIw2DImage*     getResultBackground()						{ return ResultBackground; }
+	CIw2DFont*		getFont()									{ return Font; }
+	CIw2DImage*		GetCharacter(int index)						{ return Characters[index]; }
+	char*			GetMatchSoundFilename()						{ return m_MatchSound; }
+	char*			GetNonmatchSoundFilename()					{ return m_NonmatchSound; }
+	char*			GetGoldPickupSoundFilename()				{ return m_GoldPickupSound; }
+	char*			GetsilverPickupSoundFilename()				{ return m_SilverPickupSound; }
+	char*			GetGameMusicFilename()						{ return m_GameMusic; }
+	char*			GetTimeSoundFilename()						{ return m_TimeSound; }
+	char*			GetMenuMusicFilename()						{ return m_MenuMusic; }
+	char*			GetBoardCompleteSoundFilename()				{ return m_BoardComplete; }
 
 public:
     Resources();

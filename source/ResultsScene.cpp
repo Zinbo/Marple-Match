@@ -84,8 +84,10 @@ void ResultsScene::Update(float deltaTime, float alphaMul)
 		{
 			g_pInput->Reset();
 			TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
+			Audio::StopMusic();
 			m_Manager->SwitchTo(titleScene);
 			tapToContinue->m_IsVisible = false;
+			
 		}
 	}
 	else
@@ -101,6 +103,7 @@ void ResultsScene::Update(float deltaTime, float alphaMul)
 void ResultsScene::Reset()
 {
 	delay = 2.0f;
+	Audio::PlayMusic(g_pResources->GetMenuMusicFilename(), true);
 	
 }
 

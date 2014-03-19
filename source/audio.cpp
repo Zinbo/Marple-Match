@@ -101,5 +101,13 @@ void Audio::PlaySound(const char* filename)
         sound->m_SoundSpec->Play();
 }
 
+void Audio::MuteSound()
+{
+	s3eSoundSetInt(S3E_SOUND_VOLUME, 0);
+}
 
+void Audio::UnmuteSound()
+{
+	s3eSoundSetInt(S3E_SOUND_VOLUME, S3E_SOUND_MAX_VOLUME);
+}
 

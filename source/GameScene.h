@@ -65,14 +65,14 @@ public:
 private: 
 
 	enum { GridWidth = 4, GridHeight = 6 };
-	enum { TouchScore = 10, TimeLimit = 5 };
+	enum { TouchScore = 10, TimeLimit = 120 };
 	enum GameState
 	{
 		keGameStart,
 		keGamePlaying,
 		keNonMatch,
-		keMatch,
-		keBoardReset
+		keBoardReset,
+		keGameOver
 	};
 	GameState m_GameState;
 	SFAS2014::GridItem * mGrid[GridWidth*GridHeight];
@@ -93,6 +93,8 @@ private:
 	static void removeMatchedCharacters(Timer* timer, void* userData);
 
 	float delayTime;
+
+	void StartGame();
 };
 }
 

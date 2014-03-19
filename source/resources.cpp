@@ -43,8 +43,10 @@ Resources::Resources()
 	m_NonmatchSound = "audio/Nonmatch.wav";
 	m_GoldPickupSound = "audio/GoldPickup.wav";
 	m_SilverPickupSound = "audio/SilverPickup.wav";
+	m_BoardComplete = "audio/boardComplete.wav";
 	m_TimeSound = "audio/time.wav";
 	m_GameMusic = "audio/gameMusic.mp3";
+	m_MenuMusic = "audio/menuMusic.mp3";
 	
 }
 

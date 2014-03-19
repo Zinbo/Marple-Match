@@ -120,6 +120,7 @@ void SceneManager::SwitchTo(Scene* scene)
         m_Current->SetActive(true);
         m_Current->m_IsVisible = true;
         m_Current->SetInputActive(true);
+		m_Next->Reset();
         m_Next = 0;
     }
     else
