@@ -104,6 +104,13 @@ private:
 	CSprite* m_MuteSoundButton;
 
 	void AddButtons();
+	void RemovePairsPowerUp(GridItem* selected);
+
+	bool doublePoints;
+
+	static void ResetDoublePoints(Timer* timer, void* userData);
+
+	Timer* doublePointsTimer;
 };
 }
 

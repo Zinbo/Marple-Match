@@ -41,8 +41,10 @@ files
 	GridItem.h
 
 	Timer.cpp
+	CharacterBuilder.cpp
 
 	Timer.h
+	CharacterBuilder.h
 	
 }
 

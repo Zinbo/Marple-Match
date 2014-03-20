@@ -8,6 +8,7 @@
 #include "IwGx.h"
 #include "GridItem.h"
 #include "input.h"
+#include "CharacterBuilder.h"
 
 #define TIME_TEXT_X 2.0f
 #define TIME_TEXT_Y 13.0f
@@ -20,6 +21,8 @@
 #define BUTTON_X_OFFSET 36.0f
 #define BUTTON_STARTING_X 94.0f
 #define BUTTON_STARTING_Y 7.0f
+#define GOLD_PROB 0.1
+#define SILVER_PROB 0.2
 using namespace SFAS2014;
 
 //
@@ -29,6 +32,7 @@ using namespace SFAS2014;
 //
 GameScene::GameScene() : mTime( (float)TimeLimit )
 {
+	doublePointsTimer = NULL;
 }
 
 GameScene::~GameScene()
@@ -102,6 +106,8 @@ void GameScene::Init()
 	g_pAudio->UnmuteSound();
 
 	initialiseBoard();
+
+	doublePoints = false;
 }
 
 void GameScene::Reset()
@@ -261,11 +267,23 @@ void GameScene::StartGame()
 
 void GameScene::initialiseBoard()
 {
-	std::vector<int> characterTypes;
+	std::vector<CharacterBuilder> characterTypes;
 	//Fill vector with exactly 2 of each character type
-	for(int i = 0; i < GridHeight*GridWidth; i++)
+	int numberOfPairs = (GridHeight*GridWidth)/2;
+	for(int i = 0; i < numberOfPairs; i++)
 	{
-		characterTypes.push_back((i%(12))); 
+		CharacterBuilder charToMake(i);
+		float randNum = ((float) rand() / RAND_MAX );
+		if(randNum <= GOLD_PROB)
+		{
+			charToMake.SetGold(true);
+		}
+		else if(randNum <= SILVER_PROB)
+		{
+			charToMake.SetSilver(true);
+		}
+		characterTypes.push_back(charToMake);
+		characterTypes.push_back(charToMake);
 	}
 
 	float x = STAR_X_OFFSET*m_XGraphicsScale;
@@ -276,8 +294,7 @@ void GameScene::initialiseBoard()
 		for( int column = 0; column < GridWidth; column++ )
 		{
 			int characterTypeIndex = rand() % characterTypes.size();
-			int characterIndex = characterTypes.at(characterTypeIndex);
-			GridItem* grid = new GridItem( x, y, (characterIndex));
+			GridItem* grid = new GridItem( x, y, characterTypes.at(characterTypeIndex));
 			characterTypes.erase(characterTypes.begin() + characterTypeIndex);
 
 			mGrid[(row*GridWidth)+column] = grid; 
@@ -299,9 +316,8 @@ void GameScene::checkForMatches()
 	{
 		for( int count = 0; count < GridWidth*GridHeight; count++ )
 		{
-			
 			g_pInput->Reset();
-			if( mGrid[count]->GetStarSprite()->m_IsVisible && mGrid[count]->GetStarSprite()->HitTest( g_pInput->m_X, g_pInput->m_Y ) )
+			if(mGrid[count]->GetStarSprite()->m_IsVisible && mGrid[count]->GetStarSprite()->HitTest( g_pInput->m_X, g_pInput->m_Y ) )
 			{
 				if(selected1)
 				{
@@ -311,13 +327,46 @@ void GameScene::checkForMatches()
 
 					if(selected1->GetCharacterIndex() == mGrid[count]->GetCharacterIndex())
 					{
-						((GameSceneManager*) m_Manager)->IncrementScore(10);
-						charactersToRemove.push_back(selected1);
-						charactersToRemove.push_back(selected2);
-						g_pAudio->PlaySound(g_pResources->GetMatchSoundFilename());
-						selected1 = NULL;
-						selected2 = NULL;
-						m_Timers.Add(new Timer(0.5f, 1, &GameScene::removeMatchedCharacters, (void*)this));
+						//Both characters have to both be gold, both be silver, or both be the same normal character
+						if((selected1->IsGold() == selected2->IsGold())  && (selected1->IsSilver() == selected2->IsSilver()))
+						{
+							if(selected1->IsGold())
+							{
+								g_pAudio->PlaySound(g_pResources->GetGoldPickupSoundFilename());
+								mTime += 20;
+							}
+							else if(selected1->IsSilver())
+							{
+								//TODO double points for an amount of time.
+								g_pAudio->PlaySound(g_pResources->GetSilverPickupSoundFilename());
+								doublePoints = true;
+								if(doublePointsTimer != NULL)
+								{
+									m_Timers.Cancel(doublePointsTimer);
+									doublePointsTimer = NULL;
+								}
+								m_Timers.Add(new Timer(10.0f, 1, &GameScene::ResetDoublePoints, (void*)this));
+							}
+							else
+							{
+								g_pAudio->PlaySound(g_pResources->GetMatchSoundFilename());
+							}
+							if(doublePoints)
+							{
+								((GameSceneManager*) m_Manager)->IncrementScore(20);
+							}
+							else
+							{
+								((GameSceneManager*) m_Manager)->IncrementScore(10);
+							}
+							
+							charactersToRemove.push_back(selected1);
+							charactersToRemove.push_back(selected2);
+							selected1 = NULL;
+							selected2 = NULL;
+							m_Timers.Add(new Timer(0.5f, 1, &GameScene::removeMatchedCharacters, (void*)this));
+						}
+						
 					}
 					else
 					{
@@ -346,6 +395,16 @@ void GameScene::delayGameForNonmatch(float deltaTime)
 	g_pInput->Reset();
 	if(delayTime <= 0)
 	{
+		if(selected1->IsGold() || selected1->IsSilver())
+		{
+			RemovePairsPowerUp(selected1);
+			
+		}
+		else if(selected2->IsGold() || selected2->IsSilver())
+		{
+			RemovePairsPowerUp(selected2);
+		}
+
 		selected1->GetCharacterSprite()->m_IsVisible = false;
 		selected1->GetStarSprite()->m_IsVisible = true;
 		selected1 = NULL;
@@ -384,21 +443,35 @@ void GameScene::removeMatchedCharacters(Timer* timer, void* userData)
 
 void GameScene::ResetBoard()
 {
-	std::vector<int> characterTypes;
+	std::vector<CharacterBuilder> characterTypes;
 	//Fill vector with exactly 2 of each character type
-	for(int i = 0; i < GridHeight*GridWidth; i++)
+	int numberOfPairs = (GridHeight*GridWidth)/2;
+	for(int i = 0; i < numberOfPairs; i++)
 	{
-		characterTypes.push_back((i%(12))); 
+		CharacterBuilder charToMake(i);
+		float randNum = ((float) rand() / RAND_MAX );
+		if(randNum <= SILVER_PROB)
+		{
+			charToMake.SetGold(true);
+		}
+		else if(randNum <= SILVER_PROB)
+		{
+			charToMake.SetSilver(true);
+		}
+		characterTypes.push_back(charToMake);
+		characterTypes.push_back(charToMake);
 	}
+
 	for(int i = 0; i < GridHeight*GridWidth; i++)
 	{
 		int characterTypeIndex = rand() % characterTypes.size();
-		int characterIndex = characterTypes.at(characterTypeIndex);
-		characterTypes.erase(characterTypes.begin() + characterTypeIndex);
-
+		
+		CharacterBuilder charToMake = characterTypes.at(characterTypeIndex);
 		mGrid[i]->GetStarSprite()->m_IsVisible = true;
-		mGrid[i]->SetCharacterImage(characterIndex);
+		mGrid[i]->SetCharacterImage(charToMake);
 		AddChild(mGrid[i]->GetCharacterSprite());
+
+		characterTypes.erase(characterTypes.begin() + characterTypeIndex);
 	}
 }
 
@@ -468,5 +541,27 @@ void GameScene::AddButtons()
 	m_ExitButton->m_ScaleX = buttonXScale;
 	m_ExitButton->m_ScaleY = buttonYScale;
 	AddChild(m_ExitButton);
+}
+
+void GameScene::RemovePairsPowerUp(GridItem * selected)
+{
+	selected->RemovePowerup();
+	int charIndex = selected->GetCharacterIndex();
+
+	//Find the other half of the powerup and remove it.
+	for(int i = 0; i < GridHeight*GridWidth; i++)
+	{
+		if(charIndex == mGrid[i]->GetCharacterIndex() && mGrid[i] != selected)
+		{
+			mGrid[i]->RemovePowerup();
+			break;
+		}
+	}
+}
+
+void GameScene::ResetDoublePoints(Timer* timer, void* userData)
+{
+	GameScene* self = (GameScene*) userData;
+	self->doublePoints = false;
 }
 

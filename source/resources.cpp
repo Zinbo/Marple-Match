@@ -24,16 +24,19 @@ Resources::Resources()
 	TitleBackground = Iw2DCreateImage( "textures/startMenu.png" );
 	GameBackground = Iw2DCreateImage( "textures/gameBackground.png" );
 	ResultBackground = Iw2DCreateImage( "textures/resultScreen.png" );
-	for(int i = 0; i < NUMBER_OF_CHARACTER_TYPES; i++)
+	for(int i = 0; i < NUMBER_OF_CHARACTER_COLOURS; i++)
 	{
-		for(int j = 0; j < NUMBER_OF_CHARACTER_COLOURS; j++)
+		for(int j = 0; j < NUMBER_OF_CHARACTER_TYPES; j++)
 		{
 			char filename[50];
-			sprintf(filename, "textures/char-%i-%i.png", i, j);
-			Characters[(i*NUMBER_OF_CHARACTER_COLOURS)+j] = Iw2DCreateImage(filename);
+			sprintf(filename, "textures/char-%i-%i.png", j, i);
+			Characters[(i*NUMBER_OF_CHARACTER_TYPES)+j] = Iw2DCreateImage(filename);
 		}
 		
 	}
+	Characters[(NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES)] = Iw2DCreateImage("textures/char-gold.png");
+	Characters[(NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES)+1] = Iw2DCreateImage("textures/char-silver.png");
+
 
 	// Load fonts
     Font = Iw2DCreateFont("fonts/zorque15.gxfont");

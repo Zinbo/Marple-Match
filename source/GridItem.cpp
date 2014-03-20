@@ -12,10 +12,12 @@ using namespace Iw2DSceneGraph;
 #define STAR_HEIGHT 65
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 480
+#define GOLD_CHAR_INDEX 12
+#define SILVER_CHAR_INDEX 13
 
 using namespace SFAS2014;
 
-GridItem::GridItem( float x, float y, int characterIndex)
+GridItem::GridItem(float x, float y, CharacterBuilder charToMake)
 {
 	mSprite = new CSprite();
 	mSprite->m_X = x;
@@ -34,13 +36,32 @@ GridItem::GridItem( float x, float y, int characterIndex)
 	mSprite->m_AnchorX = 0.5f;
 	mSprite->m_AnchorY = 0.5f;
 
-	mCharacterIndex = characterIndex;
+	mCharacterIndex = charToMake.GetCharacterIndex();
 
 	//Assign character sprite
 	characterSprite = new CSprite();
 	characterSprite->m_X = x;
 	characterSprite->m_Y = y;
-	characterSprite->SetImage(g_pResources->GetCharacter(characterIndex));
+
+	if(charToMake.IsGold())
+	{
+		characterSprite->SetImage(g_pResources->GetCharacter(GOLD_CHAR_INDEX));
+		m_IsGold = true;
+		m_IsSilver = false;
+	}
+	else if(charToMake.IsSilver())
+	{
+		characterSprite->SetImage(g_pResources->GetCharacter(GOLD_CHAR_INDEX));
+		m_IsSilver = true;
+		m_IsGold = false;
+	}
+	else
+	{
+		characterSprite->SetImage(g_pResources->GetCharacter(mCharacterIndex));
+		m_IsSilver = false;
+		m_IsGold = false;
+	}
+
 	characterSprite->m_W = characterSprite->GetImage()->GetWidth();
 	characterSprite->m_H = characterSprite->GetImage()->GetHeight();
 	characterSprite->m_AnchorX = 0.5f;
@@ -62,9 +83,37 @@ void GridItem::Reset()
 {
 }
 
-void GridItem::SetCharacterImage(int characterIndex)
+void GridItem::SetCharacterImage(CharacterBuilder charToMake)
 {
-	characterSprite->SetImage(g_pResources->GetCharacter(characterIndex));
+	mCharacterIndex = charToMake.GetCharacterIndex();
 	characterSprite->m_IsVisible = false;
-	mCharacterIndex = characterIndex;
+	if(charToMake.IsGold())
+	{
+		m_IsGold = true;
+		m_IsSilver = false;
+		characterSprite->SetImage(g_pResources->GetCharacter(GOLD_CHAR_INDEX));
+	}
+	else if(charToMake.IsSilver())
+	{
+		m_IsGold = false;
+		m_IsSilver = true;
+		characterSprite->SetImage(g_pResources->GetCharacter(SILVER_CHAR_INDEX));
+	}
+	else
+	{
+		m_IsGold = false;
+		m_IsSilver = false;
+		characterSprite->SetImage(g_pResources->GetCharacter(charToMake.GetCharacterIndex()));
+	}
+	
+	
+	
 }
+
+void GridItem::RemovePowerup()
+{
+	bool isGold = false;
+	bool isSilver = false;
+	characterSprite->SetImage(g_pResources->GetCharacter(mCharacterIndex));
+}
+

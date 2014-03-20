@@ -8,6 +8,7 @@
 
 #include "Iw2DSceneGraph.h"
 #include "IwGx.h"
+#include "CharacterBuilder.h"
 
 namespace SFAS2014
 {
@@ -23,7 +24,7 @@ class GridItem
 
 public:	
 
-    GridItem( float x, float y, int characterIndex);
+    GridItem(float x, float y, CharacterBuilder charToMake);
     ~GridItem();
 
     /**
@@ -38,7 +39,7 @@ public:
 
 	int GetCharacterIndex() { return mCharacterIndex; }
 
-	void SetCharacterImage(int characterIndex);
+	void SetCharacterImage(CharacterBuilder charToMake);
     /**
      * @fn    void GridItem::Reset();
      *
@@ -47,12 +48,18 @@ public:
      */
 	void Reset();
 
+	bool IsGold() { return m_IsGold;}
+	bool IsSilver() { return m_IsSilver;}
+
+	void RemovePowerup();
 
 private: 
 
 	Iw2DSceneGraph::CSprite * mSprite;
 	Iw2DSceneGraph::CSprite * characterSprite;
 	int mCharacterIndex;
+	bool m_IsGold;
+	bool m_IsSilver;
 };
 }
 
