@@ -158,7 +158,7 @@ void GameScene::SetupCharactersArray(std::vector<CharacterBuilder> &characterTyp
 		{
 			charToMake.SetGold(true);
 		}
-		else if(randNum <= SILVER_PROB)
+		else if(randNum <= 0.5)
 		{
 			charToMake.SetSilver(true);
 		}
@@ -283,6 +283,19 @@ void GameScene::ProcessIncorrectMatch()
 	m_GameState = keNonMatch;
 }
 
+void GameScene::ProcessOddPowerupMatch()
+{
+	//This is for the case where the player has matched up two gold or silver characters, but these characters have underlying different character indexes,
+	//meaning that when they are matched and removed they will leave odd corresponding pairs. The second left over character is changed to have the same
+	//character index as the first left over character, so that there are no odd characters left on the board.
+	CharacterBuilder charToMake(m_FirstSelectedItem->GetCharacterIndex());
+	FindOtherHalfOfPair(m_FirstSelectedItem)->RemovePowerup();
+	FindOtherHalfOfPair(m_SecondSelectedItem)->SetCharacterImage(charToMake);
+
+	//Then process match like normal
+	ProcessMatch();
+}
+
 void GameScene::CheckForMatches()
 {
 	//If the screen has been touched, then cycle through each grid item and see if it has been touched.
@@ -299,11 +312,18 @@ void GameScene::CheckForMatches()
 				if(m_FirstSelectedItem)
 				{
 					m_SecondSelectedItem = m_Grid[gridIndex];
-					
+					//If the character indexes match up, then we have a normal, silver or gold match
 					if(m_FirstSelectedItem->GetCharacterIndex() == m_Grid[gridIndex]->GetCharacterIndex())
 					{
 						ProcessMatch();
 					}
+					//If the character indexes don't match, but the player has selected two characters which are both gold or both silver, then we have an odd match,
+					//which we need to handle a little differently.
+					else if((m_FirstSelectedItem->IsGold() && m_SecondSelectedItem->IsGold()) || (m_FirstSelectedItem->IsSilver() && m_SecondSelectedItem->IsSilver()))
+					{
+						ProcessOddPowerupMatch();
+					}
+					//Else we have no match
 					else
 					{
 						ProcessIncorrectMatch();
@@ -479,20 +499,25 @@ void GameScene::InitButtons()
 	AddChild(m_ExitButton);
 }
 
+GridItem * GameScene::FindOtherHalfOfPair(GridItem* gridItem)
+{
+	for(int i = 0; i < GridHeight*GridWidth; i++)
+	{
+		if(gridItem->GetCharacterIndex() == m_Grid[i]->GetCharacterIndex() && m_Grid[i] != gridItem)
+		{
+			return m_Grid[i];
+		}
+	}
+}
+
 void GameScene::RemovePairsPowerUp(GridItem * selected)
 {
 	selected->RemovePowerup();
 	int charIndex = selected->GetCharacterIndex();
 
+	FindOtherHalfOfPair(selected)->RemovePowerup();
 	//Find the other half of the powerup pair and remove it.
-	for(int i = 0; i < GridHeight*GridWidth; i++)
-	{
-		if(charIndex == m_Grid[i]->GetCharacterIndex() && m_Grid[i] != selected)
-		{
-			m_Grid[i]->RemovePowerup();
-			break;
-		}
-	}
+	
 }
 
 void GameScene::ResetDoublePoints(Timer* timer, void* userData)

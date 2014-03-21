@@ -71,7 +71,7 @@ public:
 private: 
 	//Enums
 	enum { GridWidth = 4, GridHeight = 6 };
-	enum { TouchScore = 10, TimeLimit = 10 };
+	enum { TouchScore = 10, TimeLimit = 120 };
 	enum GameState
 	{
 		keGameStart,
@@ -109,7 +109,6 @@ private:
 	float m_DelayTime;
 	Timer* m_DoublePointsTimer;
 
-
 	//Methods
 
 	//Matching characters
@@ -124,6 +123,8 @@ private:
 	bool StarHasBeenTouched(int gridIndex);
 	void IncrementScore();
 	void ProcessIncorrectMatch();
+	void ProcessOddPowerupMatch();
+	GridItem* FindOtherHalfOfPair(GridItem* gridItem);
 
 	//Init helpers
 	void InitBoard();
