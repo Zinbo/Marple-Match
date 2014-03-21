@@ -56,14 +56,30 @@ public:
 
 private: 
 
-	CSprite* mpBackground;
-	CLabel* mpTitleText;
+	//Sprites
+	CSprite* m_Background;
 	CSprite* m_MusicButton;
 	CSprite* m_MuteMusicButton;
 	CSprite* m_SoundButton;
 	CSprite* m_MuteSoundButton;
 
-	void AddButtons();
+	//Labels
+	CLabel* m_TitleText;
+
+	//Helper methods
+
+	//Init helpers
+	void InitUI();
+	void InitLabels();
+	void InitButtons();
+
+	//Button helpers
+	void ToggleMusic();
+	void ToggleSound();
+	void SetSoundAndMusicButtons();
+
+	//Scene helpers
+	void ChangeSceneAndCleanUp();
 };
 }
 

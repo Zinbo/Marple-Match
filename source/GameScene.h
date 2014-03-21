@@ -10,6 +10,12 @@
 #include "ResultsScene.h"
 #include "GameSceneManager.h"
 #include "audio.h"
+#include "resources.h"
+#include "IwGx.h"
+#include "GridItem.h"
+#include "input.h"
+#include "CharacterBuilder.h"
+
 
 namespace SFAS2014
 {
@@ -63,39 +69,20 @@ public:
     void Render();
 
 private: 
-
+	//Enums
 	enum { GridWidth = 4, GridHeight = 6 };
-	enum { TouchScore = 10, TimeLimit = 120 };
+	enum { TouchScore = 10, TimeLimit = 10 };
 	enum GameState
 	{
 		keGameStart,
 		keGamePlaying,
 		keNonMatch,
-		keBoardReset,
 		keGameOver
 	};
 	GameState m_GameState;
-	SFAS2014::GridItem * mGrid[GridWidth*GridHeight];
-	CLabel* mpScoreText;
-	CLabel* mpTimeText;
-	CSprite * mpBackground;
 
-	float mTime;
-	int mNoOfMatchedPairs;
-	SFAS2014::GridItem * selected1;
-	SFAS2014::GridItem * selected2;
-	std::vector<GridItem *> charactersToRemove;
-	void initialiseBoard();
-	void checkForMatches();
-	void delayGameForNonmatch(float deltaTime);
-	void ResetBoard();
-
-	static void removeMatchedCharacters(Timer* timer, void* userData);
-
-	float delayTime;
-
-	void StartGame();
-
+	//Sprites
+	CSprite* m_Background;
 	CSprite* m_ExitButton;
 	CSprite* m_PauseButton;
 	CSprite* m_MusicButton;
@@ -103,14 +90,77 @@ private:
 	CSprite* m_SoundButton;
 	CSprite* m_MuteSoundButton;
 
-	void AddButtons();
+	//Labels
+	CLabel* m_ScoreLabel;
+	CLabel* m_TimeLabel;
+	
+	//Flags
+	bool m_DoublePoints;
+
+	//Variables for grid
+	SFAS2014::GridItem * m_Grid[GridWidth*GridHeight];
+	SFAS2014::GridItem * m_FirstSelectedItem;
+	SFAS2014::GridItem * m_SecondSelectedItem;
+	std::vector<GridItem *> m_CharactersToRemove;
+	int m_NoOfMatchedPairs;	
+
+	//Variables for time
+	float m_Time;
+	float m_DelayTime;
+	Timer* m_DoublePointsTimer;
+
+
+	//Methods
+
+	//Matching characters
+	void CheckForMatches();
+	void ProcessMatch();
+	void ProcessGoldMatch();
+	void ProcessSilverMatch();
+	void ProcessNormalMatch();
+	void DelayGameForNonmatch(float deltaTime);
+	void RemoveMatchedCharacterPairFromList();
+	static void RemoveMatchedCharacters(Timer* timer, void* userData);
+	bool StarHasBeenTouched(int gridIndex);
+	void IncrementScore();
+	void ProcessIncorrectMatch();
+
+	//Init helpers
+	void InitBoard();
+	void InitButtons();
+	void InitLabels();
+	void InitUI();
+	void InitSound();
+	void StartGame();
+
+	//Reset helpers
+	void ResetBoard();
+	void SetSoundAndMusicButtons();
+	
+	//Button helpers
+	void ToggleMusicButton();
+	void ToggleSoundButton();
+	void ToggleButtons();
+	
+	//Powerup helpers
 	void RemovePairsPowerUp(GridItem* selected);
-
-	bool doublePoints;
-
 	static void ResetDoublePoints(Timer* timer, void* userData);
+	
+	//Time beep helpers 
+	bool AMinuteHasGoneBy(float deltaTime);
+	bool InTheFinal10Seconds(float deltaTime);
 
-	Timer* doublePointsTimer;
+	//Endgame helpers
+	void CleanUpAndChangeScene();
+
+	//Update scene helpers
+	void UpdateLabels();
+	void SetupCharactersArray(std::vector<CharacterBuilder> &characterTypes);
+	void AddGridToScene(std::vector<CharacterBuilder> &characterTypes);
+	void RemoveCharactersAfterDelay();
+	void HideCharacter(GridItem * gridItem);
+	void ShowCharacter(GridItem * gridItem);
+	
 };
 }
 

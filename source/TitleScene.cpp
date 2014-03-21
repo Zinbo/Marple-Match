@@ -32,39 +32,10 @@ TitleScene::~TitleScene()
 void TitleScene::Init()
 {
 	Scene::Init();
-
-	// Create background sprite
 	
-	mpBackground = new CSprite();
-	mpBackground->m_X = (float)IwGxGetScreenWidth() * 0.5f;
-	mpBackground->m_Y = (float)IwGxGetScreenHeight() * 0.5f;
-	mpBackground->SetImage(g_pResources->getTitleBackground());
-	mpBackground->m_W = mpBackground->GetImage()->GetWidth();
-	
-	mpBackground->m_H = mpBackground->GetImage()->GetHeight();
-	
-	mpBackground->m_AnchorX = 0.5;
-	mpBackground->m_AnchorY = 0.5;
- 
-	float backgroundXScale = (float)IwGxGetScreenWidth() / mpBackground->m_W;
-	float backgroundYScale = (float)IwGxGetScreenHeight() / mpBackground->m_H;
-	// Fit background to screen size
-	mpBackground->m_ScaleX = backgroundXScale;
-	mpBackground->m_ScaleY = backgroundYScale;
-	AddChild(mpBackground);
-
-	// Create the title text
-	mpTitleText = new CLabel();
-	mpTitleText->m_X = (float)IwGxGetScreenWidth() * 0.5f;
-	mpTitleText->m_Y = (float)IwGxGetScreenHeight() * 0.65f;
-	mpTitleText->SetFont(g_pResources->getFont());
-	mpTitleText->SetText("TAP TO BEGIN");
-	mpTitleText->m_AnchorX = 0.5;
-	mpTitleText->m_AnchorY = 0.5;
-	mpTitleText->m_Color = CColor(0,0,0,255);
-	AddChild(mpTitleText);
-
-	AddButtons();
+	InitUI();
+	InitLabels();
+	InitButtons();
 }
 
 void TitleScene::Update(float deltaTime, float alphaMul)
@@ -74,45 +45,23 @@ void TitleScene::Update(float deltaTime, float alphaMul)
 	{
 		return;
 	}
+	
 	Scene::Update(deltaTime, alphaMul);
+	
+	//If a touch has been detected then if it's on the music button, toggle the audio and the button, if it's the sound button, toggle the sound and the button, else change to the game scene and clean up.
 	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
 	{
 		if(m_MusicButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
 		{
-			if(m_MusicButton->m_IsVisible)
-			{
-				m_MusicButton->m_IsVisible = false;
-				m_MuteMusicButton->m_IsVisible = true;
-				Audio::PauseMusic();
-			}
-			else
-			{
-				m_MusicButton->m_IsVisible = true;
-				m_MuteMusicButton->m_IsVisible = false;
-				Audio::ResumeMusic();
-			}
+			ToggleMusic();
 		}
 		else if(m_SoundButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
 		{
-			if(m_SoundButton->m_IsVisible)
-			{
-				g_pInput->Reset();
-				m_SoundButton->m_IsVisible = false;
-				m_MuteSoundButton->m_IsVisible = true;
-				Audio::MuteSound();
-			}
-			else
-			{
-				m_SoundButton->m_IsVisible = true;
-				m_MuteSoundButton->m_IsVisible = false;
-				Audio::UnmuteSound();
-			}
+			ToggleSound();
 		}
 		else
 		{	
-			GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
-			Audio::StopMusic();
-			m_Manager->SwitchTo(gameScene);
+			ChangeSceneAndCleanUp();
 		}
 		g_pInput->Reset();
 	}
@@ -126,6 +75,131 @@ void TitleScene::Render()
 void TitleScene::Reset()
 {
 	Audio::PlayMusic(g_pResources->GetMenuMusicFilename(), true);
+	//If the sound and music has been turned off in another scene then set the buttons on this scene to reflect this.
+	SetSoundAndMusicButtons();
+}
+
+void TitleScene::InitButtons()
+{
+	m_MusicButton = new CSprite();
+	m_MusicButton->m_X = ((float) IwGxGetScreenWidth() - (BUTTON_STARTING_X*m_XGraphicsScale) - (BUTTON_SPACING*m_XGraphicsScale));
+	m_MusicButton->m_Y = BUTTON_STARTING_Y*m_YGraphicsScale;
+	m_MusicButton->SetImage(g_pResources->GetMusicButton());
+	m_MusicButton->m_H = m_MusicButton->GetImage()->GetHeight();
+	m_MusicButton->m_W = m_MusicButton->GetImage()->GetWidth();
+	float buttonScale = BUTTON_SPACING / m_MusicButton->m_H;
+	float buttonXScale = m_XGraphicsScale * buttonScale;
+	float buttonYScale = m_YGraphicsScale * buttonScale;
+	m_MusicButton->m_ScaleX = buttonXScale;
+	m_MusicButton->m_ScaleY = buttonYScale;
+	AddChild(m_MusicButton);
+	
+	m_MuteMusicButton = new CSprite();
+	m_MuteMusicButton->m_X = m_MusicButton->m_X;
+	m_MuteMusicButton->m_Y = m_MusicButton->m_Y;
+	m_MuteMusicButton->SetImage(g_pResources->GetMuteMusicButton());
+	m_MuteMusicButton->m_H = m_MuteMusicButton->GetImage()->GetHeight();
+	m_MuteMusicButton->m_W = m_MuteMusicButton->GetImage()->GetWidth();
+	m_MuteMusicButton->m_ScaleX = buttonXScale;
+	m_MuteMusicButton->m_ScaleY = buttonYScale;
+	m_MuteMusicButton->m_IsVisible = false;
+	AddChild(m_MuteMusicButton);
+
+	m_SoundButton = new CSprite();
+	m_SoundButton->m_X = (m_MusicButton->m_X - (BUTTON_X_OFFSET*m_XGraphicsScale));
+	m_SoundButton->m_Y = m_MusicButton->m_Y;
+	m_SoundButton->SetImage(g_pResources->GetSoundButton());
+	m_SoundButton->m_H = m_SoundButton->GetImage()->GetHeight();
+	m_SoundButton->m_W = m_SoundButton->GetImage()->GetWidth();
+	m_SoundButton->m_ScaleX = buttonXScale;
+	m_SoundButton->m_ScaleY = buttonYScale;
+	AddChild(m_SoundButton);
+
+	m_MuteSoundButton = new CSprite();
+	m_MuteSoundButton->m_X =m_SoundButton->m_X;
+	m_MuteSoundButton->m_Y = m_MusicButton->m_Y;
+	m_MuteSoundButton->SetImage(g_pResources->GetMuteSoundButton());
+	m_MuteSoundButton->m_H = m_MuteSoundButton->GetImage()->GetHeight();
+	m_MuteSoundButton->m_W = m_MuteSoundButton->GetImage()->GetWidth();
+	m_MuteSoundButton->m_ScaleX = buttonXScale;
+	m_MuteSoundButton->m_ScaleY = buttonYScale;
+	m_MuteSoundButton->m_IsVisible = false;
+	AddChild(m_MuteSoundButton);	
+}
+
+void TitleScene::InitUI()
+{
+	m_Background = new CSprite();
+	m_Background->m_X = (float)IwGxGetScreenWidth() * 0.5f;
+	m_Background->m_Y = (float)IwGxGetScreenHeight() * 0.5f;
+	m_Background->SetImage(g_pResources->getTitleBackground());
+	m_Background->m_W = m_Background->GetImage()->GetWidth();
+	
+	m_Background->m_H = m_Background->GetImage()->GetHeight();
+	
+	m_Background->m_AnchorX = 0.5;
+	m_Background->m_AnchorY = 0.5;
+ 
+	//Fit background to screen size
+	m_Background->m_ScaleX = (float)IwGxGetScreenWidth() / m_Background->m_W;
+	m_Background->m_ScaleY = (float)IwGxGetScreenHeight() / m_Background->m_H;
+	AddChild(m_Background);
+}
+
+void TitleScene::InitLabels()
+{
+	m_TitleText = new CLabel();
+	m_TitleText->m_X = (float)IwGxGetScreenWidth() * 0.5f;
+	m_TitleText->m_Y = (float)IwGxGetScreenHeight() * 0.65f;
+	m_TitleText->SetFont(g_pResources->getFont());
+	m_TitleText->SetText("TAP TO BEGIN");
+	m_TitleText->m_AnchorX = 0.5;
+	m_TitleText->m_AnchorY = 0.5;
+	m_TitleText->m_Color = CColor(0,0,0,255);
+	AddChild(m_TitleText);
+}
+
+void TitleScene::ToggleMusic()
+{
+	if(m_MusicButton->m_IsVisible)
+	{
+		m_MusicButton->m_IsVisible = false;
+		m_MuteMusicButton->m_IsVisible = true;
+		Audio::MuteMusic();
+	}
+	else
+	{
+		m_MusicButton->m_IsVisible = true;
+		m_MuteMusicButton->m_IsVisible = false;
+		Audio::UnmuteMusic();
+	}
+}
+
+void TitleScene::ToggleSound()
+{
+	if(m_SoundButton->m_IsVisible)
+	{
+		g_pInput->Reset();
+		m_SoundButton->m_IsVisible = false;
+		m_MuteSoundButton->m_IsVisible = true;
+		Audio::MuteSound();
+	}
+	else
+	{
+		m_SoundButton->m_IsVisible = true;
+		m_MuteSoundButton->m_IsVisible = false;
+		Audio::UnmuteSound();
+	}
+}
+void TitleScene::ChangeSceneAndCleanUp()
+{
+	GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
+	Audio::StopMusic();
+	m_Manager->SwitchTo(gameScene);
+}
+
+void TitleScene::SetSoundAndMusicButtons()
+{
 	if(Audio::m_musicIsOn)
 	{
 		m_MusicButton->m_IsVisible = true;
@@ -147,53 +221,4 @@ void TitleScene::Reset()
 		m_SoundButton->m_IsVisible = false;
 		m_MuteSoundButton->m_IsVisible = true;
 	}
-}
-
-void TitleScene::AddButtons()
-{
-	m_MusicButton = new CSprite();
-	m_MusicButton->m_X = ((float) IwGxGetScreenWidth() - (BUTTON_STARTING_X*m_XGraphicsScale) - (BUTTON_SPACING*m_XGraphicsScale));
-	m_MusicButton->m_Y = BUTTON_STARTING_Y*m_YGraphicsScale;
-	m_MusicButton->SetImage(g_pResources->GetMusicButton());
-	m_MusicButton->m_H = m_MusicButton->GetImage()->GetHeight();
-	m_MusicButton->m_W = m_MusicButton->GetImage()->GetWidth();
-	float buttonScale = BUTTON_SPACING / m_MusicButton->m_H;
-	float buttonXScale = m_XGraphicsScale * buttonScale;
-	float buttonYScale = m_YGraphicsScale * buttonScale;
-	m_MusicButton->m_ScaleX = buttonXScale;
-	m_MusicButton->m_ScaleY = buttonYScale;
-	AddChild(m_MusicButton);
-	
-	m_MuteMusicButton = new CSprite();
-	m_MuteMusicButton->m_X = ((float) IwGxGetScreenWidth() - (BUTTON_STARTING_X*m_XGraphicsScale) - (BUTTON_SPACING*m_XGraphicsScale));
-	m_MuteMusicButton->m_Y = BUTTON_STARTING_Y*m_YGraphicsScale;
-	m_MuteMusicButton->SetImage(g_pResources->GetMuteMusicButton());
-	m_MuteMusicButton->m_H = m_MuteMusicButton->GetImage()->GetHeight();
-	m_MuteMusicButton->m_W = m_MuteMusicButton->GetImage()->GetWidth();
-	m_MuteMusicButton->m_ScaleX = buttonXScale;
-	m_MuteMusicButton->m_ScaleY = buttonYScale;
-	m_MuteMusicButton->m_IsVisible = false;
-	AddChild(m_MuteMusicButton);
-
-	m_SoundButton = new CSprite();
-	m_SoundButton->m_X = ((float) IwGxGetScreenWidth() - (BUTTON_STARTING_X*m_XGraphicsScale) - (BUTTON_X_OFFSET*m_XGraphicsScale) - (BUTTON_SPACING*m_XGraphicsScale));
-	m_SoundButton->m_Y = BUTTON_STARTING_Y*m_YGraphicsScale;
-	m_SoundButton->SetImage(g_pResources->GetSoundButton());
-	m_SoundButton->m_H = m_SoundButton->GetImage()->GetHeight();
-	m_SoundButton->m_W = m_SoundButton->GetImage()->GetWidth();
-	m_SoundButton->m_ScaleX = buttonXScale;
-	m_SoundButton->m_ScaleY = buttonYScale;
-	AddChild(m_SoundButton);
-
-	m_MuteSoundButton = new CSprite();
-	m_MuteSoundButton->m_X = ((float) IwGxGetScreenWidth() - (BUTTON_STARTING_X*m_XGraphicsScale) - (BUTTON_X_OFFSET*m_XGraphicsScale) - (BUTTON_SPACING*m_XGraphicsScale));
-	m_MuteSoundButton->m_Y = BUTTON_STARTING_Y*m_YGraphicsScale;
-	m_MuteSoundButton->SetImage(g_pResources->GetMuteSoundButton());
-	m_MuteSoundButton->m_H = m_MuteSoundButton->GetImage()->GetHeight();
-	m_MuteSoundButton->m_W = m_MuteSoundButton->GetImage()->GetWidth();
-	m_MuteSoundButton->m_ScaleX = buttonXScale;
-	m_MuteSoundButton->m_ScaleY = buttonYScale;
-	m_MuteSoundButton->m_IsVisible = false;
-	AddChild(m_MuteSoundButton);
-	
 }

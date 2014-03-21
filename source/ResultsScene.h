@@ -54,17 +54,34 @@ public:
 	void    Reset();
 
 private: 
-	CLabel * scoreText;
-	CLabel * tapToContinue;
+	//Sprites
 	CSprite* background;
-	float delay;
-
 	CSprite* m_MusicButton;
 	CSprite* m_MuteMusicButton;
 	CSprite* m_SoundButton;
 	CSprite* m_MuteSoundButton;
 
-	void AddButtons();
+	//Labels
+	CLabel * m_ScoreLabel;
+	CLabel * m_TapLabel;
+
+	//Helper methods
+
+	//Init helpers
+	void InitUI();
+	void InitLabels();
+	void InitButtons();
+
+	//Button helpers
+	void ToggleMusic();
+	void ToggleSound();
+	void SetSoundAndMusicButtons();
+
+	//Scene helpers
+	void ChangeSceneAndCleanUp();
+	void UpdateLabels();
+
+	float m_Delay;
 };
 }
 

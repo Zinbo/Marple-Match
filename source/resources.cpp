@@ -78,6 +78,8 @@ Resources::~Resources()
 	{
 		delete Characters[i];
 	}
+	delete Characters[NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES];
+	delete Characters[NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES+1];
 }
 
 // Global resources

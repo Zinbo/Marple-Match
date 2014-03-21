@@ -141,8 +141,8 @@ public:
 
 	static void	MuteSound();
 	static void	UnmuteSound();
-	static void	PauseMusic();
-	static void	ResumeMusic();
+	static void	MuteMusic();
+	static void	UnmuteMusic();
 
 	static bool m_musicIsOn;
 	static bool m_soundIsOn;

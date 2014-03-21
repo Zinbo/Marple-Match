@@ -115,13 +115,13 @@ void Audio::UnmuteSound()
 	Audio::m_soundIsOn = true;
 }
 
-void Audio::PauseMusic()
+void Audio::MuteMusic()
 {
 	s3eAudioSetInt(S3E_AUDIO_VOLUME, 0);
 	Audio::m_musicIsOn = false;
 }
 
-void Audio::ResumeMusic()
+void Audio::UnmuteMusic()
 {
 	s3eAudioSetInt(S3E_AUDIO_VOLUME, S3E_AUDIO_MAX_VOLUME);
 	Audio::m_musicIsOn = true;
