@@ -9,7 +9,7 @@
 
 using namespace Iw2DSceneGraphCore;
 using namespace Iw2DSceneGraph;
-#define STAR_HEIGHT 65
+#define STAR_HEIGHT 60
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 480
 #define GOLD_CHAR_INDEX 12

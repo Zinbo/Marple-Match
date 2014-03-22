@@ -22,7 +22,7 @@ class ResultsScene : public Scene
 {
 
 public:
-    ResultsScene();
+	ResultsScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu);
     ~ResultsScene();
 
     /**
@@ -56,10 +56,7 @@ public:
 private: 
 	//Sprites
 	CSprite* background;
-	CSprite* m_MusicButton;
-	CSprite* m_MuteMusicButton;
-	CSprite* m_SoundButton;
-	CSprite* m_MuteSoundButton;
+	CSprite* m_SettingsButton;
 
 	//Labels
 	CLabel * m_ScoreLabel;
@@ -73,9 +70,8 @@ private:
 	void InitButtons();
 
 	//Button helpers
-	void ToggleMusic();
-	void ToggleSound();
-	void SetSoundAndMusicButtons();
+	void ToggleButtons();
+	void ToggleSettingMenu();
 
 	//Scene helpers
 	void ChangeSceneAndCleanUp();

@@ -40,6 +40,7 @@ protected:
 	CIw2DImage*		TitleBackground;
 	CIw2DImage*		ResultBackground;
 	CIw2DImage*		GameBackground;
+	CIw2DImage*		m_SettingsMenuDialog;
     CIw2DFont*      Font;
 	CIw2DImage*		Characters[(NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS)+2];
 	
@@ -48,9 +49,10 @@ protected:
 	CIw2DImage *	m_MuteMusicButton;
 	CIw2DImage *	m_SoundButton;
 	CIw2DImage *	m_MuteSoundButton;
-	CIw2DImage *	m_PauseButton;
+	CIw2DImage *	m_PlayButton;
 	CIw2DImage *	m_ExitButton;
-	
+	CIw2DImage*		m_SettingsButton;
+
 	char*			m_MatchSound;
 	char*			m_NonmatchSound;
 	char*			m_GoldPickupSound;
@@ -68,14 +70,15 @@ public:
 	CIw2DImage*     getResultBackground()						{ return ResultBackground; }
 	CIw2DFont*		getFont()									{ return Font; }
 	CIw2DImage*		GetCharacter(int index)						{ return Characters[index]; }
+	CIw2DImage*		GetSettingsMenuDialog()						{return m_SettingsMenuDialog;}
 	
 	CIw2DImage*		GetMusicButton()							{ return m_MusicButton; }
 	CIw2DImage*		GetMuteMusicButton()						{ return m_MuteMusicButton; }
 	CIw2DImage*		GetSoundButton()							{ return m_SoundButton; }
 	CIw2DImage*		GetMuteSoundButton()						{ return m_MuteSoundButton; }
-	CIw2DImage*		GetPauseButton()							{ return m_PauseButton; }
+	CIw2DImage*		GetPlayButton()								{ return m_PlayButton; }
 	CIw2DImage*		GetExitButton()								{ return m_ExitButton; }
-
+	CIw2DImage*		GetSettingsButton()							{ return m_SettingsButton; }
 	
 	char*			GetMatchSoundFilename()						{ return m_MatchSound; }
 	char*			GetNonmatchSoundFilename()					{ return m_NonmatchSound; }

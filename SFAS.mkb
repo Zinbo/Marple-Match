@@ -42,9 +42,11 @@ files
 
 	Timer.cpp
 	CharacterBuilder.cpp
+	SettingsMenu.cpp
 
 	Timer.h
 	CharacterBuilder.h
+	SettingsMenu.h
 	
 }
 

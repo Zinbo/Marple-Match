@@ -32,7 +32,7 @@ class GameScene : public Scene
 {
 
 public:
-    GameScene();
+	GameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu);
     ~GameScene();
 
     /**
@@ -66,16 +66,17 @@ public:
      *
      * @brief Render the scene.
      */
-    void Render();
+    void Render(); 
 
 private: 
 	//Enums
 	enum { GridWidth = 4, GridHeight = 6 };
-	enum { TouchScore = 10, TimeLimit = 120 };
+	enum { TouchScore = 10, TimeLimit = 5 };
 	enum GameState
 	{
 		keGameStart,
 		keGamePlaying,
+		keGamePause,
 		keNonMatch,
 		keGameOver
 	};
@@ -83,12 +84,7 @@ private:
 
 	//Sprites
 	CSprite* m_Background;
-	CSprite* m_ExitButton;
-	CSprite* m_PauseButton;
-	CSprite* m_MusicButton;
-	CSprite* m_MuteMusicButton;
-	CSprite* m_SoundButton;
-	CSprite* m_MuteSoundButton;
+	CSprite* m_SettingsButton;
 
 	//Labels
 	CLabel* m_ScoreLabel;
@@ -136,20 +132,21 @@ private:
 
 	//Reset helpers
 	void ResetBoard();
-	void SetSoundAndMusicButtons();
-	
-	//Button helpers
-	void ToggleMusicButton();
-	void ToggleSoundButton();
+
+	//Settings helpers
 	void ToggleButtons();
+	void ToggleSettingMenu();
+	void PauseGame();
+	void ResumeGame();
 	
 	//Powerup helpers
 	void RemovePairsPowerUp(GridItem* selected);
 	static void ResetDoublePoints(Timer* timer, void* userData);
 	
-	//Time beep helpers 
+	//Time helpers 
 	bool AMinuteHasGoneBy(float deltaTime);
 	bool InTheFinal10Seconds(float deltaTime);
+	void UpdateTime(float deltaTime);
 
 	//Endgame helpers
 	void CleanUpAndChangeScene();

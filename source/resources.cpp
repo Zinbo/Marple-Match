@@ -24,6 +24,7 @@ Resources::Resources()
 	TitleBackground = Iw2DCreateImage( "textures/startMenu.png" );
 	GameBackground = Iw2DCreateImage( "textures/gameBackground.png" );
 	ResultBackground = Iw2DCreateImage( "textures/resultScreen.png" );
+	m_SettingsMenuDialog = Iw2DCreateImage("textures/settingsMenuDialog.png");
 	for(int i = 0; i < NUMBER_OF_CHARACTER_COLOURS; i++)
 	{
 		for(int j = 0; j < NUMBER_OF_CHARACTER_TYPES; j++)
@@ -46,8 +47,9 @@ Resources::Resources()
 	m_MuteMusicButton = Iw2DCreateImage("textures/muteMusicButton.png");
 	m_SoundButton = Iw2DCreateImage("textures/soundButton.png");
 	m_MuteSoundButton = Iw2DCreateImage("textures/muteSoundButton.png");
-	m_PauseButton = Iw2DCreateImage("textures/pauseButton.png");
+	m_PlayButton = Iw2DCreateImage("textures/playButton.png");
 	m_ExitButton = Iw2DCreateImage("textures/exitButton.png");
+	m_SettingsButton = Iw2DCreateImage("textures/settingsButton.png");
 
 	//Store sound filenames;
 	m_MatchSound = "audio/Match.wav";
@@ -71,7 +73,7 @@ Resources::~Resources()
 	delete m_MuteMusicButton;
 	delete m_SoundButton;
 	delete m_MuteSoundButton;
-	delete m_PauseButton;
+	delete m_PlayButton;
 	delete m_ExitButton;
 	delete Font;
 	for(int i = 0; i < NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS; i++)

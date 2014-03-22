@@ -9,13 +9,12 @@
 #define TIME_TEXT_Y 13.0f
 #define TIME_TEXT_HEIGHT 19.0f
 #define TIME_TEXT_WIDTH 71.0f
-#define STAR_X_OFFSET 55.0f
-#define STAR_Y_OFFSET 85.0f
-#define STAR_SPACING 70.0f
-#define BUTTON_SPACING 25.0F
-#define BUTTON_X_OFFSET 36.0f
-#define BUTTON_STARTING_X 94.0f
-#define BUTTON_STARTING_Y 7.0f
+#define STAR_X_OFFSET 61.0f
+#define STAR_Y_OFFSET 111.0f
+#define STAR_SPACING 66.0f
+#define BUTTON_SPACING 50.0f
+#define BUTTON_STARTING_X 1.0f
+#define BUTTON_STARTING_Y 1.0f
 #define GOLD_PROB 0.1
 #define SILVER_PROB 0.2
 using namespace SFAS2014;
@@ -25,12 +24,16 @@ using namespace SFAS2014;
 // GameScene class
 //
 //
-GameScene::GameScene() 
+GameScene::GameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu) 
 	: m_Time((float) TimeLimit), m_DoublePointsTimer(NULL), m_FirstSelectedItem(NULL), 
 	m_SecondSelectedItem(NULL), m_DelayTime(0), m_DoublePoints(false),
 	m_GameState(keGameStart), m_NoOfMatchedPairs(0)
+	
 {
 	IwRandSeed( time( 0 ) );
+	m_XGraphicsScale = xGraphicsScale;
+	m_YGraphicsScale = yGraphicsScale;
+	m_SettingsMenu = settingMenu;
 }
 
 GameScene::~GameScene()
@@ -64,18 +67,19 @@ void GameScene::Init()
 
 	//Initialise the game board
 	InitBoard();
+
 }
 
 void GameScene::Reset()
 {
+	Scene::Reset();
 	//If we need to restart the game, then set the game state to gameStart
 	if(m_GameState == keGameOver)
 	{
 		m_GameState = keGameStart;
 	}
-
 	//If the sound and music has been turned off in another scene then set the buttons on this scene to reflect this.
-	SetSoundAndMusicButtons();
+	//SetSoundAndMusicButtons();
 	
 }
 
@@ -88,10 +92,16 @@ void GameScene::Update(float deltaTime, float alphaMul)
 	}
 	Scene::Update(deltaTime, alphaMul);
 
-	//Check to see if any buttons have been pressed.
-	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
+	if( m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
 	{
-		ToggleButtons();
+		if(m_SettingsMenu->m_IsVisible && m_SettingsMenu->HitTest(g_pInput->m_X, g_pInput->m_Y))
+		{
+			ToggleButtons();
+		}
+		else if(m_SettingsButton->HitTest(g_pInput->m_X, g_pInput->m_Y) || m_SettingsMenu->m_IsVisible)
+		{
+			ToggleSettingMenu();
+		}
 	}
 
 	//call the right method for the correct game state
@@ -103,12 +113,20 @@ void GameScene::Update(float deltaTime, float alphaMul)
 		break;
 	case keGamePlaying:
 		CheckForMatches();
+		UpdateTime(deltaTime);
+		UpdateLabels();
 		break;
 	case keNonMatch:
 		DelayGameForNonmatch(deltaTime);
+		UpdateTime(deltaTime);
+		UpdateLabels();
 		break;
 	}
+	
+}
 
+void GameScene::UpdateTime(float deltaTime)
+{
 	// If a minute has gone by, or we're in the final 10 seconds of the game, then beep to alert the user.
 	if((m_Time < TimeLimit) && 
 		AMinuteHasGoneBy(deltaTime) || 
@@ -125,10 +143,6 @@ void GameScene::Update(float deltaTime, float alphaMul)
 
 	//Update the timer
 	m_Time -= deltaTime;
-
-	// Update the hud strings
-	UpdateLabels();
-	
 }
 
 void GameScene::Render()
@@ -158,7 +172,7 @@ void GameScene::SetupCharactersArray(std::vector<CharacterBuilder> &characterTyp
 		{
 			charToMake.SetGold(true);
 		}
-		else if(randNum <= 0.5)
+		else if(randNum <= SILVER_PROB)
 		{
 			charToMake.SetSilver(true);
 		}
@@ -289,6 +303,8 @@ void GameScene::ProcessOddPowerupMatch()
 	//meaning that when they are matched and removed they will leave odd corresponding pairs. The second left over character is changed to have the same
 	//character index as the first left over character, so that there are no odd characters left on the board.
 	CharacterBuilder charToMake(m_FirstSelectedItem->GetCharacterIndex());
+	charToMake.SetGold(m_FirstSelectedItem->IsGold());
+	charToMake.SetSilver(m_FirstSelectedItem->IsSilver());
 	FindOtherHalfOfPair(m_FirstSelectedItem)->RemovePowerup();
 	FindOtherHalfOfPair(m_SecondSelectedItem)->SetCharacterImage(charToMake);
 
@@ -424,79 +440,16 @@ void GameScene::ResetBoard()
 
 void GameScene::InitButtons()
 {
-	//add Pause button first at the starting x and y position.
-	m_PauseButton = new CSprite();
-	m_PauseButton->m_X = BUTTON_STARTING_X*m_XGraphicsScale;
-	m_PauseButton->m_Y = BUTTON_STARTING_Y*m_YGraphicsScale;
-	m_PauseButton->SetImage(g_pResources->GetPauseButton());
-	m_PauseButton->m_H = m_PauseButton->GetImage()->GetHeight();
-	m_PauseButton->m_W = m_PauseButton->GetImage()->GetWidth();
-
-	//Set the scale for all buttons here. The button image should be scaled to be the size of BUTTON_SPACING, and then scaled to match the size of the screen.
-	float buttonScale = BUTTON_SPACING / m_PauseButton->m_H;
-	float buttonXScale = m_XGraphicsScale * buttonScale;
-	float buttonYScale = m_YGraphicsScale * buttonScale;
-	
-	m_PauseButton->m_ScaleX = buttonXScale;
-	m_PauseButton->m_ScaleY = buttonYScale;
-	AddChild(m_PauseButton);
-
-	//Add music button next, with BUTTON_X_OFFSET difference in space between the pause and the music button.
-	m_MusicButton = new CSprite();
-	m_MusicButton->m_X = m_PauseButton->m_X + (BUTTON_X_OFFSET*m_XGraphicsScale);
-	m_MusicButton->m_Y = m_PauseButton->m_Y;
-	m_MusicButton->SetImage(g_pResources->GetMusicButton());
-	m_MusicButton->m_H = m_MusicButton->GetImage()->GetHeight();
-	m_MusicButton->m_W = m_MusicButton->GetImage()->GetWidth();
-	m_MusicButton->m_ScaleX = buttonXScale;
-	m_MusicButton->m_ScaleY = buttonYScale;
-	AddChild(m_MusicButton);
-
-	//Add the mute music button in the same location as the music button, but make it invisible at first.
-	m_MuteMusicButton = new CSprite();
-	m_MuteMusicButton->m_X = m_MusicButton->m_X;
-	m_MuteMusicButton->m_Y = m_PauseButton->m_Y;
-	m_MuteMusicButton->SetImage(g_pResources->GetMuteMusicButton());
-	m_MuteMusicButton->m_H = m_MuteMusicButton->GetImage()->GetHeight();
-	m_MuteMusicButton->m_W = m_MuteMusicButton->GetImage()->GetWidth();
-	m_MuteMusicButton->m_ScaleX = buttonXScale;
-	m_MuteMusicButton->m_ScaleY = buttonYScale;
-	m_MuteMusicButton->m_IsVisible = false;
-	AddChild(m_MuteMusicButton);
-
-	//Add the sound button next, with BUTTON_X_OFFSET difference in space between the music and the sound button.
-	m_SoundButton = new CSprite();
-	m_SoundButton->m_X = m_MusicButton->m_X + (BUTTON_X_OFFSET*m_XGraphicsScale);
-	m_SoundButton->m_Y = m_PauseButton->m_Y;
-	m_SoundButton->SetImage(g_pResources->GetSoundButton());
-	m_SoundButton->m_H = m_SoundButton->GetImage()->GetHeight();
-	m_SoundButton->m_W = m_SoundButton->GetImage()->GetWidth();
-	m_SoundButton->m_ScaleX = buttonXScale;
-	m_SoundButton->m_ScaleY = buttonYScale;
-	AddChild(m_SoundButton);
-
-	//Add the mute sound button in the same location as the sound button, but make it invisible at first.
-	m_MuteSoundButton = new CSprite();
-	m_MuteSoundButton->m_X = m_SoundButton->m_X;
-	m_MuteSoundButton->m_Y = m_PauseButton->m_Y;
-	m_MuteSoundButton->SetImage(g_pResources->GetMuteSoundButton());
-	m_MuteSoundButton->m_H = m_MuteSoundButton->GetImage()->GetHeight();
-	m_MuteSoundButton->m_W = m_MuteSoundButton->GetImage()->GetWidth();
-	m_MuteSoundButton->m_ScaleX = buttonXScale;
-	m_MuteSoundButton->m_ScaleY = buttonYScale;
-	m_MuteSoundButton->m_IsVisible = false;
-	AddChild(m_MuteSoundButton);
-
-	//Finally add the exit button, with BUTTON_X_OFFSET difference in space between the sound and the exit button.
-	m_ExitButton = new CSprite();
-	m_ExitButton->m_X = m_SoundButton->m_X + (BUTTON_X_OFFSET*m_XGraphicsScale);
-	m_ExitButton->m_Y = m_PauseButton->m_Y;
-	m_ExitButton->SetImage(g_pResources->GetExitButton());
-	m_ExitButton->m_H = m_ExitButton->GetImage()->GetHeight();
-	m_ExitButton->m_W = m_ExitButton->GetImage()->GetWidth();
-	m_ExitButton->m_ScaleX = buttonXScale;
-	m_ExitButton->m_ScaleY = buttonYScale;
-	AddChild(m_ExitButton);
+	m_SettingsButton = new CSprite();
+	m_SettingsButton->m_X = (135*m_XGraphicsScale);
+	m_SettingsButton->m_Y = (1*m_YGraphicsScale);
+	m_SettingsButton->SetImage(g_pResources->GetSettingsButton());
+	m_SettingsButton->m_H = m_SettingsButton->GetImage()->GetHeight();
+	m_SettingsButton->m_W = m_SettingsButton->GetImage()->GetWidth();
+	float buttonScale = (50 / m_SettingsButton->m_H);
+	m_SettingsButton->m_ScaleX = (buttonScale * m_XGraphicsScale);
+	m_SettingsButton->m_ScaleY = (buttonScale * m_YGraphicsScale);
+	AddChild(m_SettingsButton);
 }
 
 GridItem * GameScene::FindOtherHalfOfPair(GridItem* gridItem)
@@ -579,89 +532,25 @@ void GameScene::InitSound()
 	g_pAudio->UnmuteSound();
 }
 
-void GameScene::SetSoundAndMusicButtons()
-{
-	//If the music isn't muted, then show the music button, else show the mute music button
-	if(Audio::m_musicIsOn)
-	{
-		m_MusicButton->m_IsVisible = true;
-		m_MuteMusicButton->m_IsVisible = false;
-	}
-	else
-	{
-		m_MusicButton->m_IsVisible = false;
-		m_MuteMusicButton->m_IsVisible = true;
-	}
-
-	//If the sound isn't muted, then show the sound button, else show the mute sound button.
-	if(Audio::m_soundIsOn)
-	{
-		m_SoundButton->m_IsVisible = true;
-		m_MuteSoundButton->m_IsVisible = false;
-	}
-	else
-	{
-		m_SoundButton->m_IsVisible = false;
-		m_MuteSoundButton->m_IsVisible = true;
-	}
-}
-
-void GameScene::ToggleMusicButton()
-{
-	//If the music button is showing, then show the mute music button and turn off the music 
-	if(m_MusicButton->m_IsVisible)
-	{
-		m_MusicButton->m_IsVisible = false;
-		m_MuteMusicButton->m_IsVisible = true;
-		Audio::MuteMusic();
-	}
-	//Else the mute music button is showing, so show the music button and turn on the music
-	else
-	{
-		m_MusicButton->m_IsVisible = true;
-		m_MuteMusicButton->m_IsVisible = false;
-		Audio::UnmuteMusic();
-	}
-}
-
-void GameScene::ToggleSoundButton()
-{
-	//If the sound button is showing, then show the mute sound button and turn off the sound 
-	if(m_SoundButton->m_IsVisible)
-	{
-		g_pInput->Reset();
-		m_SoundButton->m_IsVisible = false;
-		m_MuteSoundButton->m_IsVisible = true;
-		Audio::MuteSound();
-	}
-	//Else the mute sound button is showing, so show the sound button and turn on the sound
-	else
-	{
-		m_SoundButton->m_IsVisible = true;
-		m_MuteSoundButton->m_IsVisible = false;
-		Audio::UnmuteSound();
-	}
-}
-
 void GameScene::ToggleButtons()
 {
-	if(m_PauseButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+	if(m_SettingsMenu->GetPlayButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
 		//TODO
 		g_pInput->Reset();
 	}
-	else if(m_MusicButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+	else if(m_SettingsMenu->GetMusicButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
 		g_pInput->Reset();
-		ToggleMusicButton();
+		m_SettingsMenu->ToggleMusic();
 			
 	}
-	else if(m_SoundButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+	else if(m_SettingsMenu->GetSoundButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
 		g_pInput->Reset();
-		ToggleSoundButton();
+		m_SettingsMenu->ToggleSound();
 	}
-	else if(m_ExitButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+	else if(m_SettingsMenu->GetExitButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
 		//TODO
 		g_pInput->Reset();
@@ -700,4 +589,37 @@ void GameScene::UpdateLabels()
 	char timeBuffer[256];
 	sprintf(timeBuffer, "%.2d:%.2d", minutes, seconds );
 	m_TimeLabel->SetText(timeBuffer);
+}
+
+void GameScene::ToggleSettingMenu()
+{
+	if(m_SettingsMenu->m_IsVisible)
+	{
+		m_SettingsMenu->m_IsVisible = false;
+		ResumeGame();
+	}
+	else
+	{
+		m_SettingsMenu->m_IsVisible = true;
+		PauseGame();
+	}
+	g_pInput->Reset();
+}
+
+void GameScene::PauseGame()
+{
+	m_GameState = keGamePause;
+	if(m_DoublePointsTimer)
+	{
+		m_DoublePointsTimer->Pause();
+	}
+}
+
+void GameScene::ResumeGame()
+{
+	m_GameState = keGamePlaying;
+	if(m_DoublePointsTimer)
+	{
+		m_DoublePointsTimer->Resume();
+	}
 }

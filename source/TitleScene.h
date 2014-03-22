@@ -23,7 +23,7 @@ class TitleScene : public Scene
 {
 
 public:
-    TitleScene();
+	TitleScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * SettingsMenu);
     ~TitleScene();
 
     /**
@@ -58,10 +58,7 @@ private:
 
 	//Sprites
 	CSprite* m_Background;
-	CSprite* m_MusicButton;
-	CSprite* m_MuteMusicButton;
-	CSprite* m_SoundButton;
-	CSprite* m_MuteSoundButton;
+	CSprite* m_SettingsButton;
 
 	//Labels
 	CLabel* m_TitleText;
@@ -74,9 +71,8 @@ private:
 	void InitButtons();
 
 	//Button helpers
-	void ToggleMusic();
-	void ToggleSound();
-	void SetSoundAndMusicButtons();
+	void ToggleButtons();
+	void ToggleSettingMenu();
 
 	//Scene helpers
 	void ChangeSceneAndCleanUp();

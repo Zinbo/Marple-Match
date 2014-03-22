@@ -7,6 +7,7 @@
 #define __GAMESCENEMANAGER_H__
 
 #include "scene.h"
+#include "SettingsMenu.h"
 
 namespace SFAS2014
 {
@@ -60,6 +61,9 @@ private:
 	int m_GameScore;
 	bool	m_MusicPlaying;
 	bool	m_SoundPlaying;
+	SettingsMenu* settingsMenu;
+
+	void CreateSettingsMenu();
 
 };
 }
