@@ -33,7 +33,6 @@ TitleScene::TitleScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu 
 
 TitleScene::~TitleScene()
 {
-
 }
 
 void TitleScene::Init()
@@ -145,7 +144,7 @@ void TitleScene::ToggleButtons()
 {
 	if(m_SettingsMenu->GetPlayButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
-		//TODO
+		ToggleSettingMenu();
 		g_pInput->Reset();
 	}
 	else if(m_SettingsMenu->GetMusicButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
@@ -161,7 +160,7 @@ void TitleScene::ToggleButtons()
 	}
 	else if(m_SettingsMenu->GetExitButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
-		//TODO
+		ToggleSettingMenu();
 		g_pInput->Reset();
 	}
 }

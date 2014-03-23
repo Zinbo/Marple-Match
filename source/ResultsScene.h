@@ -58,6 +58,8 @@ private:
 	//Sprites
 	CSprite* background;
 	CSprite* m_SettingsButton;
+	CSprite* m_PlayAgainButton;
+	CSprite* m_MainMenuButton;
 	TopScores* m_TopScores;
 
 	//Labels
@@ -77,7 +79,8 @@ private:
 	void ToggleSettingMenu();
 
 	//Scene helpers
-	void ChangeSceneAndCleanUp();
+	void CleanUp();
+	void SwitchScene(Scene* scene);
 	void SetupLabels();
 
 	//Leaderboard helpers

@@ -40,7 +40,8 @@ Resources::Resources()
 
 
 	// Load fonts
-    m_Size15Font = Iw2DCreateFont("fonts/zorque15.gxfont");
+    m_Size8Font = Iw2DCreateFont("fonts/zorque8.gxfont");
+	m_Size15Font = Iw2DCreateFont("fonts/zorque15.gxfont");
 	m_Size20Font = Iw2DCreateFont("fonts/zorque20.gxfont");
 	m_Size30Font = Iw2DCreateFont("fonts/zorque30.gxfont");
 
@@ -55,6 +56,8 @@ Resources::Resources()
 	m_Player1Button = Iw2DCreateImage("textures/player1Button.png");
 	m_Player2Button = Iw2DCreateImage("textures/player2Button.png");
 	m_InstructionsButton  = Iw2DCreateImage("textures/instructionsButton.png");
+	m_PlayAgainButton = Iw2DCreateImage("textures/PlayAgainButton.png");
+	m_MainMenuButton  = Iw2DCreateImage("textures/MainMenuButton.png");
 
 	//Store sound filenames;
 	m_MatchSound = "audio/Match.wav";
@@ -70,21 +73,29 @@ Resources::Resources()
 
 Resources::~Resources()
 {
-	delete Star;
-	delete TitleBackground;
-	delete GameBackground;
-	delete ResultBackground;
-	delete m_MusicButton;
-	delete m_MuteMusicButton;
-	delete m_SoundButton;
-	delete m_MuteSoundButton;
-	delete m_PlayButton;
-	delete m_ExitButton;
-	delete m_SettingsButton;
-	delete m_SettingsMenuDialog;
-	delete m_Size15Font;
-	delete m_Size20Font;
-	delete m_Size30Font;
+	delete     Star;
+	delete		TitleBackground;
+	delete		ResultBackground;
+	delete		GameBackground;
+	delete		m_SettingsMenuDialog;
+    delete      m_Size8Font;
+	delete      m_Size15Font;
+	delete		m_Size20Font;
+	delete		m_Size30Font;
+	
+	//Buttons
+	delete	m_MusicButton;
+	delete	m_MuteMusicButton;
+	delete	m_SoundButton;
+	delete	m_MuteSoundButton;
+	delete	m_PlayButton;
+	delete	m_ExitButton;
+	delete		m_SettingsButton;
+	delete		m_Player1Button;
+	delete		m_Player2Button;
+	delete		m_InstructionsButton;
+	delete		m_PlayAgainButton;
+	delete		m_MainMenuButton;
 
 
 	for(int i = 0; i < NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS; i++)

@@ -36,12 +36,12 @@ class Resources
 {
 protected:
     CIw2DImage*     Star;
-	CIw2DImage*		Background;
 	CIw2DImage*		TitleBackground;
 	CIw2DImage*		ResultBackground;
 	CIw2DImage*		GameBackground;
 	CIw2DImage*		m_SettingsMenuDialog;
-    CIw2DFont*      m_Size15Font;
+    CIw2DFont*      m_Size8Font;
+	CIw2DFont*      m_Size15Font;
 	CIw2DFont*		m_Size20Font;
 	CIw2DFont*		m_Size30Font;
 	CIw2DImage*		Characters[(NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS)+2];
@@ -57,6 +57,8 @@ protected:
 	CIw2DImage*		m_Player1Button;
 	CIw2DImage*		m_Player2Button;
 	CIw2DImage*		m_InstructionsButton;
+	CIw2DImage*		m_PlayAgainButton;
+	CIw2DImage*		m_MainMenuButton;
 	
 	char*			m_MatchSound;
 	char*			m_NonmatchSound;
@@ -69,10 +71,10 @@ protected:
 
 public:
     CIw2DImage*     getStar()									{ return Star; }
-    CIw2DImage*     getBackground()								{ return Background; }
 	CIw2DImage*     getTitleBackground()						{ return TitleBackground; }
 	CIw2DImage*     getGameBackground()							{ return GameBackground; }
 	CIw2DImage*     getResultBackground()						{ return ResultBackground; }
+	CIw2DFont*		getSize8Font()								{ return m_Size8Font; }
 	CIw2DFont*		getSize15Font()								{ return m_Size15Font; }
 	CIw2DFont*		getSize20Font()								{ return m_Size20Font; }
 	CIw2DFont*		getSize30Font()								{ return m_Size30Font; }
@@ -89,7 +91,9 @@ public:
 	CIw2DImage*		GetPlayer1Button()							{ return m_Player1Button; }
 	CIw2DImage*		GetPlayer2Button()							{ return m_Player2Button; }
 	CIw2DImage*		GetInstructionsButton()						{ return m_InstructionsButton; }
-	
+	CIw2DImage*		GetPlayAgainButton()						{ return m_PlayAgainButton; }
+	CIw2DImage*		GetMainMenuButton()							{ return m_MainMenuButton; }
+
 	char*			GetMatchSoundFilename()						{ return m_MatchSound; }
 	char*			GetNonmatchSoundFilename()					{ return m_NonmatchSound; }
 	char*			GetGoldPickupSoundFilename()				{ return m_GoldPickupSound; }

@@ -73,8 +73,7 @@ private:
 	enum { GridWidth = 4, GridHeight = 6 };
 	enum { TouchScore = 10, TimeLimit = 10 };
 	enum GameState
-	{
-		keGameStart,
+	{                                                                                                                                                                                                                                                                
 		keGamePlaying,
 		keGamePause,
 		keNonMatch,
@@ -89,6 +88,8 @@ private:
 	//Labels
 	CLabel* m_ScoreLabel;
 	CLabel* m_TimeLabel;
+	CLabel* m_UpdateToScoreLabel;
+	CLabel* m_UpdateToTimeLabel;
 	
 	//Flags
 	bool m_DoublePoints;
@@ -117,10 +118,13 @@ private:
 	void RemoveMatchedCharacterPairFromList();
 	static void RemoveMatchedCharacters(Timer* timer, void* userData);
 	bool StarHasBeenTouched(int gridIndex);
-	void IncrementScore();
+	void IncrementScore(int amount);
 	void ProcessIncorrectMatch();
 	void ProcessOddPowerupMatch();
+	void DisplayUpdateToScore(char scoreBonus[]);
+	void DisplayUpdateToTime(char timeBonus[]);
 	GridItem* FindOtherHalfOfPair(GridItem* gridItem);
+	void FadeLabels();
 
 	//Init helpers
 	void InitBoard();

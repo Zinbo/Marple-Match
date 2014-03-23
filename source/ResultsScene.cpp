@@ -13,6 +13,12 @@
 #define BUTTON_STARTING_X 1.0f
 #define BUTTON_STARTING_Y 1.0f
 
+#define MAIN_MENU_BUTTON_X 184.0f
+#define MAIN_MENU_BUTTON_Y 384.0f
+
+#define PLAY_AGAIN_BUTTON_X 24.0f
+#define PLAY_AGAIN_BUTTON_Y 384.0f
+
 using namespace SFAS2014;
 
 //
@@ -63,9 +69,15 @@ void ResultsScene::Update(float deltaTime, float alphaMul)
 		{
 			ToggleSettingMenu();
 		}
-		else
+		else if(m_PlayAgainButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
 		{
-			ChangeSceneAndCleanUp();
+			GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
+			SwitchScene(gameScene);
+		}
+		else if(m_MainMenuButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+		{
+			TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
+			SwitchScene(titleScene);
 		}
 		g_pInput->Reset();
 	}
@@ -86,6 +98,26 @@ void ResultsScene::InitButtons()
 	m_SettingsButton->m_ScaleY = (buttonScale * m_YGraphicsScale);
 	AddChild(m_SettingsButton);
 
+	m_PlayAgainButton = new CSprite();
+	m_PlayAgainButton->m_X = PLAY_AGAIN_BUTTON_X * m_XGraphicsScale;
+	m_PlayAgainButton->m_Y = PLAY_AGAIN_BUTTON_Y * m_YGraphicsScale;
+	m_PlayAgainButton->SetImage(g_pResources->GetPlayAgainButton());
+	m_PlayAgainButton->m_H = m_PlayAgainButton->GetImage()->GetHeight();
+	m_PlayAgainButton->m_W = m_PlayAgainButton->GetImage()->GetWidth();
+	m_PlayAgainButton->m_ScaleX = m_XGraphicsScale;
+	m_PlayAgainButton->m_ScaleY = m_YGraphicsScale;
+	AddChild(m_PlayAgainButton);
+
+	m_MainMenuButton = new CSprite();
+	m_MainMenuButton->m_X = MAIN_MENU_BUTTON_X * m_XGraphicsScale;
+	m_MainMenuButton->m_Y = MAIN_MENU_BUTTON_Y * m_YGraphicsScale;
+	m_MainMenuButton->SetImage(g_pResources->GetMainMenuButton());
+	m_MainMenuButton->m_H = m_MainMenuButton->GetImage()->GetHeight();
+	m_MainMenuButton->m_W = m_MainMenuButton->GetImage()->GetWidth();
+	m_MainMenuButton->m_ScaleX = m_XGraphicsScale;
+	m_MainMenuButton->m_ScaleY = m_YGraphicsScale;
+	AddChild(m_MainMenuButton);
+
 }
 
 void ResultsScene::ToggleButtons()
@@ -94,6 +126,7 @@ void ResultsScene::ToggleButtons()
 	{
 		//TODO
 		g_pInput->Reset();
+		ToggleSettingMenu();
 	}
 	else if(m_SettingsMenu->GetMusicButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
@@ -104,11 +137,14 @@ void ResultsScene::ToggleButtons()
 	else if(m_SettingsMenu->GetSoundButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
 		g_pInput->Reset();
+
 		m_SettingsMenu->ToggleSound();
 	}
 	else if(m_SettingsMenu->GetExitButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
-		//TODO
+		ToggleSettingMenu();
+		TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
+		SwitchScene(titleScene);
 		g_pInput->Reset();
 	}
 }
@@ -125,11 +161,15 @@ void ResultsScene::ToggleSettingMenu()
 	}
 }
 
-void ResultsScene::ChangeSceneAndCleanUp()
+void ResultsScene::CleanUp()
 {
-	TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
 	Audio::StopMusic();
-	m_Manager->SwitchTo(titleScene);
+}
+
+void ResultsScene::SwitchScene(Scene* scene)
+{
+	CleanUp();
+	m_Manager->SwitchTo(scene);
 }
 
 void ResultsScene::Reset()

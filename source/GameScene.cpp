@@ -5,10 +5,12 @@
 
 #include "GameScene.h"
 
-#define TIME_TEXT_X 2.0f
-#define TIME_TEXT_Y 13.0f
-#define TIME_TEXT_HEIGHT 19.0f
-#define TIME_TEXT_WIDTH 71.0f
+#define TIME_TEXT_X 7.0f
+#define TIME_TEXT_Y 25.0f
+#define SCORE_TEXT_X 213.0f
+#define SCORE_TEXT_Y 25.0f
+#define TIME_TEXT_HEIGHT 20.0f
+#define TIME_TEXT_WIDTH 100.0f
 #define STAR_X_OFFSET 61.0f
 #define STAR_Y_OFFSET 111.0f
 #define STAR_SPACING 66.0f
@@ -17,6 +19,17 @@
 #define BUTTON_STARTING_Y 1.0f
 #define GOLD_PROB 0.1
 #define SILVER_PROB 0.2
+
+#define UPDATE_TO_SCORE_X 160.0f
+#define UPDATE_TO_SCORE_Y 55.0f
+#define UPDATE_TO_SCORE_HEIGHT 15.0f
+#define UPDATE_TO_SCORE_WIDTH 150.0f
+
+#define UPDATE_TO_TIME_X 10.0f
+#define UPDATE_TO_TIME_Y 55.0f
+#define UPDATE_TO_TIME_HEIGHT 15.0f
+#define UPDATE_TO_TIME_WIDTH 150.0f
+
 using namespace SFAS2014;
 
 //
@@ -27,7 +40,7 @@ using namespace SFAS2014;
 GameScene::GameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu) 
 	: m_Time((float) TimeLimit), m_DoublePointsTimer(NULL), m_FirstSelectedItem(NULL), 
 	m_SecondSelectedItem(NULL), m_DelayTime(0), m_DoublePoints(false),
-	m_GameState(keGameStart), m_NoOfMatchedPairs(0)
+	m_GameState(keGamePlaying), m_NoOfMatchedPairs(0)
 	
 {
 	IwRandSeed( time( 0 ) );
@@ -73,11 +86,15 @@ void GameScene::Init()
 void GameScene::Reset()
 {
 	Scene::Reset();
-	//If we need to restart the game, then set the game state to gameStart
-	if(m_GameState == keGameOver)
+	if(m_GameState = keGameOver)
 	{
-		m_GameState = keGameStart;
+		ResetBoard();
 	}
+	
+	m_Time = (float)TimeLimit;
+	((GameSceneManager*) m_Manager)->SetScore(0);
+	Audio::PlayMusic(g_pResources->GetGameMusicFilename(), true);
+	UpdateLabels();
 	//If the sound and music has been turned off in another scene then set the buttons on this scene to reflect this.
 	//SetSoundAndMusicButtons();
 	
@@ -107,19 +124,20 @@ void GameScene::Update(float deltaTime, float alphaMul)
 	//call the right method for the correct game state
 	switch(m_GameState)
 	{
-	case keGameStart:
-		StartGame();
+	case keGameOver:
 		m_GameState = keGamePlaying;
 		break;
 	case keGamePlaying:
 		CheckForMatches();
 		UpdateTime(deltaTime);
 		UpdateLabels();
+		FadeLabels();
 		break;
 	case keNonMatch:
 		DelayGameForNonmatch(deltaTime);
 		UpdateTime(deltaTime);
 		UpdateLabels();
+		FadeLabels();
 		break;
 	}
 	
@@ -150,16 +168,6 @@ void GameScene::Render()
 	Scene::Render();
 }
 
-void GameScene::StartGame()
-{
-	//Reset all of the stars to visible and randomise the character pairs.
-	ResetBoard();
-	
-	m_Time = (float)TimeLimit;
-	((GameSceneManager*) m_Manager)->SetScore(0);
-	Audio::PlayMusic(g_pResources->GetGameMusicFilename(), true);
-}
-
 void GameScene::SetupCharactersArray(std::vector<CharacterBuilder> &characterTypes)
 {
 	//Fill vector with exactly 2 of each character type
@@ -179,6 +187,34 @@ void GameScene::SetupCharactersArray(std::vector<CharacterBuilder> &characterTyp
 		characterTypes.push_back(charToMake);
 		characterTypes.push_back(charToMake);
 	}
+}
+
+void GameScene::FadeLabels()
+{
+	//Fade score bonus
+	int scoreAlpha = m_UpdateToScoreLabel->m_Color.a;
+	if(scoreAlpha > 0)
+	{
+		scoreAlpha -= 5;
+	}
+	if(scoreAlpha < 0)
+	{
+		scoreAlpha = 0;
+	}
+	m_UpdateToScoreLabel->m_Color = CColor(0, 0, 0, scoreAlpha);
+
+	//Fade time bonus
+
+	int timeAlpha = m_UpdateToTimeLabel->m_Color.a;
+	if(timeAlpha > 0)
+	{
+		timeAlpha -= 5;
+	}
+	if(timeAlpha < 0)
+	{
+		timeAlpha = 0;
+	}
+	m_UpdateToTimeLabel->m_Color = CColor(0, 0, 0, timeAlpha);
 }
 
 void GameScene::AddGridToScene(std::vector<CharacterBuilder> &characterTypes)
@@ -215,6 +251,17 @@ void GameScene::InitBoard()
 void GameScene::ProcessGoldMatch()
 {
 	g_pAudio->PlaySound(g_pResources->GetGoldPickupSoundFilename());
+	if(m_DoublePoints)
+	{
+		DisplayUpdateToScore("+50x2 Gold Match!");
+		IncrementScore(100);
+	}
+	else
+	{
+		DisplayUpdateToScore("+50 Gold Match!");
+		IncrementScore(50);
+	}
+	
 	m_Time += 20;
 }
 
@@ -226,6 +273,13 @@ void GameScene::ProcessSilverMatch()
 	{
 		m_Timers.Cancel(m_DoublePointsTimer);
 		m_DoublePointsTimer = NULL;
+		DisplayUpdateToScore("+20x2 Silver Match!");
+		IncrementScore(40);
+	}
+	else
+	{
+		DisplayUpdateToScore("+20 Silver Match!");
+		IncrementScore(20);
 	}
 	m_Timers.Add(new Timer(10.0f, 1, &GameScene::ResetDoublePoints, (void*)this));
 }
@@ -233,18 +287,23 @@ void GameScene::ProcessSilverMatch()
 void GameScene::ProcessNormalMatch()
 {
 	g_pAudio->PlaySound(g_pResources->GetMatchSoundFilename());
-}
-
-void GameScene::IncrementScore()
-{
 	if(m_DoublePoints)
 	{
-		((GameSceneManager*) m_Manager)->IncrementScore(20);
+		DisplayUpdateToScore("+10x2 Match!");
+		IncrementScore(20);
 	}
 	else
 	{
-		((GameSceneManager*) m_Manager)->IncrementScore(10);
+		DisplayUpdateToScore("+10 Match!");
+		DisplayUpdateToTime("+20 seconds!");
+		IncrementScore(10);
 	}
+	
+}
+
+void GameScene::IncrementScore(int amount)
+{
+	((GameSceneManager*) m_Manager)->IncrementScore(amount);
 }
 
 void GameScene::RemoveCharactersAfterDelay()
@@ -273,8 +332,7 @@ void GameScene::ProcessMatch()
 		{
 			ProcessNormalMatch();
 		}
-		
-		IncrementScore();			
+					
 		RemoveCharactersAfterDelay();
 	}
 }
@@ -501,13 +559,15 @@ void GameScene::InitLabels()
 	m_ScoreLabel = new CLabel();
 	m_ScoreLabel->m_H = TIME_TEXT_HEIGHT*m_YGraphicsScale;
 	m_ScoreLabel->m_W = TIME_TEXT_WIDTH*m_XGraphicsScale;
-	m_ScoreLabel->m_X = (float)IwGxGetScreenWidth() - (TIME_TEXT_X*m_XGraphicsScale) - m_ScoreLabel->m_W;
-	m_ScoreLabel->m_Y = TIME_TEXT_Y*m_YGraphicsScale;
+	m_ScoreLabel->m_X = SCORE_TEXT_X * m_XGraphicsScale;
+	m_ScoreLabel->m_Y = SCORE_TEXT_Y * m_YGraphicsScale;
 	m_ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_ScoreLabel->SetFont(g_pResources->getSize15Font());
+	m_ScoreLabel->SetFont(g_pResources->getSize20Font());
 	m_ScoreLabel->SetText("0000");
 	m_ScoreLabel->m_Color = CColor(0,0,0,255);
+	m_ScoreLabel->m_ScaleX = m_XGraphicsScale;
+	m_ScoreLabel->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_ScoreLabel);
 
 	// Create the time text
@@ -518,10 +578,32 @@ void GameScene::InitLabels()
 	m_TimeLabel->m_W = TIME_TEXT_WIDTH*m_YGraphicsScale;
 	m_TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_TimeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_TimeLabel->SetFont(g_pResources->getSize15Font());
+	m_TimeLabel->SetFont(g_pResources->getSize20Font());
 	m_TimeLabel->SetText("02:00");
 	m_TimeLabel->m_Color = CColor(0,0,0,255);
+	m_TimeLabel->m_ScaleX = m_XGraphicsScale;
+	m_TimeLabel->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_TimeLabel);
+
+	m_UpdateToScoreLabel = new CLabel();
+	m_UpdateToScoreLabel->m_X = UPDATE_TO_SCORE_X * m_XGraphicsScale;
+	m_UpdateToScoreLabel->m_Y = UPDATE_TO_SCORE_Y * m_YGraphicsScale;
+	m_UpdateToScoreLabel->m_H = UPDATE_TO_SCORE_HEIGHT * m_YGraphicsScale;
+	m_UpdateToScoreLabel->m_W = UPDATE_TO_SCORE_WIDTH * m_XGraphicsScale;
+	m_UpdateToScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_RIGHT;
+	m_UpdateToScoreLabel->SetFont(g_pResources->getSize8Font());
+	m_UpdateToScoreLabel->m_Color = CColor(0,0,0,255);
+	AddChild(m_UpdateToScoreLabel);
+
+	m_UpdateToTimeLabel = new CLabel();
+	m_UpdateToTimeLabel->m_X = UPDATE_TO_TIME_X * m_XGraphicsScale;
+	m_UpdateToTimeLabel->m_Y = UPDATE_TO_TIME_Y * m_YGraphicsScale;
+	m_UpdateToTimeLabel->m_H = UPDATE_TO_TIME_HEIGHT * m_YGraphicsScale;
+	m_UpdateToTimeLabel->m_W = UPDATE_TO_TIME_WIDTH * m_XGraphicsScale;
+	m_UpdateToTimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
+	m_UpdateToTimeLabel->SetFont(g_pResources->getSize8Font());
+	m_UpdateToTimeLabel->m_Color = CColor(0,0,0,255);
+	AddChild(m_UpdateToTimeLabel);
 }
 
 void GameScene::InitSound()
@@ -536,8 +618,8 @@ void GameScene::ToggleButtons()
 {
 	if(m_SettingsMenu->GetPlayButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
-		//TODO
 		g_pInput->Reset();
+		ToggleSettingMenu();
 	}
 	else if(m_SettingsMenu->GetMusicButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
@@ -552,8 +634,9 @@ void GameScene::ToggleButtons()
 	}
 	else if(m_SettingsMenu->GetExitButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
-		//TODO
 		g_pInput->Reset();
+		ToggleSettingMenu();
+		CleanUpAndChangeScene();
 	}
 }
 
@@ -569,7 +652,10 @@ bool GameScene::InTheFinal10Seconds(float deltaTime)
 
 void GameScene::CleanUpAndChangeScene()
 {
-	m_Time = 0;
+	m_Timers.Cancel(m_DoublePointsTimer);
+	m_DoublePointsTimer = NULL;
+	m_FirstSelectedItem = NULL;
+	m_SecondSelectedItem = NULL;
 	ResultsScene * resultsScene= (ResultsScene*) m_Manager->Find("ResultsState");
 	Audio::StopMusic();
 	m_Manager->SwitchTo(resultsScene);	
@@ -622,4 +708,16 @@ void GameScene::ResumeGame()
 	{
 		m_DoublePointsTimer->Resume();
 	}
+}
+
+void GameScene::DisplayUpdateToScore(char scoreBonus[])
+{
+	m_UpdateToScoreLabel->m_Color = CColor(0, 0, 0, 255);
+	m_UpdateToScoreLabel->m_Text = scoreBonus;
+}
+
+void GameScene::DisplayUpdateToTime(char timeBonus[])
+{
+	m_UpdateToTimeLabel->m_Color = CColor(0, 0, 0, 255);
+	m_UpdateToTimeLabel->m_Text = timeBonus;
 }
