@@ -43,11 +43,16 @@ files
 	Timer.cpp
 	CharacterBuilder.cpp
 	SettingsMenu.cpp
+	MultiplayerGameScene.cpp
+	PlayerScore.cpp
+	TopScores.cpp
 
 	Timer.h
 	CharacterBuilder.h
 	SettingsMenu.h
-	
+	MultiplayerGameScene.h
+	PlayerScore.h
+	TopScores.h
 }
 
 assets

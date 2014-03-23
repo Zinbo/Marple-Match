@@ -8,6 +8,7 @@
 
 #include "scene.h"
 #include <sstream>
+#include "TopScores.h"
 
 namespace SFAS2014
 {
@@ -57,10 +58,12 @@ private:
 	//Sprites
 	CSprite* background;
 	CSprite* m_SettingsButton;
+	TopScores* m_TopScores;
 
 	//Labels
 	CLabel * m_ScoreLabel;
-	CLabel * m_TapLabel;
+	CLabel* m_TopScoreLabels[5];
+	CLabel* m_TopScoreNames[5];
 
 	//Helper methods
 
@@ -75,9 +78,14 @@ private:
 
 	//Scene helpers
 	void ChangeSceneAndCleanUp();
-	void UpdateLabels();
+	void SetupLabels();
 
-	float m_Delay;
+	//Leaderboard helpers
+	void SetupLeaderboard();
+	void UpdateForNewScore();
+	void PopulateScores();
+	void ReadScores();
+	void WriteScores();
 };
 }
 

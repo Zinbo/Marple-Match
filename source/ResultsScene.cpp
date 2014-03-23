@@ -7,6 +7,7 @@
 #include "IwGx.h"
 #include "resources.h"
 #include "TitleScene.h"
+#include "s3eOSReadString.h"
 
 #define BUTTON_SPACING 50.0f
 #define BUTTON_STARTING_X 1.0f
@@ -24,11 +25,12 @@ ResultsScene::ResultsScene(float xGraphicsScale, float yGraphicsScale, SettingsM
 	m_XGraphicsScale = xGraphicsScale;
 	m_YGraphicsScale = yGraphicsScale;
 	m_SettingsMenu = settingMenu;
+	m_TopScores = new TopScores();
 }
 
 ResultsScene::~ResultsScene()
 {
-
+	delete m_TopScores;
 }
 
 void ResultsScene::Init()
@@ -38,6 +40,7 @@ void ResultsScene::Init()
 	InitUI();
 	InitLabels();
 	InitButtons();
+	PopulateScores();
 }
 
 void ResultsScene::Update(float deltaTime, float alphaMul)
@@ -49,11 +52,6 @@ void ResultsScene::Update(float deltaTime, float alphaMul)
 	}
 	
 	Scene::Update(deltaTime, alphaMul);
-	
-	if(m_Delay <= 0)
-	{
-		m_TapLabel->m_IsVisible = true;
-	}
 
 	if( m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
 	{
@@ -67,17 +65,12 @@ void ResultsScene::Update(float deltaTime, float alphaMul)
 		}
 		else
 		{
-			if(m_TapLabel->m_IsVisible)
-			{
-				ChangeSceneAndCleanUp();
-			}
+			ChangeSceneAndCleanUp();
 		}
 		g_pInput->Reset();
 	}
 
-	m_Delay -= deltaTime;
-
-	UpdateLabels();
+	SetupLabels();
 }
 
 void ResultsScene::InitButtons()
@@ -137,14 +130,15 @@ void ResultsScene::ChangeSceneAndCleanUp()
 	TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
 	Audio::StopMusic();
 	m_Manager->SwitchTo(titleScene);
-	m_TapLabel->m_IsVisible = false;
 }
 
 void ResultsScene::Reset()
 {
 	Scene::Reset();
-	m_Delay = 2.0f;
 	Audio::PlayMusic(g_pResources->GetMenuMusicFilename(), true);
+	UpdateForNewScore();
+	SetupLeaderboard();
+	SetupLabels();
 	//If the sound and music has been turned off in another scene then set the buttons on this scene to reflect this.
 }
 void ResultsScene::Render()
@@ -172,30 +166,157 @@ void ResultsScene::InitLabels()
 {
 	// Create the score text
 	m_ScoreLabel = new CLabel();
-	m_ScoreLabel->m_X = (float)IwGxGetScreenWidth() * 0.5f;
-	m_ScoreLabel->m_Y = (float)IwGxGetScreenHeight() * 0.65f;
-	m_ScoreLabel->SetFont(g_pResources->getFont());
-	m_ScoreLabel->m_AnchorX = 0.5;
-	m_ScoreLabel->m_AnchorY = 0.5;
+	m_ScoreLabel->m_X = 85.0f;
+	m_ScoreLabel->m_Y = 65.0f;
+	m_ScoreLabel->m_W = 150.0f;
+	m_ScoreLabel->m_H = 30.0f;
+	m_ScoreLabel->SetFont(g_pResources->getSize30Font());
+	m_ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
+	m_ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->m_Color = CColor(0,0,0,255);
 	AddChild(m_ScoreLabel);
 
-	// Create the title text
-	m_TapLabel = new CLabel();
-	m_TapLabel->m_X = (float)IwGxGetScreenWidth() * 0.5f;
-	m_TapLabel->m_Y = (float)IwGxGetScreenHeight() * 0.8f;
-	m_TapLabel->SetFont(g_pResources->getFont());
-	m_TapLabel->m_AnchorX = 0.5;
-	m_TapLabel->m_AnchorY = 0.5;
-	m_TapLabel->m_Color = CColor(0,0,0,255);
-	m_TapLabel->SetText("TAP TO CONTINUE");
-	m_TapLabel->m_IsVisible = false;
-	AddChild(m_TapLabel);
+	for(int i = 0; i < 5; i++)
+	{
+		m_TopScoreNames[i] = new CLabel();
+		CLabel * nameLabel = m_TopScoreNames[i]; 
+		nameLabel->m_X = 40.0f;
+		nameLabel->m_Y = 170.0f + i*40.0f;
+		nameLabel->m_H = 20.0f;
+		nameLabel->m_W = 100.0f;
+		nameLabel->SetFont(g_pResources->getSize20Font());
+		nameLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
+		nameLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
+		nameLabel->m_Color = CColor(0,0,0,255);
+		AddChild(nameLabel);
+
+		m_TopScoreLabels[i] = new CLabel();
+		CLabel * scoreLabel = m_TopScoreLabels[i];
+		scoreLabel->m_X = 210.0f;
+		scoreLabel->m_Y = 170.0f + i*40.0f;
+		scoreLabel->m_H = 20.0f;
+		scoreLabel->m_W = 100.0f;
+		scoreLabel->SetFont(g_pResources->getSize20Font());
+		scoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
+		scoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_RIGHT;
+		scoreLabel->m_Color = CColor(0,0,0,255);
+		AddChild(scoreLabel);
+	}
+
 }
 
-void ResultsScene::UpdateLabels()
+void ResultsScene::SetupLabels()
 {
-	char scoreBuffer[20];
-	sprintf(scoreBuffer, "%i", ((GameSceneManager*) m_Manager)->GetScore());
+	char scoreBuffer[5];
+	sprintf(scoreBuffer, "%.4d", ((GameSceneManager*) m_Manager)->GetScore());
 	m_ScoreLabel->SetText(scoreBuffer);
+}
+
+void ResultsScene::SetupLeaderboard()
+{
+	for(int i = 0; i < 5; i++)
+	{
+		PlayerScore p = m_TopScores->GetNameScorePair(i);
+		char scoreBuffer[5];
+		sprintf(scoreBuffer, "%.4d", p.GetScore());
+		m_ScoreLabel->SetText(scoreBuffer);
+		m_TopScoreNames[i]->SetText(p.GetName()); 
+
+		m_TopScoreLabels[i]->SetText(scoreBuffer);
+	}
+}
+
+void ResultsScene::PopulateScores()
+{
+
+	if(!IwFileCheckExists("scores.data"))
+	{
+		for(int i = 0; i < 5; i++)
+		{
+			PlayerScore newScore;
+			newScore.SetName("COM");
+			newScore.SetScore((50 - 10*i));
+			m_TopScores->SetNameScorePair(newScore, i);
+		}
+		WriteScores();
+	}
+	else
+	{
+		ReadScores();
+	}
+	
+}
+
+void ResultsScene::ReadScores()
+{
+	s3eFile *fp = s3eFileOpen("scores.data", "rb");
+	for(int i = 0; i < 5; i++)
+	{
+		char scoreBuffer[6];
+		char nameBuffer[6];
+		s3eFileRead(nameBuffer, sizeof(nameBuffer), 1, fp);
+		s3eFileRead(scoreBuffer, sizeof(scoreBuffer), 1, fp);
+
+		PlayerScore playerScore;
+		playerScore.SetName(nameBuffer);
+		playerScore.SetScore(atoi(scoreBuffer));
+		m_TopScores->SetNameScorePair(playerScore, i);
+	}
+	
+	s3eFileClose(fp);
+}
+
+void ResultsScene::WriteScores()
+{
+	s3eFile *fp = s3eFileOpen("scores.data", "wb");
+	
+	for(int i = 0; i < 5; i++)
+	{
+		char scoreBuffer[6];
+		int score = m_TopScores->GetNameScorePair(i).GetScore();
+		sprintf(scoreBuffer,"%.4d", score);
+		s3eFileWrite(m_TopScores->GetNameScorePair(i).GetName(), 6, 1, fp);
+		s3eFileWrite(scoreBuffer, sizeof(scoreBuffer), 1, fp);
+	}
+	
+	s3eFileClose(fp);
+}
+
+void ResultsScene::UpdateForNewScore()
+{
+	char nameBuffer[6];
+	int newScoreIndex = -1;
+	PlayerScore oldScore;
+	for(int i = 0; i < 5; i++)
+	{
+
+		if(((GameSceneManager *) m_Manager)->GetScore() > m_TopScores->GetNameScorePair(i).GetScore())
+		{
+			
+			const char* playerName = s3eOSReadStringUTF8("New Highscore for player 1! Please enter name. (5 characters or less)");
+			for(int j = 0; j < 5; j++)
+			{
+				nameBuffer[j] = playerName[j];
+			}
+			nameBuffer[5] = '\0';
+			newScoreIndex = i;
+			break;
+		}
+	}
+	if(newScoreIndex != -1)
+	{
+		for(int i = 4; i > newScoreIndex; i--)
+		{
+			PlayerScore newScore;
+			newScore.SetName(m_TopScores->GetNameScorePair(i-1).GetName());
+			newScore.SetScore(m_TopScores->GetNameScorePair(i-1).GetScore());
+			m_TopScores->SetNameScorePair(newScore, i);
+		}
+		PlayerScore p = m_TopScores->GetNameScorePair(newScoreIndex);
+		p.SetName(nameBuffer);
+		p.SetScore(((GameSceneManager *) m_Manager)->GetScore());
+		m_TopScores->SetNameScorePair(p, newScoreIndex);
+
+		WriteScores();
+	}
 }

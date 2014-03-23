@@ -59,15 +59,14 @@ private:
 	//Sprites
 	CSprite* m_Background;
 	CSprite* m_SettingsButton;
-
-	//Labels
-	CLabel* m_TitleText;
+	CSprite* m_Player1Button;
+	CSprite* m_Player2Button;
+	CSprite* m_InstructionsButton;
 
 	//Helper methods
 
 	//Init helpers
 	void InitUI();
-	void InitLabels();
 	void InitButtons();
 
 	//Button helpers

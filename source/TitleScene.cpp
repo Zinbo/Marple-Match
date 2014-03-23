@@ -11,7 +11,12 @@
 #define BUTTON_SPACING 50.0f
 #define BUTTON_STARTING_X 1.0f
 #define BUTTON_STARTING_Y 1.0f
-
+#define PLAYER_1_X 4.0f
+#define PLAYER_1_Y 214.0f
+#define PLAYER_2_X 164.0f
+#define PLAYER_2_Y 214.0f
+#define INSTRUCTIONS_X 44.0f
+#define INSTRUCTIONS_Y 259.0f
 using namespace SFAS2014;
 
 //
@@ -36,7 +41,6 @@ void TitleScene::Init()
 	Scene::Init();
 	
 	InitUI();
-	InitLabels();
 	InitButtons();
 }
 
@@ -61,9 +65,17 @@ void TitleScene::Update(float deltaTime, float alphaMul)
 		{
 			ToggleSettingMenu();
 		}
-		else
+		else if(m_Player1Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
 		{
 			ChangeSceneAndCleanUp();
+		}
+		else if(m_Player2Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
+		{
+			//TODO
+		}
+		else if(m_InstructionsButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+		{
+			//TODO
 		}
 		g_pInput->Reset();
 	}
@@ -96,6 +108,37 @@ void TitleScene::InitButtons()
 	m_SettingsButton->m_ScaleY = (buttonScale * m_YGraphicsScale);
 	AddChild(m_SettingsButton);
 
+	m_Player1Button = new CSprite();
+	m_Player1Button->m_X = (PLAYER_1_X * m_XGraphicsScale);
+	m_Player1Button->m_Y = (PLAYER_1_Y * m_XGraphicsScale);
+	m_Player1Button->SetImage(g_pResources->GetPlayer1Button());
+	m_Player1Button->m_H = m_Player1Button->GetImage()->GetHeight();
+	m_Player1Button->m_W = m_Player1Button->GetImage()->GetWidth();
+	AddChild(m_Player1Button);
+
+	m_Player1Button = new CSprite();
+	m_Player1Button->m_X = (PLAYER_1_X * m_XGraphicsScale);
+	m_Player1Button->m_Y = (PLAYER_1_Y * m_XGraphicsScale);
+	m_Player1Button->SetImage(g_pResources->GetPlayer1Button());
+	m_Player1Button->m_H = m_Player1Button->GetImage()->GetHeight();
+	m_Player1Button->m_W = m_Player1Button->GetImage()->GetWidth();
+	AddChild(m_Player1Button);
+
+	m_Player2Button = new CSprite();
+	m_Player2Button->m_X = (PLAYER_2_X * m_XGraphicsScale);
+	m_Player2Button->m_Y = (PLAYER_2_Y * m_XGraphicsScale);
+	m_Player2Button->SetImage(g_pResources->GetPlayer2Button());
+	m_Player2Button->m_H = m_Player2Button->GetImage()->GetHeight();
+	m_Player2Button->m_W = m_Player2Button->GetImage()->GetWidth();
+	AddChild(m_Player2Button);
+
+	m_InstructionsButton = new CSprite();
+	m_InstructionsButton->m_X = (INSTRUCTIONS_X * m_XGraphicsScale);
+	m_InstructionsButton->m_Y = (INSTRUCTIONS_Y * m_XGraphicsScale);
+	m_InstructionsButton->SetImage(g_pResources->GetInstructionsButton());
+	m_InstructionsButton->m_H = m_InstructionsButton->GetImage()->GetHeight();
+	m_InstructionsButton->m_W = m_InstructionsButton->GetImage()->GetWidth();
+	AddChild(m_InstructionsButton);
 }
 
 void TitleScene::ToggleButtons()
@@ -152,19 +195,6 @@ void TitleScene::InitUI()
 	m_Background->m_ScaleX = (float)IwGxGetScreenWidth() / m_Background->m_W;
 	m_Background->m_ScaleY = (float)IwGxGetScreenHeight() / m_Background->m_H;
 	AddChild(m_Background);
-}
-
-void TitleScene::InitLabels()
-{
-	m_TitleText = new CLabel();
-	m_TitleText->m_X = (float)IwGxGetScreenWidth() * 0.5f;
-	m_TitleText->m_Y = (float)IwGxGetScreenHeight() * 0.65f;
-	m_TitleText->SetFont(g_pResources->getFont());
-	m_TitleText->SetText("TAP TO BEGIN");
-	m_TitleText->m_AnchorX = 0.5;
-	m_TitleText->m_AnchorY = 0.5;
-	m_TitleText->m_Color = CColor(0,0,0,255);
-	AddChild(m_TitleText);
 }
 
 void TitleScene::ChangeSceneAndCleanUp()

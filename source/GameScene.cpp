@@ -505,7 +505,7 @@ void GameScene::InitLabels()
 	m_ScoreLabel->m_Y = TIME_TEXT_Y*m_YGraphicsScale;
 	m_ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_ScoreLabel->SetFont(g_pResources->getFont());
+	m_ScoreLabel->SetFont(g_pResources->getSize15Font());
 	m_ScoreLabel->SetText("0000");
 	m_ScoreLabel->m_Color = CColor(0,0,0,255);
 	AddChild(m_ScoreLabel);
@@ -518,7 +518,7 @@ void GameScene::InitLabels()
 	m_TimeLabel->m_W = TIME_TEXT_WIDTH*m_YGraphicsScale;
 	m_TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_TimeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_TimeLabel->SetFont(g_pResources->getFont());
+	m_TimeLabel->SetFont(g_pResources->getSize15Font());
 	m_TimeLabel->SetText("02:00");
 	m_TimeLabel->m_Color = CColor(0,0,0,255);
 	AddChild(m_TimeLabel);
@@ -578,7 +578,7 @@ void GameScene::CleanUpAndChangeScene()
 
 void GameScene::UpdateLabels()
 {
-	char scoreBuffer[9];
+	char scoreBuffer[5];
 	sprintf(scoreBuffer, "%.4d", ((GameSceneManager*) m_Manager)->GetScore() );
 	m_ScoreLabel->SetText(scoreBuffer);
 

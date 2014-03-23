@@ -41,7 +41,9 @@ protected:
 	CIw2DImage*		ResultBackground;
 	CIw2DImage*		GameBackground;
 	CIw2DImage*		m_SettingsMenuDialog;
-    CIw2DFont*      Font;
+    CIw2DFont*      m_Size15Font;
+	CIw2DFont*		m_Size20Font;
+	CIw2DFont*		m_Size30Font;
 	CIw2DImage*		Characters[(NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS)+2];
 	
 	//Buttons
@@ -52,7 +54,10 @@ protected:
 	CIw2DImage *	m_PlayButton;
 	CIw2DImage *	m_ExitButton;
 	CIw2DImage*		m_SettingsButton;
-
+	CIw2DImage*		m_Player1Button;
+	CIw2DImage*		m_Player2Button;
+	CIw2DImage*		m_InstructionsButton;
+	
 	char*			m_MatchSound;
 	char*			m_NonmatchSound;
 	char*			m_GoldPickupSound;
@@ -68,9 +73,11 @@ public:
 	CIw2DImage*     getTitleBackground()						{ return TitleBackground; }
 	CIw2DImage*     getGameBackground()							{ return GameBackground; }
 	CIw2DImage*     getResultBackground()						{ return ResultBackground; }
-	CIw2DFont*		getFont()									{ return Font; }
+	CIw2DFont*		getSize15Font()								{ return m_Size15Font; }
+	CIw2DFont*		getSize20Font()								{ return m_Size20Font; }
+	CIw2DFont*		getSize30Font()								{ return m_Size30Font; }
 	CIw2DImage*		GetCharacter(int index)						{ return Characters[index]; }
-	CIw2DImage*		GetSettingsMenuDialog()						{return m_SettingsMenuDialog;}
+	CIw2DImage*		GetSettingsMenuDialog()						{ return m_SettingsMenuDialog; }
 	
 	CIw2DImage*		GetMusicButton()							{ return m_MusicButton; }
 	CIw2DImage*		GetMuteMusicButton()						{ return m_MuteMusicButton; }
@@ -79,6 +86,9 @@ public:
 	CIw2DImage*		GetPlayButton()								{ return m_PlayButton; }
 	CIw2DImage*		GetExitButton()								{ return m_ExitButton; }
 	CIw2DImage*		GetSettingsButton()							{ return m_SettingsButton; }
+	CIw2DImage*		GetPlayer1Button()							{ return m_Player1Button; }
+	CIw2DImage*		GetPlayer2Button()							{ return m_Player2Button; }
+	CIw2DImage*		GetInstructionsButton()						{ return m_InstructionsButton; }
 	
 	char*			GetMatchSoundFilename()						{ return m_MatchSound; }
 	char*			GetNonmatchSoundFilename()					{ return m_NonmatchSound; }

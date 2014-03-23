@@ -35,3 +35,5 @@ DataCacheSize=131072
 
 [SOUND]
 MaxChannels=16
+
+[UTIL] MemoryBreakpoint=913
