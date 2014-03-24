@@ -54,14 +54,16 @@ void ResultsScene::InitRecentScoreLabels()
 {
 	// Create the score text
 	m_ScoreLabel = new CLabel();
-	m_ScoreLabel->m_X = 85.0f;
-	m_ScoreLabel->m_Y = 65.0f;
+	m_ScoreLabel->m_X = 85.0f * m_XGraphicsScale;
+	m_ScoreLabel->m_Y = 65.0f * m_YGraphicsScale;
 	m_ScoreLabel->m_W = 150.0f;
 	m_ScoreLabel->m_H = 30.0f;
 	m_ScoreLabel->SetFont(g_pResources->getSize30Font());
 	m_ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->m_Color = CColor(0,0,0,255);
+	m_ScoreLabel->m_ScaleX = m_XGraphicsScale;
+	m_ScoreLabel->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_ScoreLabel);
 }
 
@@ -108,9 +110,8 @@ void ResultsScene::InitButtons()
 	m_SettingsButton->SetImage(g_pResources->GetSettingsButton());
 	m_SettingsButton->m_H = m_SettingsButton->GetImage()->GetHeight();
 	m_SettingsButton->m_W = m_SettingsButton->GetImage()->GetWidth();
-	float buttonScale = (m_SettingsButton->m_H / BUTTON_SPACING);
-	m_SettingsButton->m_ScaleX = (buttonScale * m_XGraphicsScale);
-	m_SettingsButton->m_ScaleY = (buttonScale * m_YGraphicsScale);
+	m_SettingsButton->m_ScaleX =  m_XGraphicsScale;
+	m_SettingsButton->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_SettingsButton);
 
 	m_PlayAgainButton = new CSprite();
@@ -223,26 +224,30 @@ void ResultsScene::InitLeaderboardLabels()
 	{
 		m_TopScoreNames[i] = new CLabel();
 		CLabel * nameLabel = m_TopScoreNames[i]; 
-		nameLabel->m_X = 40.0f;
-		nameLabel->m_Y = 170.0f + i*40.0f;
+		nameLabel->m_X = 40.0f  * m_XGraphicsScale;
+		nameLabel->m_Y = (170.0f + i*40.0f)  * m_YGraphicsScale;
 		nameLabel->m_H = 20.0f;
 		nameLabel->m_W = 100.0f;
 		nameLabel->SetFont(g_pResources->getSize20Font());
 		nameLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 		nameLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
 		nameLabel->m_Color = CColor(0,0,0,255);
+		nameLabel->m_ScaleX = m_XGraphicsScale;
+		nameLabel->m_ScaleY = m_YGraphicsScale;
 		AddChild(nameLabel);
 
 		m_TopScoreLabels[i] = new CLabel();
 		CLabel * scoreLabel = m_TopScoreLabels[i];
-		scoreLabel->m_X = 210.0f;
-		scoreLabel->m_Y = 170.0f + i*40.0f;
+		scoreLabel->m_X = 210.0f  * m_XGraphicsScale;
+		scoreLabel->m_Y = (170.0f + i*40.0f) * m_YGraphicsScale;
 		scoreLabel->m_H = 20.0f;
 		scoreLabel->m_W = 100.0f;
 		scoreLabel->SetFont(g_pResources->getSize20Font());
 		scoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 		scoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_RIGHT;
 		scoreLabel->m_Color = CColor(0,0,0,255);
+		scoreLabel->m_ScaleX = m_XGraphicsScale;
+		scoreLabel->m_ScaleY = m_YGraphicsScale;
 		AddChild(scoreLabel);
 	}
 
@@ -263,7 +268,6 @@ void ResultsScene::SetupLeaderboard()
 		char scoreBuffer[5];
 		sprintf(scoreBuffer, "%.4d", p.GetScore());
 		m_TopScoreNames[i]->SetText(p.GetName()); 
-
 		m_TopScoreLabels[i]->SetText(scoreBuffer);
 	}
 }

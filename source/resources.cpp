@@ -71,6 +71,7 @@ Resources::Resources()
 	m_TimeSound = "audio/time.wav";
 	m_GameMusic = "audio/gameMusic.mp3";
 	m_MenuMusic = "audio/menuMusic.mp3";
+	m_EmptySound = "audio/emptySound.wav";
 	
 }
 

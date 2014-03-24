@@ -661,8 +661,8 @@ void MultiplayerGameScene::InitLabels()
 	m_Player1ScoreLabel = new CLabel();
 	m_Player1ScoreLabel->m_X = PLAYER_1_SCORE_TEXT_X * m_XGraphicsScale;
 	m_Player1ScoreLabel->m_Y = PLAYER_1_SCORE_TEXT_Y * m_YGraphicsScale;
-	m_Player1ScoreLabel->m_H = LABEL_HEIGHT*m_YGraphicsScale;
-	m_Player1ScoreLabel->m_W = LABEL_WIDTH*m_XGraphicsScale;
+	m_Player1ScoreLabel->m_W = LABEL_WIDTH;
+	m_Player1ScoreLabel->m_H = LABEL_HEIGHT;
 	m_Player1ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1ScoreLabel->SetFont(g_pResources->getSize20Font());
@@ -676,8 +676,8 @@ void MultiplayerGameScene::InitLabels()
 	m_Player1TimeLabel = new CLabel();
 	m_Player1TimeLabel->m_X = PLAYER_1_TIME_TEXT_X*m_XGraphicsScale;
 	m_Player1TimeLabel->m_Y = PLAYER_1_TIME_TEXT_Y*m_YGraphicsScale;
-	m_Player1TimeLabel->m_H = LABEL_HEIGHT*m_YGraphicsScale;
-	m_Player1TimeLabel->m_W = LABEL_WIDTH*m_XGraphicsScale;
+	m_Player1TimeLabel->m_W = LABEL_WIDTH;
+	m_Player1TimeLabel->m_H = LABEL_HEIGHT;
 	m_Player1TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1TimeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1TimeLabel->SetFont(g_pResources->getSize20Font());
@@ -691,8 +691,8 @@ void MultiplayerGameScene::InitLabels()
 	m_Player2ScoreLabel = new CLabel();
 	m_Player2ScoreLabel->m_X = PLAYER_2_SCORE_TEXT_X * m_XGraphicsScale + (LABEL_WIDTH*m_XGraphicsScale)/2;
 	m_Player2ScoreLabel->m_Y = PLAYER_2_SCORE_TEXT_Y * m_YGraphicsScale + (LABEL_HEIGHT*m_YGraphicsScale)/2;
-	m_Player2ScoreLabel->m_H = LABEL_HEIGHT*m_YGraphicsScale;
-	m_Player2ScoreLabel->m_W = LABEL_WIDTH*m_XGraphicsScale;
+	m_Player2ScoreLabel->m_H = LABEL_HEIGHT;
+	m_Player2ScoreLabel->m_W = LABEL_WIDTH;
 	m_Player2ScoreLabel->m_AnchorX = 0.5f;
 	m_Player2ScoreLabel->m_AnchorY = 0.5f;
 	m_Player2ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
@@ -709,8 +709,8 @@ void MultiplayerGameScene::InitLabels()
 	m_Player2TimeLabel = new CLabel();
 	m_Player2TimeLabel->m_X = PLAYER_2_TIME_TEXT_X*m_XGraphicsScale + (LABEL_WIDTH*m_XGraphicsScale)/2;
 	m_Player2TimeLabel->m_Y = PLAYER_2_TIME_TEXT_Y*m_YGraphicsScale + (LABEL_HEIGHT*m_YGraphicsScale)/2;
-	m_Player2TimeLabel->m_H = LABEL_HEIGHT*m_YGraphicsScale;
-	m_Player2TimeLabel->m_W = LABEL_WIDTH*m_XGraphicsScale;
+	m_Player2TimeLabel->m_H = LABEL_HEIGHT;
+	m_Player2TimeLabel->m_W = LABEL_WIDTH;
 	m_Player2TimeLabel->m_AnchorX = 0.5f;
 	m_Player2TimeLabel->m_AnchorY = 0.5f;
 	m_Player2TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
@@ -769,8 +769,8 @@ void MultiplayerGameScene::ResetGrid(std::vector<CharacterBuilder> characterType
 		m_Grid[player][i]->SetCharacterImage(charToMake);
 
 		float characterScale = STAR_SIZE / (m_Grid[player][i]->GetCharacterSprite()->m_H);
-		m_Grid[player][i]->GetCharacterSprite()->m_ScaleX = characterScale;
-		m_Grid[player][i]->GetCharacterSprite()->m_ScaleY = characterScale;
+		m_Grid[player][i]->GetCharacterSprite()->m_ScaleX = characterScale*m_XGraphicsScale;
+		m_Grid[player][i]->GetCharacterSprite()->m_ScaleY = characterScale*m_YGraphicsScale;
 
 		AddChild(m_Grid[player][i]->GetCharacterSprite());
 
@@ -830,11 +830,12 @@ void MultiplayerGameScene::AddGridToScene(std::vector<CharacterBuilder> &charact
 				grid->GetStarSprite()->m_Angle = 180.0f;
 				grid->GetCharacterSprite()->m_Angle = 180.0f;
 			}
-			grid->GetStarSprite()->m_ScaleX = STAR_SIZE / (grid->GetStarSprite()->m_W);
-			grid->GetStarSprite()->m_ScaleY = STAR_SIZE / (grid->GetStarSprite()->m_H);
-
-			grid->GetCharacterSprite()->m_ScaleX = STAR_SIZE / (grid->GetCharacterSprite()->m_W);
-			grid->GetCharacterSprite()->m_ScaleY = STAR_SIZE / (grid->GetCharacterSprite()->m_H);
+			grid->GetStarSprite()->m_ScaleX = (STAR_SIZE / (grid->GetStarSprite()->m_W)) * m_XGraphicsScale;
+			grid->GetStarSprite()->m_ScaleY = (STAR_SIZE / (grid->GetStarSprite()->m_H)) * m_XGraphicsScale;
+			
+			float characterScale = STAR_SIZE / (grid->GetCharacterSprite()->m_H);
+			grid->GetCharacterSprite()->m_ScaleX = characterScale*m_XGraphicsScale;
+			grid->GetCharacterSprite()->m_ScaleY = characterScale*m_YGraphicsScale;
 			AddChild( grid->GetStarSprite() );
 			AddChild(grid->GetCharacterSprite());
 

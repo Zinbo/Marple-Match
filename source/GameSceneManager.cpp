@@ -40,8 +40,8 @@ GameSceneManager::GameSceneManager()
 	settingsMenu->m_Y= 65*yGraphicsScale;
 	settingsMenu->m_H = settingsMenu->GetImage()->GetHeight();
 	settingsMenu->m_W = settingsMenu->GetImage()->GetWidth();
-	settingsMenu->m_ScaleX = xGraphicsScale * ( SETTINGS_MENU_X_SIZE / settingsMenu->m_W);
-	settingsMenu->m_ScaleY = yGraphicsScale * ( SETTINGS_MENU_Y_SIZE / settingsMenu->m_H);
+	settingsMenu->m_ScaleX = xGraphicsScale;
+	settingsMenu->m_ScaleY = yGraphicsScale;
 	settingsMenu->m_IsVisible = false;
 
 	// Create the game scenes 

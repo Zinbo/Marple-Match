@@ -519,6 +519,7 @@ GridItem * GameScene::FindOtherHalfOfPair(GridItem* gridItem)
 			return m_Grid[i];
 		}
 	}
+	return NULL;
 }
 
 void GameScene::RemovePairsPowerUp(GridItem * selected)
@@ -557,10 +558,10 @@ void GameScene::InitLabels()
 {
 	// Create the score text
 	m_ScoreLabel = new CLabel();
-	m_ScoreLabel->m_H = TIME_TEXT_HEIGHT*m_YGraphicsScale;
-	m_ScoreLabel->m_W = TIME_TEXT_WIDTH*m_XGraphicsScale;
 	m_ScoreLabel->m_X = SCORE_TEXT_X * m_XGraphicsScale;
 	m_ScoreLabel->m_Y = SCORE_TEXT_Y * m_YGraphicsScale;
+	m_ScoreLabel->m_W = TIME_TEXT_WIDTH;
+	m_ScoreLabel->m_H = TIME_TEXT_HEIGHT;
 	m_ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->SetFont(g_pResources->getSize20Font());
@@ -574,8 +575,8 @@ void GameScene::InitLabels()
 	m_TimeLabel = new CLabel();
 	m_TimeLabel->m_X = TIME_TEXT_X*m_XGraphicsScale;
 	m_TimeLabel->m_Y = TIME_TEXT_Y*m_YGraphicsScale;
-	m_TimeLabel->m_H = TIME_TEXT_HEIGHT*m_XGraphicsScale;
-	m_TimeLabel->m_W = TIME_TEXT_WIDTH*m_YGraphicsScale;
+	m_TimeLabel->m_W = TIME_TEXT_WIDTH;
+	m_TimeLabel->m_H = TIME_TEXT_HEIGHT;
 	m_TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_TimeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_TimeLabel->SetFont(g_pResources->getSize20Font());
@@ -588,21 +589,25 @@ void GameScene::InitLabels()
 	m_UpdateToScoreLabel = new CLabel();
 	m_UpdateToScoreLabel->m_X = UPDATE_TO_SCORE_X * m_XGraphicsScale;
 	m_UpdateToScoreLabel->m_Y = UPDATE_TO_SCORE_Y * m_YGraphicsScale;
-	m_UpdateToScoreLabel->m_H = UPDATE_TO_SCORE_HEIGHT * m_YGraphicsScale;
-	m_UpdateToScoreLabel->m_W = UPDATE_TO_SCORE_WIDTH * m_XGraphicsScale;
+	m_UpdateToScoreLabel->m_H = UPDATE_TO_SCORE_HEIGHT;
+	m_UpdateToScoreLabel->m_W = UPDATE_TO_SCORE_WIDTH;
 	m_UpdateToScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_RIGHT;
 	m_UpdateToScoreLabel->SetFont(g_pResources->getSize8Font());
 	m_UpdateToScoreLabel->m_Color = CColor(0,0,0,255);
+	m_UpdateToScoreLabel->m_ScaleX = m_XGraphicsScale;
+	m_UpdateToScoreLabel->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_UpdateToScoreLabel);
 
 	m_UpdateToTimeLabel = new CLabel();
 	m_UpdateToTimeLabel->m_X = UPDATE_TO_TIME_X * m_XGraphicsScale;
 	m_UpdateToTimeLabel->m_Y = UPDATE_TO_TIME_Y * m_YGraphicsScale;
-	m_UpdateToTimeLabel->m_H = UPDATE_TO_TIME_HEIGHT * m_YGraphicsScale;
-	m_UpdateToTimeLabel->m_W = UPDATE_TO_TIME_WIDTH * m_XGraphicsScale;
+	m_UpdateToTimeLabel->m_H = UPDATE_TO_TIME_HEIGHT;
+	m_UpdateToTimeLabel->m_W = UPDATE_TO_TIME_WIDTH ;
 	m_UpdateToTimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
 	m_UpdateToTimeLabel->SetFont(g_pResources->getSize8Font());
 	m_UpdateToTimeLabel->m_Color = CColor(0,0,0,255);
+	m_UpdateToTimeLabel->m_ScaleX = m_XGraphicsScale;
+	m_UpdateToTimeLabel->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_UpdateToTimeLabel);
 }
 
@@ -610,7 +615,7 @@ void GameScene::InitSound()
 {
 	//Known bug in Marmalade SDK, need to play a sound first before sound starts working in some environments. We turn off sound first, so that this sound never plays.
 	g_pAudio->MuteSound();
-	g_pAudio->PlaySound(g_pResources->GetMatchSoundFilename());
+	g_pAudio->PlaySound(g_pResources->GetEmptySoundFilename());
 	g_pAudio->UnmuteSound();
 }
 

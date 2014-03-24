@@ -105,41 +105,39 @@ void TitleScene::InitButtons()
 	m_SettingsButton->SetImage(g_pResources->GetSettingsButton());
 	m_SettingsButton->m_H = m_SettingsButton->GetImage()->GetHeight();
 	m_SettingsButton->m_W = m_SettingsButton->GetImage()->GetWidth();
-	float buttonScale = (m_SettingsButton->m_H / BUTTON_SPACING);
+	float buttonScale = (BUTTON_SPACING/m_SettingsButton->m_H);
 	m_SettingsButton->m_ScaleX = (buttonScale * m_XGraphicsScale);
 	m_SettingsButton->m_ScaleY = (buttonScale * m_YGraphicsScale);
 	AddChild(m_SettingsButton);
 
 	m_Player1Button = new CSprite();
 	m_Player1Button->m_X = (PLAYER_1_X * m_XGraphicsScale);
-	m_Player1Button->m_Y = (PLAYER_1_Y * m_XGraphicsScale);
+	m_Player1Button->m_Y = (PLAYER_1_Y * m_YGraphicsScale);
 	m_Player1Button->SetImage(g_pResources->GetPlayer1Button());
 	m_Player1Button->m_H = m_Player1Button->GetImage()->GetHeight();
 	m_Player1Button->m_W = m_Player1Button->GetImage()->GetWidth();
-	AddChild(m_Player1Button);
-
-	m_Player1Button = new CSprite();
-	m_Player1Button->m_X = (PLAYER_1_X * m_XGraphicsScale);
-	m_Player1Button->m_Y = (PLAYER_1_Y * m_XGraphicsScale);
-	m_Player1Button->SetImage(g_pResources->GetPlayer1Button());
-	m_Player1Button->m_H = m_Player1Button->GetImage()->GetHeight();
-	m_Player1Button->m_W = m_Player1Button->GetImage()->GetWidth();
+	m_Player1Button->m_ScaleX = m_XGraphicsScale;
+	m_Player1Button->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_Player1Button);
 
 	m_Player2Button = new CSprite();
 	m_Player2Button->m_X = (PLAYER_2_X * m_XGraphicsScale);
-	m_Player2Button->m_Y = (PLAYER_2_Y * m_XGraphicsScale);
+	m_Player2Button->m_Y = (PLAYER_2_Y * m_YGraphicsScale);
 	m_Player2Button->SetImage(g_pResources->GetPlayer2Button());
 	m_Player2Button->m_H = m_Player2Button->GetImage()->GetHeight();
 	m_Player2Button->m_W = m_Player2Button->GetImage()->GetWidth();
+	m_Player2Button->m_ScaleX = m_XGraphicsScale;
+	m_Player2Button->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_Player2Button);
 
 	m_InstructionsButton = new CSprite();
 	m_InstructionsButton->m_X = (INSTRUCTIONS_X * m_XGraphicsScale);
-	m_InstructionsButton->m_Y = (INSTRUCTIONS_Y * m_XGraphicsScale);
+	m_InstructionsButton->m_Y = (INSTRUCTIONS_Y * m_YGraphicsScale);
 	m_InstructionsButton->SetImage(g_pResources->GetInstructionsButton());
 	m_InstructionsButton->m_H = m_InstructionsButton->GetImage()->GetHeight();
 	m_InstructionsButton->m_W = m_InstructionsButton->GetImage()->GetWidth();
+	m_InstructionsButton->m_ScaleX = m_XGraphicsScale;
+	m_InstructionsButton->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_InstructionsButton);
 }
 

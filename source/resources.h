@@ -71,6 +71,7 @@ protected:
 	char*			m_TimeSound;
 	char*			m_MenuMusic;
 	char*			m_BoardComplete;
+	char*			m_EmptySound;
 
 public:
     CIw2DImage*     getStar()									{ return Star; }
@@ -108,6 +109,7 @@ public:
 	char*			GetTimeSoundFilename()						{ return m_TimeSound; }
 	char*			GetMenuMusicFilename()						{ return m_MenuMusic; }
 	char*			GetBoardCompleteSoundFilename()				{ return m_BoardComplete; }
+	char*			GetEmptySoundFilename()						{ return m_EmptySound; }
 
 
 public:
