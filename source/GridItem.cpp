@@ -5,8 +5,6 @@
 
 #include "GridItem.h"
 
-#include "resources.h"
-
 using namespace Iw2DSceneGraphCore;
 using namespace Iw2DSceneGraph;
 #define STAR_HEIGHT 60
@@ -86,7 +84,7 @@ void GridItem::CreateStarSprite(float x, float y)
 	m_StarSprite->m_Y = y;
 	m_StarSprite->m_AnchorX = 0.5f;
 	m_StarSprite->m_AnchorY = 0.5f;
-	m_StarSprite->SetImage(g_pResources->getStar());
+	m_StarSprite->SetImage(g_pResources->GetStar());
 	m_StarSprite->m_W = m_StarSprite->GetImage()->GetWidth();
 	m_StarSprite->m_H = m_StarSprite->GetImage()->GetHeight();
  

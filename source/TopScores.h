@@ -10,6 +10,5 @@ public:
 	void SetRandomVariable();
 private:
 	PlayerScore m_PlayerScores[5];
-	int randomVariable;
 };
 

@@ -20,8 +20,8 @@
 #define STAR_Y_SPACING 55.0f
 #define STAR_SIZE 50.0f
 
-#define GOLD_PROB 0.1
-#define SILVER_PROB 0.2
+#define GOLD_PROB 0.2
+#define SILVER_PROB 0.3
 
 using namespace SFAS2014;
 
@@ -29,23 +29,30 @@ MultiplayerGameScene::MultiplayerGameScene(float xGraphicsScale, float yGraphics
 	: m_Time((float) TimeLimit), m_GameState(keGamePlaying)
 {
 	IwRandSeed( time( 0 ) );
+
 	m_DoublePointsTimer[0] = NULL;
 	m_DoublePointsTimer[1] = NULL;
 	m_TriplePointsTimer[0] = NULL;
 	m_TriplePointsTimer[1] = NULL;
+
 	m_DoublePoints[0] = false;
 	m_DoublePoints[1] = false;
 	m_TriplePoints[0] = false;
 	m_TriplePoints[1] = false;
+
 	m_DelayTime[0] = 0;
 	m_DelayTime[1] = 0;
+
 	m_Delayed[0] = false;
 	m_Delayed[1] = false;
+
 	m_NoOfMatchedPairs[0] = 0;
 	m_NoOfMatchedPairs[1] = 0;
+
 	m_XGraphicsScale = xGraphicsScale;
 	m_YGraphicsScale = yGraphicsScale;
 	m_SettingsMenu = settingMenu;
+
 	m_FirstSelectedItem[0] = NULL;
 	m_FirstSelectedItem[1] = NULL;
 	m_SecondSelectedItem[0] = NULL;
@@ -55,6 +62,23 @@ MultiplayerGameScene::MultiplayerGameScene(float xGraphicsScale, float yGraphics
 
 MultiplayerGameScene::~MultiplayerGameScene(void)
 {
+	delete m_DoublePointsTimer[0];
+	delete m_DoublePointsTimer[1];
+	delete m_TriplePointsTimer[0];
+	delete m_TriplePointsTimer[1];
+
+	for(int i = 0; i < GridHeight*GridWidth; i++)
+	{
+		if(m_Grid[0][i] !=0)
+		{
+			delete m_Grid[0][i];
+		}
+		if(m_Grid[1][i] !=0)
+		{
+			delete m_Grid[1][i];
+		}
+	}
+
 }
 
 void MultiplayerGameScene::Init()
@@ -77,7 +101,7 @@ void MultiplayerGameScene::Init()
 void MultiplayerGameScene::Reset()
 {
 	Scene::Reset();
-	if(m_GameState = keGameOver)
+	if(keGameOver == m_GameState)
 	{
 		ResetBoard(0);
 		ResetBoard(1);
@@ -275,6 +299,7 @@ GridItem * MultiplayerGameScene::FindOtherHalfOfPair(GridItem* gridItem, int pla
 			return m_Grid[player][i];
 		}
 	}
+	return NULL;
 }
 
 void MultiplayerGameScene::RemoveMatchedCharacterPairFromList(int player)
@@ -282,7 +307,7 @@ void MultiplayerGameScene::RemoveMatchedCharacterPairFromList(int player)
 	GridItem * char1;
 	GridItem * char2;
 	
-	if(player == 0)
+	if(0 == player)
 	{
 		char1 = m_Player1CharactersToRemove.at(0);
 		char2 = m_Player1CharactersToRemove.at(1);
@@ -342,24 +367,24 @@ void MultiplayerGameScene::ProcessMatch(int player)
 
 void MultiplayerGameScene::RemoveCharactersAfterDelay(int player)
 {
-	if(player == 0)
+	if(0 ==player)
 	{
 		m_Player1CharactersToRemove.push_back(m_FirstSelectedItem[player]);
 		m_Player1CharactersToRemove.push_back(m_SecondSelectedItem[player]);
-		m_Timers.Add(new Timer(0.5f, 1, &MultiplayerGameScene::RemovePlayer1MatchedCharacters, (void*)this));
+		m_Timers.Add(new Timer(0.5f, 1, &MultiplayerGameScene::remove_player_1_matched_characters, (void*)this));
 	}
 	else
 	{
 		m_Player2CharactersToRemove.push_back(m_FirstSelectedItem[player]);
 		m_Player2CharactersToRemove.push_back(m_SecondSelectedItem[player]);
-		m_Timers.Add(new Timer(0.5f, 1, &MultiplayerGameScene::RemovePlayer2MatchedCharacters, (void*)this));
+		m_Timers.Add(new Timer(0.5f, 1, &MultiplayerGameScene::remove_player_2_matched_characters, (void*)this));
 	}
 	m_FirstSelectedItem[player] = NULL;
 	m_SecondSelectedItem[player] = NULL;
 	
 }
 
-void MultiplayerGameScene::RemovePlayer1MatchedCharacters(Timer* timer, void* userData)
+void MultiplayerGameScene::remove_player_1_matched_characters(Timer* timer, void* userData)
 {
 	MultiplayerGameScene * self = (MultiplayerGameScene*)userData;
 	//Remove characters from scene and from list of characters to remove.
@@ -368,7 +393,7 @@ void MultiplayerGameScene::RemovePlayer1MatchedCharacters(Timer* timer, void* us
 	self->m_NoOfMatchedPairs[0]++;
 
 	//If the player has matched 12 pairs then reset the board.
-	if(self->m_NoOfMatchedPairs[0] == 6)
+	if(6 == self->m_NoOfMatchedPairs[0])
 	{
 		g_pAudio->PlaySound(g_pResources->GetBoardCompleteSoundFilename());
 		self->m_NoOfMatchedPairs[0] = 0;
@@ -385,7 +410,7 @@ void MultiplayerGameScene::HideCharacter(GridItem * gridItem)
 
 bool MultiplayerGameScene::AMinuteHasGoneBy(float deltaTime)
 {
-	return ((((int)m_Time % 60) == 0) && ((int)m_Time > (int)(m_Time - deltaTime)));
+	return ((0 == ((int)m_Time % 60)) && ((int)m_Time > (int)(m_Time - deltaTime)));
 }
 
 bool MultiplayerGameScene::InTheFinal10Seconds(float deltaTime)
@@ -393,7 +418,7 @@ bool MultiplayerGameScene::InTheFinal10Seconds(float deltaTime)
 	return ((m_Time <= 11) && ((int)m_Time > (int)(m_Time - deltaTime)));
 }
 
-void MultiplayerGameScene::RemovePlayer2MatchedCharacters(Timer* timer, void* userData)
+void MultiplayerGameScene::remove_player_2_matched_characters(Timer* timer, void* userData)
 {
 	MultiplayerGameScene * self = (MultiplayerGameScene*)userData;
 	//Remove characters from scene and from list of characters to remove.
@@ -402,7 +427,7 @@ void MultiplayerGameScene::RemovePlayer2MatchedCharacters(Timer* timer, void* us
 	self->m_NoOfMatchedPairs[1]++;
 
 	//If the player has matched 12 pairs then reset the board.
-	if(self->m_NoOfMatchedPairs[1] == 6)
+	if(6 == self->m_NoOfMatchedPairs[1])
 	{
 		g_pAudio->PlaySound(g_pResources->GetBoardCompleteSoundFilename());
 		self->m_NoOfMatchedPairs[1] = 0;
@@ -448,14 +473,14 @@ void MultiplayerGameScene::ProcessGoldMatch(int player)
 		IncrementScore(50, player);
 	}
 
-	if(player == 0)
+	if(0 == player)
 	{
-		m_TriplePointsTimer[player] = new Timer(10.0f, 1, &MultiplayerGameScene::ResetPlayer1TriplePoints, (void*)this);
+		m_TriplePointsTimer[player] = new Timer(10.0f, 1, &MultiplayerGameScene::reset_player_1_triple_points, (void*)this);
 		m_Timers.Add(m_TriplePointsTimer[player]);
 	}
 	else
 	{
-		m_TriplePointsTimer[player] = new Timer(10.0f, 1, &MultiplayerGameScene::ResetPlayer2TriplePoints, (void*)this);
+		m_TriplePointsTimer[player] = new Timer(10.0f, 1, &MultiplayerGameScene::reset_player_2_triple_points, (void*)this);
 		m_Timers.Add(m_TriplePointsTimer[player]);
 	}
 }
@@ -495,37 +520,37 @@ void MultiplayerGameScene::ProcessSilverMatch(int player)
 		IncrementScore(20, player);
 	}
 	m_DoublePoints[player] = true;
-	if(player == 0)
+	if(0 == player)
 	{
-		m_DoublePointsTimer[player] = new Timer(10.0f, 1, &MultiplayerGameScene::ResetPlayer1DoublePoints, (void*)this);
+		m_DoublePointsTimer[player] = new Timer(10.0f, 1, &MultiplayerGameScene::reset_player_1_double_points, (void*)this);
 		m_Timers.Add(m_DoublePointsTimer[player]);
 	}
 	else
 	{
-		m_DoublePointsTimer[player] = new Timer(10.0f, 1, &MultiplayerGameScene::ResetPlayer2DoublePoints, (void*)this);
+		m_DoublePointsTimer[player] = new Timer(10.0f, 1, &MultiplayerGameScene::reset_player_2_double_points, (void*)this);
 		m_Timers.Add(m_DoublePointsTimer[player]);
 	}
 	
 }
 
-void MultiplayerGameScene::ResetPlayer1DoublePoints(Timer* timer, void* userData)
+void MultiplayerGameScene::reset_player_1_double_points(Timer* timer, void* userData)
 {
 	MultiplayerGameScene* self = (MultiplayerGameScene*) userData;
 	self->m_DoublePoints[0] = false;
 }
 
-void MultiplayerGameScene::ResetPlayer2DoublePoints(Timer* timer, void* userData){
+void MultiplayerGameScene::reset_player_2_double_points(Timer* timer, void* userData){
 	MultiplayerGameScene* self = (MultiplayerGameScene*) userData;
 	self->m_DoublePoints[1] = false;
 }
 
-void MultiplayerGameScene::ResetPlayer1TriplePoints(Timer* timer, void* userData)
+void MultiplayerGameScene::reset_player_1_triple_points(Timer* timer, void* userData)
 {
 	MultiplayerGameScene* self = (MultiplayerGameScene*) userData;
 	self->m_TriplePoints[0] = false;
 }
 
-void MultiplayerGameScene::ResetPlayer2TriplePoints(Timer* timer, void* userData){
+void MultiplayerGameScene::reset_player_2_triple_points(Timer* timer, void* userData){
 	MultiplayerGameScene* self = (MultiplayerGameScene*) userData;
 	self->m_TriplePoints[1] = false;
 }
@@ -665,7 +690,7 @@ void MultiplayerGameScene::InitLabels()
 	m_Player1ScoreLabel->m_H = LABEL_HEIGHT;
 	m_Player1ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player1ScoreLabel->SetFont(g_pResources->getSize20Font());
+	m_Player1ScoreLabel->SetFont(g_pResources->GetSize20Font());
 	m_Player1ScoreLabel->SetText("0000");
 	m_Player1ScoreLabel->m_Color = CColor(0,0,0,255);
 	m_Player1ScoreLabel->m_ScaleX = m_XGraphicsScale;
@@ -680,7 +705,7 @@ void MultiplayerGameScene::InitLabels()
 	m_Player1TimeLabel->m_H = LABEL_HEIGHT;
 	m_Player1TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1TimeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player1TimeLabel->SetFont(g_pResources->getSize20Font());
+	m_Player1TimeLabel->SetFont(g_pResources->GetSize20Font());
 	m_Player1TimeLabel->SetText("02:00");
 	m_Player1TimeLabel->m_Color = CColor(0,0,0,255);
 	m_Player1TimeLabel->m_ScaleX = m_XGraphicsScale;
@@ -697,7 +722,7 @@ void MultiplayerGameScene::InitLabels()
 	m_Player2ScoreLabel->m_AnchorY = 0.5f;
 	m_Player2ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player2ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player2ScoreLabel->SetFont(g_pResources->getSize20Font());
+	m_Player2ScoreLabel->SetFont(g_pResources->GetSize20Font());
 	m_Player2ScoreLabel->SetText("0000");
 	m_Player2ScoreLabel->m_Color = CColor(0,0,0,255);
 	m_Player2ScoreLabel->m_Angle = 180.0f;
@@ -715,7 +740,7 @@ void MultiplayerGameScene::InitLabels()
 	m_Player2TimeLabel->m_AnchorY = 0.5f;
 	m_Player2TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player2TimeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player2TimeLabel->SetFont(g_pResources->getSize20Font());
+	m_Player2TimeLabel->SetFont(g_pResources->GetSize20Font());
 	m_Player2TimeLabel->SetText("02:00");
 	m_Player2TimeLabel->m_Color = CColor(0,0,0,255);
 	m_Player2TimeLabel->m_Angle = 180.0f;
@@ -805,7 +830,7 @@ void MultiplayerGameScene::AddGridToScene(std::vector<CharacterBuilder> &charact
 	float y = 0;
 	float xOffset = 0;
 	float yOffset = 0;
-	if(player == 0)
+	if(0 == player)
 	{
 		xOffset = PLAYER_1_STAR_X_OFFSET*m_XGraphicsScale;
 		yOffset = PLAYER_1_STAR_Y_OFFSET*m_YGraphicsScale;
@@ -825,7 +850,7 @@ void MultiplayerGameScene::AddGridToScene(std::vector<CharacterBuilder> &charact
 			GridItem* grid = new GridItem( x, y, characterTypes.at(characterTypeIndex));
 			characterTypes.erase(characterTypes.begin() + characterTypeIndex);
 			m_Grid[player][(row*GridWidth)+column] = grid; 
-			if(player == 1)
+			if(1 == player)
 			{
 				grid->GetStarSprite()->m_Angle = 180.0f;
 				grid->GetCharacterSprite()->m_Angle = 180.0f;

@@ -10,7 +10,13 @@
 #include "input.h"
 #include "GameScene.h"
 #include "MultiplayerGameScene.h"
+
 #include "InstructionsScene.h"
+#include "IwGx.h"
+#include "resources.h"
+#include "audio.h"
+#include "ResultsScene.h"
+#include "MultiplayerResultsScene.h"
 
 namespace SFAS2014
 {

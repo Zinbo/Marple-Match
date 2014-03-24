@@ -9,6 +9,14 @@
 #include "scene.h"
 #include "SettingsMenu.h"
 
+#include "TitleScene.h"
+#include "GameScene.h"
+#include "ResultsScene.h"
+#include "MultiplayerGameScene.h"
+#include "MultiplayerResultsScene.h"
+#include "InstructionsScene.h"
+#include "input.h"
+
 namespace SFAS2014
 {
 /**
@@ -64,7 +72,7 @@ private:
 	int m_GameScore[2];
 	bool	m_MusicPlaying;
 	bool	m_SoundPlaying;
-	SettingsMenu* settingsMenu;
+	SettingsMenu* m_SettingsMenu;
 
 	void CreateSettingsMenu();
 

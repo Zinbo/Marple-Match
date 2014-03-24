@@ -14,17 +14,16 @@
  */
 
 #include "resources.h"
-#include "Iw2D.h"
 
 
 Resources::Resources()
 {
     // Load images
-    Star = Iw2DCreateImage("textures/Star.png");
-	TitleBackground = Iw2DCreateImage( "textures/startMenu.png" );
-	GameBackground = Iw2DCreateImage( "textures/gameBackground.png" );
+    m_Star = Iw2DCreateImage("textures/Star.png");
+	m_TitleBackground = Iw2DCreateImage( "textures/startMenu.png" );
+	m_GameBackground = Iw2DCreateImage( "textures/gameBackground.png" );
 	m_MultiplayerGameBackground = Iw2DCreateImage( "textures/multiplayerGameBackground.png" );
-	ResultBackground = Iw2DCreateImage( "textures/resultScreen.png" );
+	m_ResultBackground = Iw2DCreateImage( "textures/resultScreen.png" );
 	m_MultiplayerResultBackground = Iw2DCreateImage( "textures/multiplayerResultScreen.png" );
 	m_SettingsMenuDialog = Iw2DCreateImage("textures/settingsMenuDialog.png");
 	m_InstructionsBackground = Iw2DCreateImage("textures/instructionsBackground.png");
@@ -34,12 +33,12 @@ Resources::Resources()
 		{
 			char filename[50];
 			sprintf(filename, "textures/char-%i-%i.png", j, i);
-			Characters[(i*NUMBER_OF_CHARACTER_TYPES)+j] = Iw2DCreateImage(filename);
+			m_Characters[(i*NUMBER_OF_CHARACTER_TYPES)+j] = Iw2DCreateImage(filename);
 		}
 		
 	}
-	Characters[(NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES)] = Iw2DCreateImage("textures/char-gold.png");
-	Characters[(NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES)+1] = Iw2DCreateImage("textures/char-silver.png");
+	m_Characters[(NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES)] = Iw2DCreateImage("textures/char-gold.png");
+	m_Characters[(NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES)+1] = Iw2DCreateImage("textures/char-silver.png");
 
 
 	// Load fonts
@@ -77,10 +76,13 @@ Resources::Resources()
 
 Resources::~Resources()
 {
-	delete     Star;
-	delete		TitleBackground;
-	delete		ResultBackground;
-	delete		GameBackground;
+	delete      m_Star;
+	delete		m_TitleBackground;
+	delete		m_ResultBackground;
+	delete		m_MultiplayerResultBackground;
+	delete		m_InstructionsBackground;
+	delete		m_GameBackground;
+	delete		m_MultiplayerGameBackground;
 	delete		m_SettingsMenuDialog;
     delete      m_Size8Font;
 	delete      m_Size15Font;
@@ -88,12 +90,12 @@ Resources::~Resources()
 	delete		m_Size30Font;
 	
 	//Buttons
-	delete	m_MusicButton;
-	delete	m_MuteMusicButton;
-	delete	m_SoundButton;
-	delete	m_MuteSoundButton;
-	delete	m_PlayButton;
-	delete	m_ExitButton;
+	delete		m_MusicButton;
+	delete		m_MuteMusicButton;
+	delete		m_SoundButton;
+	delete		m_MuteSoundButton;
+	delete		m_PlayButton;
+	delete		m_ExitButton;
 	delete		m_SettingsButton;
 	delete		m_Player1Button;
 	delete		m_Player2Button;
@@ -104,10 +106,11 @@ Resources::~Resources()
 
 	for(int i = 0; i < NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS; i++)
 	{
-		delete Characters[i];
+		delete m_Characters[i];
 	}
-	delete Characters[NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES];
-	delete Characters[NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES+1];
+	//Delete gold and silver characters
+	delete m_Characters[NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES];
+	delete m_Characters[NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES+1];
 }
 
 // Global resources

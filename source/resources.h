@@ -35,11 +35,11 @@ using namespace Iw2DSceneGraph;
 class Resources
 {
 protected:
-    CIw2DImage*     Star;
-	CIw2DImage*		TitleBackground;
-	CIw2DImage*		ResultBackground;
+    CIw2DImage*     m_Star;
+	CIw2DImage*		m_TitleBackground;
+	CIw2DImage*		m_ResultBackground;
 	CIw2DImage*		m_MultiplayerResultBackground;
-	CIw2DImage*		GameBackground;
+	CIw2DImage*		m_GameBackground;
 	CIw2DImage*		m_InstructionsBackground;
 	CIw2DImage*		m_MultiplayerGameBackground;
 	CIw2DImage*		m_SettingsMenuDialog;
@@ -47,7 +47,7 @@ protected:
 	CIw2DFont*      m_Size15Font;
 	CIw2DFont*		m_Size20Font;
 	CIw2DFont*		m_Size30Font;
-	CIw2DImage*		Characters[(NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS)+2];
+	CIw2DImage*		m_Characters[(NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS)+2];
 	
 	//Buttons
 	CIw2DImage *	m_MusicButton;
@@ -74,18 +74,18 @@ protected:
 	char*			m_EmptySound;
 
 public:
-    CIw2DImage*     getStar()									{ return Star; }
-	CIw2DImage*     getTitleBackground()						{ return TitleBackground; }
-	CIw2DImage*     getInstructionsBackground()					{ return m_InstructionsBackground; }
-	CIw2DImage*     getGameBackground()							{ return GameBackground; }
+    CIw2DImage*     GetStar()									{ return m_Star; }
+	CIw2DImage*     GetTitleBackground()						{ return m_TitleBackground; }
+	CIw2DImage*     GetInstructionsBackground()					{ return m_InstructionsBackground; }
+	CIw2DImage*     GetGameBackground()							{ return m_GameBackground; }
 	CIw2DImage*		GetMultiplayerGameBackground()				{ return m_MultiplayerGameBackground; }
-	CIw2DImage*     getResultBackground()						{ return ResultBackground; }
-	CIw2DImage*     getMultiplayerResultBackground()			{ return m_MultiplayerResultBackground; }
-	CIw2DFont*		getSize8Font()								{ return m_Size8Font; }
-	CIw2DFont*		getSize15Font()								{ return m_Size15Font; }
-	CIw2DFont*		getSize20Font()								{ return m_Size20Font; }
-	CIw2DFont*		getSize30Font()								{ return m_Size30Font; }
-	CIw2DImage*		GetCharacter(int index)						{ return Characters[index]; }
+	CIw2DImage*     GetResultBackground()						{ return m_ResultBackground; }
+	CIw2DImage*     GetMultiplayerResultBackground()			{ return m_MultiplayerResultBackground; }
+	CIw2DFont*		GetSize8Font()								{ return m_Size8Font; }
+	CIw2DFont*		GetSize15Font()								{ return m_Size15Font; }
+	CIw2DFont*		GetSize20Font()								{ return m_Size20Font; }
+	CIw2DFont*		GetSize30Font()								{ return m_Size30Font; }
+	CIw2DImage*		GetCharacter(int index)						{ return m_Characters[index]; }
 	CIw2DImage*		GetSettingsMenuDialog()						{ return m_SettingsMenuDialog; }
 	
 	CIw2DImage*		GetMusicButton()							{ return m_MusicButton; }

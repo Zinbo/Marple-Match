@@ -4,9 +4,6 @@
  */
 
 #include "TitleScene.h"
-#include "IwGx.h"
-#include "resources.h"
-#include "audio.h"
 
 #define BUTTON_SPACING 50.0f
 #define BUTTON_STARTING_X 1.0f
@@ -183,7 +180,7 @@ void TitleScene::InitUI()
 	m_Background = new CSprite();
 	m_Background->m_X = (float)IwGxGetScreenWidth() * 0.5f;
 	m_Background->m_Y = (float)IwGxGetScreenHeight() * 0.5f;
-	m_Background->SetImage(g_pResources->getTitleBackground());
+	m_Background->SetImage(g_pResources->GetTitleBackground());
 	m_Background->m_W = m_Background->GetImage()->GetWidth();
 	
 	m_Background->m_H = m_Background->GetImage()->GetHeight();

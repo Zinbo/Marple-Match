@@ -24,8 +24,6 @@ void SettingsMenu::InitButtons()
 	m_PlayButton->SetImage(g_pResources->GetPlayButton());
 	m_PlayButton->m_H = m_PlayButton->GetImage()->GetHeight();
 	m_PlayButton->m_W = m_PlayButton->GetImage()->GetWidth();
-	//m_PlayButton->m_ScaleX = m_XGraphicsScale;
-	//m_PlayButton->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_PlayButton);
 
 	m_MusicButton = new CSprite();
@@ -34,8 +32,6 @@ void SettingsMenu::InitButtons()
 	m_MusicButton->SetImage(g_pResources->GetMusicButton());
 	m_MusicButton->m_H = m_MusicButton->GetImage()->GetHeight();
 	m_MusicButton->m_W = m_MusicButton->GetImage()->GetWidth();
-	//m_MusicButton->m_ScaleX = m_XGraphicsScale;
-	//m_MusicButton->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_MusicButton);
 
 	m_MuteMusicButton = new CSprite();
@@ -44,8 +40,6 @@ void SettingsMenu::InitButtons()
 	m_MuteMusicButton->SetImage(g_pResources->GetMuteMusicButton());
 	m_MuteMusicButton->m_H = m_MuteMusicButton->GetImage()->GetHeight();
 	m_MuteMusicButton->m_W = m_MuteMusicButton->GetImage()->GetWidth();
-	//m_MuteMusicButton->m_ScaleX = m_XGraphicsScale;
-	//m_MuteMusicButton->m_ScaleY = m_YGraphicsScale;
 	m_MuteMusicButton->m_IsVisible = false;
 	AddChild(m_MuteMusicButton);
 
@@ -55,8 +49,6 @@ void SettingsMenu::InitButtons()
 	m_SoundButton->SetImage(g_pResources->GetSoundButton());
 	m_SoundButton->m_H = m_SoundButton->GetImage()->GetHeight();
 	m_SoundButton->m_W = m_SoundButton->GetImage()->GetWidth();
-	//m_SoundButton->m_ScaleX = m_XGraphicsScale;
-	//m_SoundButton->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_SoundButton);
 
 	m_MuteSoundButton = new CSprite();
@@ -65,8 +57,6 @@ void SettingsMenu::InitButtons()
 	m_MuteSoundButton->SetImage(g_pResources->GetMuteSoundButton());
 	m_MuteSoundButton->m_H = m_MuteSoundButton->GetImage()->GetHeight();
 	m_MuteSoundButton->m_W = m_MuteSoundButton->GetImage()->GetWidth();
-	//m_MuteSoundButton->m_ScaleX = m_XGraphicsScale;
-	//m_MuteSoundButton->m_ScaleY = m_YGraphicsScale;
 	m_MuteSoundButton->m_IsVisible = false;
 	AddChild(m_MuteSoundButton);
 
@@ -76,8 +66,6 @@ void SettingsMenu::InitButtons()
 	m_ExitButton->SetImage(g_pResources->GetExitButton());
 	m_ExitButton->m_H = m_ExitButton->GetImage()->GetHeight();
 	m_ExitButton->m_W = m_ExitButton->GetImage()->GetWidth();
-	//m_ExitButton->m_ScaleX = m_XGraphicsScale;
-	//m_ExitButton->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_ExitButton);
 }
 

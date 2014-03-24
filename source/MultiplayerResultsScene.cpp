@@ -1,8 +1,4 @@
 #include "MultiplayerResultsScene.h"
-#include "IwGx.h"
-#include "resources.h"
-#include "TitleScene.h"
-#include "s3eOSReadString.h"
 
 #define PLAYER_1_SCORE_X 7.0f
 #define PLAYER_1_SCORE_Y 48.0f
@@ -125,7 +121,7 @@ void MultiplayerResultsScene::InitRecentScoreLabels()
 	m_Player1ScoreLabel->m_Y = PLAYER_1_SCORE_Y * m_YGraphicsScale;
 	m_Player1ScoreLabel->m_W = SCORE_WIDTH * m_XGraphicsScale;
 	m_Player1ScoreLabel->m_H = SCORE_HEIGHT * m_YGraphicsScale;
-	m_Player1ScoreLabel->SetFont(g_pResources->getSize20Font());
+	m_Player1ScoreLabel->SetFont(g_pResources->GetSize20Font());
 	m_Player1ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1ScoreLabel->m_Color = CColor(0,0,0,255);
@@ -136,7 +132,7 @@ void MultiplayerResultsScene::InitRecentScoreLabels()
 	m_Player2ScoreLabel->m_Y = PLAYER_2_SCORE_Y * m_YGraphicsScale;
 	m_Player2ScoreLabel->m_W = SCORE_WIDTH * m_XGraphicsScale;
 	m_Player2ScoreLabel->m_H = SCORE_HEIGHT * m_YGraphicsScale;
-	m_Player2ScoreLabel->SetFont(g_pResources->getSize20Font());
+	m_Player2ScoreLabel->SetFont(g_pResources->GetSize20Font());
 	m_Player2ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player2ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player2ScoreLabel->m_Color = CColor(0,0,0,255);
@@ -149,7 +145,7 @@ void MultiplayerResultsScene::InitUI()
 	m_Background = new CSprite();
 	m_Background->m_X = 0;
 	m_Background->m_Y = 0;
-	m_Background->SetImage(g_pResources->getMultiplayerResultBackground());
+	m_Background->SetImage(g_pResources->GetMultiplayerResultBackground());
 	m_Background->m_W = m_Background->GetImage()->GetWidth();
 	m_Background->m_H = m_Background->GetImage()->GetHeight();
  

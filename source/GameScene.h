@@ -71,7 +71,7 @@ public:
 private: 
 	//Enums
 	enum { GridWidth = 4, GridHeight = 6 };
-	enum { TouchScore = 10, TimeLimit = 10 };
+	enum { TouchScore = 10, TimeLimit = 120 };
 	enum GameState
 	{                                                                                                                                                                                                                                                                
 		keGamePlaying,

@@ -17,8 +17,8 @@
 #define BUTTON_SPACING 50.0f
 #define BUTTON_STARTING_X 1.0f
 #define BUTTON_STARTING_Y 1.0f
-#define GOLD_PROB 0.1
-#define SILVER_PROB 0.2
+#define GOLD_PROB 0.2
+#define SILVER_PROB 0.3
 
 #define UPDATE_TO_SCORE_X 160.0f
 #define UPDATE_TO_SCORE_Y 55.0f
@@ -468,7 +468,7 @@ void GameScene::RemoveMatchedCharacters(Timer* timer, void* userData)
 	self->m_NoOfMatchedPairs++;
 
 	//If the player has matched 12 pairs then reset the board.
-	if(self->m_NoOfMatchedPairs == 12)
+	if(12 == self->m_NoOfMatchedPairs)
 	{
 		g_pAudio->PlaySound(g_pResources->GetBoardCompleteSoundFilename());
 		self->m_NoOfMatchedPairs = 0;
@@ -544,7 +544,7 @@ void GameScene::InitUI()
 	m_Background = new CSprite();
 	m_Background->m_X = 0;
 	m_Background->m_Y = 0;
-	m_Background->SetImage(g_pResources->getGameBackground());
+	m_Background->SetImage(g_pResources->GetGameBackground());
 	m_Background->m_W = m_Background->GetImage()->GetWidth();
 	m_Background->m_H = m_Background->GetImage()->GetHeight();
 
@@ -564,7 +564,7 @@ void GameScene::InitLabels()
 	m_ScoreLabel->m_H = TIME_TEXT_HEIGHT;
 	m_ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_ScoreLabel->SetFont(g_pResources->getSize20Font());
+	m_ScoreLabel->SetFont(g_pResources->GetSize20Font());
 	m_ScoreLabel->SetText("0000");
 	m_ScoreLabel->m_Color = CColor(0,0,0,255);
 	m_ScoreLabel->m_ScaleX = m_XGraphicsScale;
@@ -579,7 +579,7 @@ void GameScene::InitLabels()
 	m_TimeLabel->m_H = TIME_TEXT_HEIGHT;
 	m_TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_TimeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_TimeLabel->SetFont(g_pResources->getSize20Font());
+	m_TimeLabel->SetFont(g_pResources->GetSize20Font());
 	m_TimeLabel->SetText("02:00");
 	m_TimeLabel->m_Color = CColor(0,0,0,255);
 	m_TimeLabel->m_ScaleX = m_XGraphicsScale;
@@ -592,7 +592,7 @@ void GameScene::InitLabels()
 	m_UpdateToScoreLabel->m_H = UPDATE_TO_SCORE_HEIGHT;
 	m_UpdateToScoreLabel->m_W = UPDATE_TO_SCORE_WIDTH;
 	m_UpdateToScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_RIGHT;
-	m_UpdateToScoreLabel->SetFont(g_pResources->getSize8Font());
+	m_UpdateToScoreLabel->SetFont(g_pResources->GetSize8Font());
 	m_UpdateToScoreLabel->m_Color = CColor(0,0,0,255);
 	m_UpdateToScoreLabel->m_ScaleX = m_XGraphicsScale;
 	m_UpdateToScoreLabel->m_ScaleY = m_YGraphicsScale;
@@ -602,9 +602,9 @@ void GameScene::InitLabels()
 	m_UpdateToTimeLabel->m_X = UPDATE_TO_TIME_X * m_XGraphicsScale;
 	m_UpdateToTimeLabel->m_Y = UPDATE_TO_TIME_Y * m_YGraphicsScale;
 	m_UpdateToTimeLabel->m_H = UPDATE_TO_TIME_HEIGHT;
-	m_UpdateToTimeLabel->m_W = UPDATE_TO_TIME_WIDTH ;
+	m_UpdateToTimeLabel->m_W = UPDATE_TO_TIME_WIDTH;
 	m_UpdateToTimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
-	m_UpdateToTimeLabel->SetFont(g_pResources->getSize8Font());
+	m_UpdateToTimeLabel->SetFont(g_pResources->GetSize8Font());
 	m_UpdateToTimeLabel->m_Color = CColor(0,0,0,255);
 	m_UpdateToTimeLabel->m_ScaleX = m_XGraphicsScale;
 	m_UpdateToTimeLabel->m_ScaleY = m_YGraphicsScale;
@@ -647,7 +647,7 @@ void GameScene::ToggleButtons()
 
 bool GameScene::AMinuteHasGoneBy(float deltaTime)
 {
-	return ((((int)m_Time % 60) == 0) && ((int)m_Time > (int)(m_Time - deltaTime)));
+	return ((0 == ((int)m_Time % 60)) && ((int)m_Time > (int)(m_Time - deltaTime)));
 }
 
 bool GameScene::InTheFinal10Seconds(float deltaTime)

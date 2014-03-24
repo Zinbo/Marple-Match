@@ -55,7 +55,7 @@ public:
 
 private:
 	enum { GridWidth = 4, GridHeight = 3 };
-	enum { TimeLimit = 60 };
+	enum { TimeLimit = 120 };
 
 	enum GameState
 	{                                                                                                                                                                                                                                                                
@@ -80,6 +80,7 @@ private:
 	//Flags
 	bool m_DoublePoints[2];
 	bool m_TriplePoints[2];
+	bool m_Delayed[2];
 
 	//Variables for grid
 	SFAS2014::GridItem * m_Grid[2][GridWidth*GridHeight];
@@ -105,14 +106,14 @@ private:
 	void ProcessNormalMatch(int player);
 	void DelayGameForNonmatch(float deltaTime, int player);
 	void RemoveMatchedCharacterPairFromList(int player);
-	static void RemovePlayer1MatchedCharacters(Timer* timer, void* userData);
-	static void RemovePlayer2MatchedCharacters(Timer* timer, void* userData);
+	static void remove_player_1_matched_characters(Timer* timer, void* userData);
+	static void remove_player_2_matched_characters(Timer* timer, void* userData);
 	bool StarHasBeenTouched(GridItem * gridItem);
 	void IncrementScore(int amount, int player);
 	void ProcessIncorrectMatch(int player);
 	void ProcessOddPowerupMatch(int player);
 	GridItem* FindOtherHalfOfPair(GridItem* gridItem, int player);
-	bool m_Delayed[2];
+	
 
 	//Init helpers
 	void InitBoard();
@@ -133,10 +134,10 @@ private:
 	
 	//Powerup helpers
 	void RemovePairsPowerUp(GridItem* selected, int player);
-	static void ResetPlayer1DoublePoints(Timer* timer, void* userData);
-	static void ResetPlayer2DoublePoints(Timer* timer, void* userData);
-	static void ResetPlayer1TriplePoints(Timer* timer, void* userData);
-	static void ResetPlayer2TriplePoints(Timer* timer, void* userData);
+	static void reset_player_1_double_points(Timer* timer, void* userData);
+	static void reset_player_2_double_points(Timer* timer, void* userData);
+	static void reset_player_1_triple_points(Timer* timer, void* userData);
+	static void reset_player_2_triple_points(Timer* timer, void* userData);
 	
 	//Time helpers 
 	bool AMinuteHasGoneBy(float deltaTime);

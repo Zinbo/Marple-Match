@@ -3,7 +3,6 @@
 
 TopScores::TopScores(void)
 {
-	randomVariable = 5;
 }
 
 
@@ -19,9 +18,4 @@ PlayerScore TopScores::GetNameScorePair(int index)
 void TopScores::SetNameScorePair(PlayerScore playerScore, int index)
 {
 	m_PlayerScores[index] = playerScore;
-}
-
-void TopScores::SetRandomVariable()
-{
-	randomVariable = 7;
 }

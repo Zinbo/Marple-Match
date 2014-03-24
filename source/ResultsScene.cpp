@@ -58,7 +58,7 @@ void ResultsScene::InitRecentScoreLabels()
 	m_ScoreLabel->m_Y = 65.0f * m_YGraphicsScale;
 	m_ScoreLabel->m_W = 150.0f;
 	m_ScoreLabel->m_H = 30.0f;
-	m_ScoreLabel->SetFont(g_pResources->getSize30Font());
+	m_ScoreLabel->SetFont(g_pResources->GetSize30Font());
 	m_ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->m_Color = CColor(0,0,0,255);
@@ -208,7 +208,7 @@ void ResultsScene::InitUI()
 	m_Background = new CSprite();
 	m_Background->m_X = 0;
 	m_Background->m_Y = 0;
-	m_Background->SetImage(g_pResources->getResultBackground());
+	m_Background->SetImage(g_pResources->GetResultBackground());
 	m_Background->m_W = m_Background->GetImage()->GetWidth();
 	m_Background->m_H = m_Background->GetImage()->GetHeight();
  
@@ -228,7 +228,7 @@ void ResultsScene::InitLeaderboardLabels()
 		nameLabel->m_Y = (170.0f + i*40.0f)  * m_YGraphicsScale;
 		nameLabel->m_H = 20.0f;
 		nameLabel->m_W = 100.0f;
-		nameLabel->SetFont(g_pResources->getSize20Font());
+		nameLabel->SetFont(g_pResources->GetSize20Font());
 		nameLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 		nameLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
 		nameLabel->m_Color = CColor(0,0,0,255);
@@ -242,7 +242,7 @@ void ResultsScene::InitLeaderboardLabels()
 		scoreLabel->m_Y = (170.0f + i*40.0f) * m_YGraphicsScale;
 		scoreLabel->m_H = 20.0f;
 		scoreLabel->m_W = 100.0f;
-		scoreLabel->SetFont(g_pResources->getSize20Font());
+		scoreLabel->SetFont(g_pResources->GetSize20Font());
 		scoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 		scoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_RIGHT;
 		scoreLabel->m_Color = CColor(0,0,0,255);

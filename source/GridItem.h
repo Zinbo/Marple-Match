@@ -9,6 +9,7 @@
 #include "Iw2DSceneGraph.h"
 #include "IwGx.h"
 #include "CharacterBuilder.h"
+#include "resources.h"
 
 namespace SFAS2014
 {

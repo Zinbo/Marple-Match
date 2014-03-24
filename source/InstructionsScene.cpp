@@ -62,7 +62,7 @@ void InstructionsScene::Render()
 void InstructionsScene::InitUI()
 {
 	m_Background = new CSprite();
-	m_Background->SetImage(g_pResources->getInstructionsBackground());
+	m_Background->SetImage(g_pResources->GetInstructionsBackground());
 	m_Background->m_W = m_Background->GetImage()->GetWidth();
 	m_Background->m_H = m_Background->GetImage()->GetHeight();
 	//Fit background to screen size

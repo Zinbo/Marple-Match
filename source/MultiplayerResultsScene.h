@@ -1,5 +1,9 @@
 #pragma once
 #include "ResultsScene.h"
+#include "IwGx.h"
+#include "resources.h"
+#include "TitleScene.h"
+#include "s3eOSReadString.h"
 namespace SFAS2014
 {
 	class MultiplayerResultsScene  : public ResultsScene

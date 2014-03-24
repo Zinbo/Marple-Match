@@ -5,14 +5,6 @@
 
 #include "GameSceneManager.h"
 
-#include "TitleScene.h"
-#include "GameScene.h"
-#include "ResultsScene.h"
-#include "MultiplayerGameScene.h"
-#include "MultiplayerResultsScene.h"
-#include "InstructionsScene.h"
-#include "input.h"
-
 #define GRAPHIC_DESIGN_WIDTH 320
 #define GRAPHIC_DESIGN_HEIGHT 480
 #define SETTINGS_MENU_X_SIZE 200.0f
@@ -34,23 +26,23 @@ GameSceneManager::GameSceneManager()
 	m_GameScore[0] = 0;
 	m_GameScore[1] = 0;
 
-	settingsMenu = new SettingsMenu(xGraphicsScale, yGraphicsScale);
-	settingsMenu->SetImage(g_pResources->GetSettingsMenuDialog());
-	settingsMenu->m_X = 60*xGraphicsScale;
-	settingsMenu->m_Y= 65*yGraphicsScale;
-	settingsMenu->m_H = settingsMenu->GetImage()->GetHeight();
-	settingsMenu->m_W = settingsMenu->GetImage()->GetWidth();
-	settingsMenu->m_ScaleX = xGraphicsScale;
-	settingsMenu->m_ScaleY = yGraphicsScale;
-	settingsMenu->m_IsVisible = false;
+	m_SettingsMenu = new SettingsMenu(xGraphicsScale, yGraphicsScale);
+	m_SettingsMenu->SetImage(g_pResources->GetSettingsMenuDialog());
+	m_SettingsMenu->m_X = 60*xGraphicsScale;
+	m_SettingsMenu->m_Y= 65*yGraphicsScale;
+	m_SettingsMenu->m_H = m_SettingsMenu->GetImage()->GetHeight();
+	m_SettingsMenu->m_W = m_SettingsMenu->GetImage()->GetWidth();
+	m_SettingsMenu->m_ScaleX = xGraphicsScale;
+	m_SettingsMenu->m_ScaleY = yGraphicsScale;
+	m_SettingsMenu->m_IsVisible = false;
 
 	// Create the game scenes 
-	m_pScenes[TitleState] = new TitleScene(xGraphicsScale, yGraphicsScale, settingsMenu);
-	m_pScenes[GameState] = new GameScene(xGraphicsScale, yGraphicsScale, settingsMenu);
-	m_pScenes[ResultsState] = new ResultsScene(xGraphicsScale, yGraphicsScale, settingsMenu);
-	m_pScenes[MultiplayerGameState] = new MultiplayerGameScene(xGraphicsScale, yGraphicsScale, settingsMenu);
+	m_pScenes[TitleState] = new TitleScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
+	m_pScenes[GameState] = new GameScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
+	m_pScenes[ResultsState] = new ResultsScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
+	m_pScenes[MultiplayerGameState] = new MultiplayerGameScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
 	m_pScenes[InstructionState] = new InstructionsScene(xGraphicsScale, yGraphicsScale);
-	m_pScenes[MultiplayerResultsState] = new MultiplayerResultsScene(xGraphicsScale, yGraphicsScale, settingsMenu);
+	m_pScenes[MultiplayerResultsState] = new MultiplayerResultsScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
 
 	// Set the scene names
 	m_pScenes[TitleState]->SetName( "TitleState" );
@@ -71,6 +63,7 @@ GameSceneManager::GameSceneManager()
 	SwitchTo( GameSceneManager::TitleState );
 
 }
+
 void GameSceneManager::IncrementScore(int incrementValue, int player)
 {
 	m_GameScore[player] += incrementValue;
