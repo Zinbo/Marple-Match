@@ -9,6 +9,7 @@
 #include "scene.h"
 #include "input.h"
 #include "GameScene.h"
+#include "MultiplayerGameScene.h"
 
 namespace SFAS2014
 {
@@ -74,7 +75,8 @@ private:
 	void ToggleSettingMenu();
 
 	//Scene helpers
-	void ChangeSceneAndCleanUp();
+	void CleanUp();
+	void SwitchScene(Scene *scene);
 };
 }
 

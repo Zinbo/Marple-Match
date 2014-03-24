@@ -29,7 +29,7 @@ public:
 		TitleState,
 		GameState,
 		ResultsState,
-
+		MultiplayerGameState,
 		NumberOfStates
 	};
 
@@ -51,14 +51,15 @@ public:
      */
 	void    SwitchTo(GameSceneManager::State state);
 
-	void IncrementScore(int incrementValue);
-	int GetScore();
-	void SetScore(int score);
+	void IncrementScore(int incrementValue, int player);
+	int GetScore(int player);
+	void SetScore(int score, int player);
+
 
 private: 
 	
 	Scene * m_pScenes[NumberOfStates];
-	int m_GameScore;
+	int m_GameScore[2];
 	bool	m_MusicPlaying;
 	bool	m_SoundPlaying;
 	SettingsMenu* settingsMenu;

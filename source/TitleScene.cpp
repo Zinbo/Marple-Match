@@ -66,11 +66,13 @@ void TitleScene::Update(float deltaTime, float alphaMul)
 		}
 		else if(m_Player1Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
 		{
-			ChangeSceneAndCleanUp();
+			GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
+			SwitchScene(gameScene);
 		}
 		else if(m_Player2Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
 		{
-			//TODO
+			MultiplayerGameScene * multiplayerScene = (MultiplayerGameScene *) m_Manager->Find("MultiplayerState");
+			SwitchScene(multiplayerScene);
 		}
 		else if(m_InstructionsButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
 		{
@@ -196,10 +198,13 @@ void TitleScene::InitUI()
 	AddChild(m_Background);
 }
 
-void TitleScene::ChangeSceneAndCleanUp()
+void TitleScene::CleanUp()
 {
-	GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
 	Audio::StopMusic();
-	m_Manager->SwitchTo(gameScene);
 }
 
+void TitleScene::SwitchScene(Scene* scene)
+{
+	CleanUp();
+	m_Manager->SwitchTo(scene);
+}

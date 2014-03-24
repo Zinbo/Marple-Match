@@ -23,6 +23,7 @@ Resources::Resources()
     Star = Iw2DCreateImage("textures/Star.png");
 	TitleBackground = Iw2DCreateImage( "textures/startMenu.png" );
 	GameBackground = Iw2DCreateImage( "textures/gameBackground.png" );
+	m_MultiplayerGameBackground = Iw2DCreateImage( "textures/multiplayerGameBackground.png" );
 	ResultBackground = Iw2DCreateImage( "textures/resultScreen.png" );
 	m_SettingsMenuDialog = Iw2DCreateImage("textures/settingsMenuDialog.png");
 	for(int i = 0; i < NUMBER_OF_CHARACTER_COLOURS; i++)

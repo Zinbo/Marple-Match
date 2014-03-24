@@ -39,6 +39,7 @@ protected:
 	CIw2DImage*		TitleBackground;
 	CIw2DImage*		ResultBackground;
 	CIw2DImage*		GameBackground;
+	CIw2DImage*		m_MultiplayerGameBackground;
 	CIw2DImage*		m_SettingsMenuDialog;
     CIw2DFont*      m_Size8Font;
 	CIw2DFont*      m_Size15Font;
@@ -73,6 +74,7 @@ public:
     CIw2DImage*     getStar()									{ return Star; }
 	CIw2DImage*     getTitleBackground()						{ return TitleBackground; }
 	CIw2DImage*     getGameBackground()							{ return GameBackground; }
+	CIw2DImage*		GetMultiplayerGameBackground()				{ return m_MultiplayerGameBackground; }
 	CIw2DImage*     getResultBackground()						{ return ResultBackground; }
 	CIw2DFont*		getSize8Font()								{ return m_Size8Font; }
 	CIw2DFont*		getSize15Font()								{ return m_Size15Font; }

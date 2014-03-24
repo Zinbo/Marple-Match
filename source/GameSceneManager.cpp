@@ -8,6 +8,7 @@
 #include "TitleScene.h"
 #include "GameScene.h"
 #include "ResultsScene.h"
+#include "MultiplayerGameScene.h"
 #include "input.h"
 
 #define GRAPHIC_DESIGN_WIDTH 320
@@ -23,10 +24,13 @@ using namespace SFAS2014;
 //
 //
 GameSceneManager::GameSceneManager()
-	:m_GameScore(0), m_MusicPlaying(true), m_SoundPlaying(true)
+	:m_MusicPlaying(true), m_SoundPlaying(true)
 {
 	float xGraphicsScale = (float) IwGxGetScreenWidth() / GRAPHIC_DESIGN_WIDTH;
 	float yGraphicsScale = (float) IwGxGetScreenHeight() / GRAPHIC_DESIGN_HEIGHT;
+
+	m_GameScore[0] = 0;
+	m_GameScore[1] = 0;
 
 	settingsMenu = new SettingsMenu(xGraphicsScale, yGraphicsScale);
 	settingsMenu->SetImage(g_pResources->GetSettingsMenuDialog());
@@ -42,11 +46,13 @@ GameSceneManager::GameSceneManager()
 	m_pScenes[TitleState] = new TitleScene(xGraphicsScale, yGraphicsScale, settingsMenu);
 	m_pScenes[GameState] = new GameScene(xGraphicsScale, yGraphicsScale, settingsMenu);
 	m_pScenes[ResultsState] = new ResultsScene(xGraphicsScale, yGraphicsScale, settingsMenu);
+	m_pScenes[MultiplayerGameState] = new MultiplayerGameScene(xGraphicsScale, yGraphicsScale, settingsMenu);
 
 	// Set the scene names
 	m_pScenes[TitleState]->SetName( "TitleState" );
 	m_pScenes[GameState]->SetName( "GameState" );
 	m_pScenes[ResultsState]->SetName( "ResultsState" );
+	m_pScenes[MultiplayerGameState]->SetName( "MultiplayerState" );
 
 	// Add and init all the scenes
 	for( int count = 0; count < NumberOfStates; count++ )
@@ -59,20 +65,22 @@ GameSceneManager::GameSceneManager()
 	SwitchTo( GameSceneManager::TitleState );
 
 }
-void GameSceneManager::IncrementScore(int incrementValue)
+void GameSceneManager::IncrementScore(int incrementValue, int player)
 {
-	m_GameScore += incrementValue;
+	m_GameScore[player] += incrementValue;
 }
 
-void GameSceneManager::SetScore(int score)
+void GameSceneManager::SetScore(int score, int player)
 {
-	m_GameScore = score;
+	m_GameScore[player] = score;
 }
 
-int GameSceneManager::GetScore()
+int GameSceneManager::GetScore(int player)
 {
-	return m_GameScore;
+	return m_GameScore[player];
 }
+
+
 
 GameSceneManager::~GameSceneManager()
 {

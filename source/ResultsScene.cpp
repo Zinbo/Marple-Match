@@ -248,7 +248,7 @@ void ResultsScene::InitLabels()
 void ResultsScene::SetupLabels()
 {
 	char scoreBuffer[5];
-	sprintf(scoreBuffer, "%.4d", ((GameSceneManager*) m_Manager)->GetScore());
+	sprintf(scoreBuffer, "%.4d", ((GameSceneManager*) m_Manager)->GetScore(0));
 	m_ScoreLabel->SetText(scoreBuffer);
 }
 
@@ -330,7 +330,7 @@ void ResultsScene::UpdateForNewScore()
 	for(int i = 0; i < 5; i++)
 	{
 
-		if(((GameSceneManager *) m_Manager)->GetScore() > m_TopScores->GetNameScorePair(i).GetScore())
+		if(((GameSceneManager *) m_Manager)->GetScore(0) > m_TopScores->GetNameScorePair(i).GetScore())
 		{
 			
 			const char* playerName = s3eOSReadStringUTF8("New Highscore for player 1! Please enter name. (5 characters or less)");
@@ -354,7 +354,7 @@ void ResultsScene::UpdateForNewScore()
 		}
 		PlayerScore p = m_TopScores->GetNameScorePair(newScoreIndex);
 		p.SetName(nameBuffer);
-		p.SetScore(((GameSceneManager *) m_Manager)->GetScore());
+		p.SetScore(((GameSceneManager *) m_Manager)->GetScore(0));
 		m_TopScores->SetNameScorePair(p, newScoreIndex);
 
 		WriteScores();

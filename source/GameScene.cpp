@@ -92,7 +92,7 @@ void GameScene::Reset()
 	}
 	
 	m_Time = (float)TimeLimit;
-	((GameSceneManager*) m_Manager)->SetScore(0);
+	((GameSceneManager*) m_Manager)->SetScore(0, 0);
 	Audio::PlayMusic(g_pResources->GetGameMusicFilename(), true);
 	UpdateLabels();
 	//If the sound and music has been turned off in another scene then set the buttons on this scene to reflect this.
@@ -281,7 +281,8 @@ void GameScene::ProcessSilverMatch()
 		DisplayUpdateToScore("+20 Silver Match!");
 		IncrementScore(20);
 	}
-	m_Timers.Add(new Timer(10.0f, 1, &GameScene::ResetDoublePoints, (void*)this));
+	m_DoublePointsTimer = new Timer(10.0f, 1, &GameScene::ResetDoublePoints, (void*)this);
+	m_Timers.Add(m_DoublePointsTimer);
 }
 
 void GameScene::ProcessNormalMatch()
@@ -303,7 +304,7 @@ void GameScene::ProcessNormalMatch()
 
 void GameScene::IncrementScore(int amount)
 {
-	((GameSceneManager*) m_Manager)->IncrementScore(amount);
+	((GameSceneManager*) m_Manager)->IncrementScore(amount, 0);
 }
 
 void GameScene::RemoveCharactersAfterDelay()
@@ -665,7 +666,7 @@ void GameScene::CleanUpAndChangeScene()
 void GameScene::UpdateLabels()
 {
 	char scoreBuffer[5];
-	sprintf(scoreBuffer, "%.4d", ((GameSceneManager*) m_Manager)->GetScore() );
+	sprintf(scoreBuffer, "%.4d", ((GameSceneManager*) m_Manager)->GetScore(0) );
 	m_ScoreLabel->SetText(scoreBuffer);
 
 	int minutes, seconds;
