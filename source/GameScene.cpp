@@ -296,7 +296,6 @@ void GameScene::ProcessNormalMatch()
 	else
 	{
 		DisplayUpdateToScore("+10 Match!");
-		DisplayUpdateToTime("+20 seconds!");
 		IncrementScore(10);
 	}
 	
@@ -661,6 +660,7 @@ void GameScene::CleanUpAndChangeScene()
 	Audio::StopMusic();
 	m_Manager->SwitchTo(resultsScene);	
 	m_GameState = keGameOver;
+	m_NoOfMatchedPairs = 0;
 }
 
 void GameScene::UpdateLabels()

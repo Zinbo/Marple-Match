@@ -25,7 +25,9 @@ Resources::Resources()
 	GameBackground = Iw2DCreateImage( "textures/gameBackground.png" );
 	m_MultiplayerGameBackground = Iw2DCreateImage( "textures/multiplayerGameBackground.png" );
 	ResultBackground = Iw2DCreateImage( "textures/resultScreen.png" );
+	m_MultiplayerResultBackground = Iw2DCreateImage( "textures/multiplayerResultScreen.png" );
 	m_SettingsMenuDialog = Iw2DCreateImage("textures/settingsMenuDialog.png");
+	m_InstructionsBackground = Iw2DCreateImage("textures/instructionsBackground.png");
 	for(int i = 0; i < NUMBER_OF_CHARACTER_COLOURS; i++)
 	{
 		for(int j = 0; j < NUMBER_OF_CHARACTER_TYPES; j++)

@@ -30,6 +30,8 @@ public:
 		GameState,
 		ResultsState,
 		MultiplayerGameState,
+		InstructionState,
+		MultiplayerResultsState,
 		NumberOfStates
 	};
 

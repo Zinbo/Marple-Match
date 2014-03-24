@@ -9,6 +9,8 @@
 #include "GameScene.h"
 #include "ResultsScene.h"
 #include "MultiplayerGameScene.h"
+#include "MultiplayerResultsScene.h"
+#include "InstructionsScene.h"
 #include "input.h"
 
 #define GRAPHIC_DESIGN_WIDTH 320
@@ -47,12 +49,16 @@ GameSceneManager::GameSceneManager()
 	m_pScenes[GameState] = new GameScene(xGraphicsScale, yGraphicsScale, settingsMenu);
 	m_pScenes[ResultsState] = new ResultsScene(xGraphicsScale, yGraphicsScale, settingsMenu);
 	m_pScenes[MultiplayerGameState] = new MultiplayerGameScene(xGraphicsScale, yGraphicsScale, settingsMenu);
+	m_pScenes[InstructionState] = new InstructionsScene(xGraphicsScale, yGraphicsScale);
+	m_pScenes[MultiplayerResultsState] = new MultiplayerResultsScene(xGraphicsScale, yGraphicsScale, settingsMenu);
 
 	// Set the scene names
 	m_pScenes[TitleState]->SetName( "TitleState" );
 	m_pScenes[GameState]->SetName( "GameState" );
 	m_pScenes[ResultsState]->SetName( "ResultsState" );
 	m_pScenes[MultiplayerGameState]->SetName( "MultiplayerState" );
+	m_pScenes[InstructionState]->SetName( "InstructionsState" );
+	m_pScenes[MultiplayerResultsState]->SetName( "MultiplayerResultsState" );
 
 	// Add and init all the scenes
 	for( int count = 0; count < NumberOfStates; count++ )

@@ -54,9 +54,9 @@ public:
 
 	void    Reset();
 
-private: 
+protected: 
 	//Sprites
-	CSprite* background;
+	CSprite* m_Background;
 	CSprite* m_SettingsButton;
 	CSprite* m_PlayAgainButton;
 	CSprite* m_MainMenuButton;
@@ -71,7 +71,8 @@ private:
 
 	//Init helpers
 	void InitUI();
-	void InitLabels();
+	void InitRecentScoreLabels();
+	void InitLeaderboardLabels();
 	void InitButtons();
 
 	//Button helpers
@@ -81,7 +82,7 @@ private:
 	//Scene helpers
 	void CleanUp();
 	void SwitchScene(Scene* scene);
-	void SetupLabels();
+	void SetupRecentScoreLabels();
 
 	//Leaderboard helpers
 	void SetupLeaderboard();

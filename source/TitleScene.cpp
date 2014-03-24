@@ -76,7 +76,8 @@ void TitleScene::Update(float deltaTime, float alphaMul)
 		}
 		else if(m_InstructionsButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
 		{
-			//TODO
+			InstructionsScene * instructionsScene = (InstructionsScene *) m_Manager->Find("InstructionsState");
+			SwitchScene(instructionsScene);
 		}
 		g_pInput->Reset();
 	}

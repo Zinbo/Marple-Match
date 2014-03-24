@@ -7,7 +7,7 @@
 #include "input.h"
 #include "GridItem.h"
 #include "GameSceneManager.h"
-#include "ResultsScene.h"
+#include "MultiplayerResultsScene.h"
 
 namespace SFAS2014
 {
@@ -55,7 +55,7 @@ public:
 
 private:
 	enum { GridWidth = 4, GridHeight = 3 };
-	enum { TimeLimit = 10 };
+	enum { TimeLimit = 60 };
 
 	enum GameState
 	{                                                                                                                                                                                                                                                                
@@ -79,6 +79,7 @@ private:
 
 	//Flags
 	bool m_DoublePoints[2];
+	bool m_TriplePoints[2];
 
 	//Variables for grid
 	SFAS2014::GridItem * m_Grid[2][GridWidth*GridHeight];
@@ -92,8 +93,7 @@ private:
 	float m_Time;
 	float m_DelayTime[2];
 	Timer* m_DoublePointsTimer[2];
-	Timer* m_Player1TriplePointsTimer;
-	Timer* m_Player2TriplePointsTimer;
+	Timer* m_TriplePointsTimer[2];
 
 	//Methods
 	//Matching characters
@@ -112,7 +112,6 @@ private:
 	void ProcessIncorrectMatch(int player);
 	void ProcessOddPowerupMatch(int player);
 	GridItem* FindOtherHalfOfPair(GridItem* gridItem, int player);
-	void FadeLabels();
 	bool m_Delayed[2];
 
 	//Init helpers
@@ -136,6 +135,8 @@ private:
 	void RemovePairsPowerUp(GridItem* selected, int player);
 	static void ResetPlayer1DoublePoints(Timer* timer, void* userData);
 	static void ResetPlayer2DoublePoints(Timer* timer, void* userData);
+	static void ResetPlayer1TriplePoints(Timer* timer, void* userData);
+	static void ResetPlayer2TriplePoints(Timer* timer, void* userData);
 	
 	//Time helpers 
 	bool AMinuteHasGoneBy(float deltaTime);

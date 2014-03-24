@@ -31,8 +31,12 @@ MultiplayerGameScene::MultiplayerGameScene(float xGraphicsScale, float yGraphics
 	IwRandSeed( time( 0 ) );
 	m_DoublePointsTimer[0] = NULL;
 	m_DoublePointsTimer[1] = NULL;
+	m_TriplePointsTimer[0] = NULL;
+	m_TriplePointsTimer[1] = NULL;
 	m_DoublePoints[0] = false;
 	m_DoublePoints[1] = false;
+	m_TriplePoints[0] = false;
+	m_TriplePoints[1] = false;
 	m_DelayTime[0] = 0;
 	m_DelayTime[1] = 0;
 	m_Delayed[0] = false;
@@ -410,7 +414,11 @@ void MultiplayerGameScene::RemovePlayer2MatchedCharacters(Timer* timer, void* us
 void MultiplayerGameScene::ProcessNormalMatch(int player)
 {
 	g_pAudio->PlaySound(g_pResources->GetMatchSoundFilename());
-	if(m_DoublePoints[player])
+	if(m_TriplePoints[player])
+	{
+		IncrementScore(30, player);
+	}
+	else if(m_DoublePoints[player])
 	{
 		IncrementScore(20, player);
 	}
@@ -424,6 +432,13 @@ void MultiplayerGameScene::ProcessNormalMatch(int player)
 void MultiplayerGameScene::ProcessGoldMatch(int player)
 {
 	g_pAudio->PlaySound(g_pResources->GetGoldPickupSoundFilename());
+	m_TriplePoints[player] = true;
+	if(m_TriplePointsTimer[player] != NULL)
+	{
+		m_Timers.Cancel(m_TriplePointsTimer[player]);
+		m_TriplePointsTimer[player] = NULL;
+		IncrementScore(150, player);
+	}
 	if(m_DoublePoints[player])
 	{
 		IncrementScore(100, player);
@@ -431,6 +446,17 @@ void MultiplayerGameScene::ProcessGoldMatch(int player)
 	else
 	{
 		IncrementScore(50, player);
+	}
+
+	if(player == 0)
+	{
+		m_TriplePointsTimer[player] = new Timer(10.0f, 1, &MultiplayerGameScene::ResetPlayer1TriplePoints, (void*)this);
+		m_Timers.Add(m_TriplePointsTimer[player]);
+	}
+	else
+	{
+		m_TriplePointsTimer[player] = new Timer(10.0f, 1, &MultiplayerGameScene::ResetPlayer2TriplePoints, (void*)this);
+		m_Timers.Add(m_TriplePointsTimer[player]);
 	}
 }
 
@@ -449,18 +475,26 @@ void MultiplayerGameScene::CheckForMatches()
 void MultiplayerGameScene::ProcessSilverMatch(int player)
 {
 	g_pAudio->PlaySound(g_pResources->GetSilverPickupSoundFilename());
-	m_DoublePoints[player] = true;
+	
 	if(m_DoublePointsTimer[player] != NULL)
 	{
 		m_Timers.Cancel(m_DoublePointsTimer[player]);
 		m_DoublePointsTimer[player] = NULL;
+		
+	}
+	if(m_TriplePoints[player])
+	{
+		IncrementScore(60, player);
+	}
+	else if(m_DoublePoints[player])
+	{
 		IncrementScore(40, player);
 	}
 	else
 	{
 		IncrementScore(20, player);
 	}
-
+	m_DoublePoints[player] = true;
 	if(player == 0)
 	{
 		m_DoublePointsTimer[player] = new Timer(10.0f, 1, &MultiplayerGameScene::ResetPlayer1DoublePoints, (void*)this);
@@ -483,6 +517,17 @@ void MultiplayerGameScene::ResetPlayer1DoublePoints(Timer* timer, void* userData
 void MultiplayerGameScene::ResetPlayer2DoublePoints(Timer* timer, void* userData){
 	MultiplayerGameScene* self = (MultiplayerGameScene*) userData;
 	self->m_DoublePoints[1] = false;
+}
+
+void MultiplayerGameScene::ResetPlayer1TriplePoints(Timer* timer, void* userData)
+{
+	MultiplayerGameScene* self = (MultiplayerGameScene*) userData;
+	self->m_TriplePoints[0] = false;
+}
+
+void MultiplayerGameScene::ResetPlayer2TriplePoints(Timer* timer, void* userData){
+	MultiplayerGameScene* self = (MultiplayerGameScene*) userData;
+	self->m_TriplePoints[1] = false;
 }
 
 void MultiplayerGameScene::IncrementScore(int amount, int player)
@@ -566,7 +611,9 @@ void MultiplayerGameScene::CleanUpAndChangeScene()
 	m_FirstSelectedItem[1] = NULL;
 	m_SecondSelectedItem[0] = NULL;
 	m_SecondSelectedItem[1] = NULL;
-	ResultsScene * resultsScene= (ResultsScene*) m_Manager->Find("ResultsState");
+	m_NoOfMatchedPairs[0] = 0;
+	m_NoOfMatchedPairs[1] = 0;
+	MultiplayerResultsScene * resultsScene= (MultiplayerResultsScene*) m_Manager->Find("MultiplayerResultsState");
 	Audio::StopMusic();
 	m_Manager->SwitchTo(resultsScene);	
 	m_GameState = keGameOver;

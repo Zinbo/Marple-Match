@@ -38,7 +38,9 @@ protected:
     CIw2DImage*     Star;
 	CIw2DImage*		TitleBackground;
 	CIw2DImage*		ResultBackground;
+	CIw2DImage*		m_MultiplayerResultBackground;
 	CIw2DImage*		GameBackground;
+	CIw2DImage*		m_InstructionsBackground;
 	CIw2DImage*		m_MultiplayerGameBackground;
 	CIw2DImage*		m_SettingsMenuDialog;
     CIw2DFont*      m_Size8Font;
@@ -73,9 +75,11 @@ protected:
 public:
     CIw2DImage*     getStar()									{ return Star; }
 	CIw2DImage*     getTitleBackground()						{ return TitleBackground; }
+	CIw2DImage*     getInstructionsBackground()					{ return m_InstructionsBackground; }
 	CIw2DImage*     getGameBackground()							{ return GameBackground; }
 	CIw2DImage*		GetMultiplayerGameBackground()				{ return m_MultiplayerGameBackground; }
 	CIw2DImage*     getResultBackground()						{ return ResultBackground; }
+	CIw2DImage*     getMultiplayerResultBackground()			{ return m_MultiplayerResultBackground; }
 	CIw2DFont*		getSize8Font()								{ return m_Size8Font; }
 	CIw2DFont*		getSize15Font()								{ return m_Size15Font; }
 	CIw2DFont*		getSize20Font()								{ return m_Size20Font; }

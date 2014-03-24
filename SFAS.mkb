@@ -46,6 +46,8 @@ files
 	MultiplayerGameScene.cpp
 	PlayerScore.cpp
 	TopScores.cpp
+	InstructionsScene.cpp
+	MultiplayerResultsScene.cpp
 
 	Timer.h
 	CharacterBuilder.h
@@ -53,6 +55,8 @@ files
 	MultiplayerGameScene.h
 	PlayerScore.h
 	TopScores.h
+	InstructionsScene.h
+	MultiplayerResultsScene.h
 }
 
 assets

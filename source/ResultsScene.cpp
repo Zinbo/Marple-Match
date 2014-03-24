@@ -44,10 +44,27 @@ void ResultsScene::Init()
 	Scene::Init();
 
 	InitUI();
-	InitLabels();
+	InitRecentScoreLabels();
+	InitLeaderboardLabels();
 	InitButtons();
 	PopulateScores();
 }
+
+void ResultsScene::InitRecentScoreLabels()
+{
+	// Create the score text
+	m_ScoreLabel = new CLabel();
+	m_ScoreLabel->m_X = 85.0f;
+	m_ScoreLabel->m_Y = 65.0f;
+	m_ScoreLabel->m_W = 150.0f;
+	m_ScoreLabel->m_H = 30.0f;
+	m_ScoreLabel->SetFont(g_pResources->getSize30Font());
+	m_ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
+	m_ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
+	m_ScoreLabel->m_Color = CColor(0,0,0,255);
+	AddChild(m_ScoreLabel);
+}
+
 
 void ResultsScene::Update(float deltaTime, float alphaMul)
 {
@@ -81,8 +98,6 @@ void ResultsScene::Update(float deltaTime, float alphaMul)
 		}
 		g_pInput->Reset();
 	}
-
-	SetupLabels();
 }
 
 void ResultsScene::InitButtons()
@@ -178,7 +193,7 @@ void ResultsScene::Reset()
 	Audio::PlayMusic(g_pResources->GetMenuMusicFilename(), true);
 	UpdateForNewScore();
 	SetupLeaderboard();
-	SetupLabels();
+	SetupRecentScoreLabels();
 	//If the sound and music has been turned off in another scene then set the buttons on this scene to reflect this.
 }
 void ResultsScene::Render()
@@ -189,33 +204,21 @@ void ResultsScene::Render()
 void ResultsScene::InitUI()
 {
 	// Create background sprite
-	background = new CSprite();
-	background->m_X = 0;
-	background->m_Y = 0;
-	background->SetImage(g_pResources->getResultBackground());
-	background->m_W = background->GetImage()->GetWidth();
-	background->m_H = background->GetImage()->GetHeight();
+	m_Background = new CSprite();
+	m_Background->m_X = 0;
+	m_Background->m_Y = 0;
+	m_Background->SetImage(g_pResources->getResultBackground());
+	m_Background->m_W = m_Background->GetImage()->GetWidth();
+	m_Background->m_H = m_Background->GetImage()->GetHeight();
  
 	// Fit background to screen size
-	background->m_ScaleX = (float)IwGxGetScreenWidth() / background->GetImage()->GetWidth();
-	background->m_ScaleY = (float)IwGxGetScreenHeight() / background->GetImage()->GetHeight();
-	AddChild(background);
+	m_Background->m_ScaleX = (float)IwGxGetScreenWidth() / m_Background->GetImage()->GetWidth();
+	m_Background->m_ScaleY = (float)IwGxGetScreenHeight() / m_Background->GetImage()->GetHeight();
+	AddChild(m_Background);
 }
 
-void ResultsScene::InitLabels()
+void ResultsScene::InitLeaderboardLabels()
 {
-	// Create the score text
-	m_ScoreLabel = new CLabel();
-	m_ScoreLabel->m_X = 85.0f;
-	m_ScoreLabel->m_Y = 65.0f;
-	m_ScoreLabel->m_W = 150.0f;
-	m_ScoreLabel->m_H = 30.0f;
-	m_ScoreLabel->SetFont(g_pResources->getSize30Font());
-	m_ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
-	m_ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_ScoreLabel->m_Color = CColor(0,0,0,255);
-	AddChild(m_ScoreLabel);
-
 	for(int i = 0; i < 5; i++)
 	{
 		m_TopScoreNames[i] = new CLabel();
@@ -245,7 +248,7 @@ void ResultsScene::InitLabels()
 
 }
 
-void ResultsScene::SetupLabels()
+void ResultsScene::SetupRecentScoreLabels()
 {
 	char scoreBuffer[5];
 	sprintf(scoreBuffer, "%.4d", ((GameSceneManager*) m_Manager)->GetScore(0));
@@ -259,7 +262,6 @@ void ResultsScene::SetupLeaderboard()
 		PlayerScore p = m_TopScores->GetNameScorePair(i);
 		char scoreBuffer[5];
 		sprintf(scoreBuffer, "%.4d", p.GetScore());
-		m_ScoreLabel->SetText(scoreBuffer);
 		m_TopScoreNames[i]->SetText(p.GetName()); 
 
 		m_TopScoreLabels[i]->SetText(scoreBuffer);
