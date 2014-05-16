@@ -21,6 +21,14 @@
 
 using namespace SFAS2014;
 
+ const float ResultsScene::kButtonSpacing = 50.0f;
+ const float ResultsScene::kButtonStartingX = 1.0f;
+ const float ResultsScene::kButtonStartingY = 1.0f;
+ const float ResultsScene::kMainMenuButtonX = 184.0f;
+ const float ResultsScene::kMainMenuButtonY = 384.0f;
+ const float ResultsScene::kPlayAgainButtonX = 24.0f;
+ const float ResultsScene::kPlayAgainButtonY = 384.0f;
+
 //
 //
 // ResultsScene class
@@ -284,16 +292,16 @@ void ResultsScene::PopulateScores()
 			newScore.SetScore((50 - 10*i));
 			m_TopScores->SetNameScorePair(newScore, i);
 		}
-		WriteScores();
+		WriteScoresToFile();
 	}
 	else
 	{
-		ReadScores();
+		ReadScoresFromFile();
 	}
 	
 }
 
-void ResultsScene::ReadScores()
+void ResultsScene::ReadScoresFromFile()
 {
 	s3eFile *fp = s3eFileOpen("scores.data", "rb");
 	for(int i = 0; i < 5; i++)
@@ -312,7 +320,7 @@ void ResultsScene::ReadScores()
 	s3eFileClose(fp);
 }
 
-void ResultsScene::WriteScores()
+void ResultsScene::WriteScoresToFile()
 {
 	s3eFile *fp = s3eFileOpen("scores.data", "wb");
 	
@@ -363,6 +371,6 @@ void ResultsScene::UpdateForNewScore()
 		p.SetScore(((GameSceneManager *) m_Manager)->GetScore(0));
 		m_TopScores->SetNameScorePair(p, newScoreIndex);
 
-		WriteScores();
+		WriteScoresToFile();
 	}
 }

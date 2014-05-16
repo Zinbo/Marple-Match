@@ -1,10 +1,9 @@
+#pragma once
 /*
  * (C) 2014 Search for a Star
  * 
  */
 
-#if !defined(__GAMESCENE_H__)
-#define __GAMESCENE_H__
 
 #include "scene.h"
 #include "ResultsScene.h"
@@ -70,8 +69,8 @@ public:
 
 private: 
 	//Enums
-	enum { GridWidth = 4, GridHeight = 6 };
-	enum { TouchScore = 10, TimeLimit = 120 };
+	enum GridSize { keGridWidth = 4, keGridHeight = 6 };
+	enum GameElements { keTimeLimit = 120 };
 	enum GameState
 	{                                                                                                                                                                                                                                                                
 		keGamePlaying,
@@ -79,6 +78,34 @@ private:
 		keNonMatch,
 		keGameOver
 	};
+	static const float kTimeTextX;
+	static const float kTimeTextY;
+
+	static const float kScoreTextX;
+	static const float kScoreTextY;
+
+	static const float kLabelHeight;
+	static const float kLabelWidth;
+
+	static const float kStarXOffset;
+	static const float kStarYOffset;
+	static const float kStarSpacing;
+	static const float kButtonSpacing;
+	static const float kButtonStartingX;
+	static const float kButtonStartingY;
+	static const float kGoldProb;
+	static const float kSilverProb;
+
+	static const float kUpdateToScoreX;
+	static const float kUpdateToScoreY;
+	static const float kUpdateToScoreHeight;
+	static const float kUpdateToScoreWidth;
+
+	static const float kUpdateToTimeX;
+	static const float kUpdateToTimeY;
+	static const float kUpdateToTimeHeight;
+	static const float kUpdateToTimeWidth;
+
 	GameState m_GameState;
 
 	//Sprites
@@ -95,7 +122,7 @@ private:
 	bool m_DoublePoints;
 
 	//Variables for grid
-	SFAS2014::GridItem * m_Grid[GridWidth*GridHeight];
+	SFAS2014::GridItem * m_Grid[keGridWidth*keGridHeight];
 	SFAS2014::GridItem * m_FirstSelectedItem;
 	SFAS2014::GridItem * m_SecondSelectedItem;
 	std::vector<GridItem *> m_CharactersToRemove;
@@ -123,7 +150,7 @@ private:
 	void ProcessOddPowerupMatch();
 	void DisplayUpdateToScore(char scoreBonus[]);
 	void DisplayUpdateToTime(char timeBonus[]);
-	GridItem* FindOtherHalfOfPair(GridItem* gridItem);
+	GridItem* FindOtherHalfOfPair(static const GridItem* gridItem) const;
 	void FadeLabels();
 
 	//Init helpers
@@ -148,8 +175,8 @@ private:
 	static void ResetDoublePoints(Timer* timer, void* userData);
 	
 	//Time helpers 
-	bool AMinuteHasGoneBy(float deltaTime);
-	bool InTheFinal10Seconds(float deltaTime);
+	bool AMinuteHasGoneBy(float deltaTime) const;
+	bool InTheFinal10Seconds(float deltaTime) const;
 	void UpdateTime(float deltaTime);
 
 	//Endgame helpers
@@ -166,6 +193,5 @@ private:
 };
 }
 
-#endif  // __GAMESCENE_H__
 
 

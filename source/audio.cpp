@@ -54,9 +54,9 @@ Audio::~Audio()
     IwSoundTerminate();
 }
 
-AudioSound* Audio::findSound(unsigned int name_hash)
+AudioSound* Audio::findSound(unsigned int name_hash) const
 {
-    for (std::list<AudioSound*>::iterator it = m_Sounds.begin(); it!= m_Sounds.end(); it++)
+    for (std::list<AudioSound*>::const_iterator it = m_Sounds.begin(); it!= m_Sounds.end(); it++)
         if ((*it)->m_NameHash == name_hash)
             return *it;
     return 0;

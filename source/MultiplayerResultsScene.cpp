@@ -1,13 +1,13 @@
 #include "MultiplayerResultsScene.h"
 
-#define PLAYER_1_SCORE_X 7.0f
-#define PLAYER_1_SCORE_Y 48.0f
-#define PLAYER_2_SCORE_X 160.0f
-#define PLAYER_2_SCORE_Y 48.0f
-#define SCORE_WIDTH 100.0f
-#define SCORE_HEIGHT 20.0f
-
 using namespace SFAS2014;
+
+const float MultiplayerResultsScene::kPlayer1ScoreX = 7.0f;
+const float MultiplayerResultsScene::kPlayer1ScoreY = 48.0f;
+const float MultiplayerResultsScene::kPlayer2ScoreX = 160.0f;
+const float MultiplayerResultsScene::kPlayer2ScoreY = 48.0f;
+const float MultiplayerResultsScene::kScoreWidth = 100.0f;
+const float MultiplayerResultsScene::kScoreHeight = 20.0f;
 
 MultiplayerResultsScene::MultiplayerResultsScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu)
 	:ResultsScene(xGraphicsScale, yGraphicsScale, settingMenu)
@@ -107,7 +107,7 @@ void MultiplayerResultsScene::UpdateForNewScore()
 			p.SetScore(((GameSceneManager *) m_Manager)->GetScore(k));
 			m_TopScores->SetNameScorePair(p, newScoreIndex);
 
-			WriteScores();
+			WriteScoresToFile();
 		}
 	}
 	
@@ -117,10 +117,10 @@ void MultiplayerResultsScene::InitRecentScoreLabels()
 {
 	// Create the score text
 	m_Player1ScoreLabel = new CLabel();
-	m_Player1ScoreLabel->m_X = PLAYER_1_SCORE_X * m_XGraphicsScale;
-	m_Player1ScoreLabel->m_Y = PLAYER_1_SCORE_Y * m_YGraphicsScale;
-	m_Player1ScoreLabel->m_W = SCORE_WIDTH * m_XGraphicsScale;
-	m_Player1ScoreLabel->m_H = SCORE_HEIGHT * m_YGraphicsScale;
+	m_Player1ScoreLabel->m_X = kPlayer1ScoreX * m_XGraphicsScale;
+	m_Player1ScoreLabel->m_Y = kPlayer1ScoreY * m_YGraphicsScale;
+	m_Player1ScoreLabel->m_W = kScoreWidth * m_XGraphicsScale;
+	m_Player1ScoreLabel->m_H = kScoreHeight * m_YGraphicsScale;
 	m_Player1ScoreLabel->SetFont(g_pResources->GetSize20Font());
 	m_Player1ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
@@ -128,10 +128,10 @@ void MultiplayerResultsScene::InitRecentScoreLabels()
 	AddChild(m_Player1ScoreLabel);
 
 	m_Player2ScoreLabel = new CLabel();
-	m_Player2ScoreLabel->m_X = PLAYER_2_SCORE_X * m_XGraphicsScale;
-	m_Player2ScoreLabel->m_Y = PLAYER_2_SCORE_Y * m_YGraphicsScale;
-	m_Player2ScoreLabel->m_W = SCORE_WIDTH * m_XGraphicsScale;
-	m_Player2ScoreLabel->m_H = SCORE_HEIGHT * m_YGraphicsScale;
+	m_Player2ScoreLabel->m_X = kPlayer2ScoreX * m_XGraphicsScale;
+	m_Player2ScoreLabel->m_Y = kPlayer2ScoreY * m_YGraphicsScale;
+	m_Player2ScoreLabel->m_W = kScoreWidth * m_XGraphicsScale;
+	m_Player2ScoreLabel->m_H = kScoreHeight * m_YGraphicsScale;
 	m_Player2ScoreLabel->SetFont(g_pResources->GetSize20Font());
 	m_Player2ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player2ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;

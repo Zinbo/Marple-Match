@@ -29,11 +29,11 @@ public:
     ~GridItem();
 
     //Getters
-	Iw2DSceneGraph::CSprite * GetStarSprite() { return m_StarSprite; }
-	Iw2DSceneGraph::CSprite * GetCharacterSprite() { return m_CharacterSprite; }
-	int GetCharacterIndex() { return m_CharacterIndex; }
-	bool IsGold() { return m_IsGold;}
-	bool IsSilver() { return m_IsSilver;}
+	Iw2DSceneGraph::CSprite * GetStarSprite() const { return m_StarSprite; }
+	Iw2DSceneGraph::CSprite * GetCharacterSprite() const { return m_CharacterSprite; }
+	int GetCharacterIndex() const { return m_CharacterIndex; }
+	bool IsGold() const { return m_IsGold;}
+	bool IsSilver() const { return m_IsSilver;}
 
 	void SetCharacterImage(CharacterBuilder charToMake);
 
@@ -54,6 +54,19 @@ private:
 	void CreateStarSprite(float x, float y);
 	void AssignCorrectCharImage(CharacterBuilder charToMake);
 	void CreateCharacterSprite(float x, float y, CharacterBuilder charToMake);
+
+	enum dimensions 
+	{
+		feStarHeight = 60,
+		feScreenHeight = 480,
+		feScreenWidth = 320
+	};
+
+	enum characterProperties
+	{
+		feGoldCharIndex = 12,
+		feSilverCharIndex = 13
+	};
 };
 }
 

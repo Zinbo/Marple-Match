@@ -34,6 +34,13 @@ private:
 	void SetupRecentScoreLabels();
 	void InitUI();
 	void UpdateForNewScore();
+
+	static const float kPlayer1ScoreX;
+	static const float kPlayer1ScoreY;
+	static const float kPlayer2ScoreX;
+	static const float kPlayer2ScoreY;
+	static const float kScoreWidth;
+	static const float kScoreHeight;
 };
 }
 

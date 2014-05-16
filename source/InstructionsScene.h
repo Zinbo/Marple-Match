@@ -59,5 +59,9 @@ private:
 	//Scene helpers
 	void CleanUp();
 	void SwitchScene(Scene *scene);
+		
+	static const float kMainMenuButtonX;
+	static const float kMainMenuButtonY;
+	static const float kMainMenuButtonYScale;
 };
 }

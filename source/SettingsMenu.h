@@ -9,15 +9,15 @@ class SettingsMenu : public CSprite
 {
 public:
 	SettingsMenu(float xGraphicsScale, float yGraphicsScale);
-	~SettingsMenu(void);
+	~SettingsMenu(void) {};
 	void ToggleMusic();
 	void ToggleSound();
-	CSprite* GetPlayButton();
-	CSprite* GetMusicButton();
-	CSprite* GetMuteMusicButton();
-	CSprite* GetSoundButton();
-	CSprite* GetMuteSoundButton();
-	CSprite* GetExitButton();
+	CSprite* GetPlayButton() const;
+	CSprite* GetMusicButton() const;
+	CSprite* GetMuteMusicButton() const;
+	CSprite* GetSoundButton() const;
+	CSprite* GetMuteSoundButton() const;
+	CSprite* GetExitButton() const;
 
 private:
 	CSprite* m_ExitButton;
@@ -31,5 +31,10 @@ private:
 	float m_YGraphicsScale;
 
 	void InitButtons();
+
+	static const float kButtonXOffset;
+	static const float kButtonYOffset;
+	static const float kButtonSpacing;
+	static const float kButtonSize;
 };
 

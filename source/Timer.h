@@ -1,3 +1,4 @@
+#pragma once
 /*
  * (C) 2001-2012 Marmalade. All Rights Reserved.
  *
@@ -9,9 +10,6 @@
  * Please do not use this program/source code before you have read the
  * EULA and have agreed to be bound by its terms.
  */
-
-#if !defined(__TIMER_H__)
-#define __STIMER_H__
 
 #include <list>
 
@@ -167,8 +165,5 @@ public:
      */
     void    Resume();
 };
-
-
-#endif  // __SCENE_H__
 
 

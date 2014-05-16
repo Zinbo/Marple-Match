@@ -154,6 +154,29 @@ private:
 	void RemoveCharactersAfterDelay(int player);
 	void HideCharacter(GridItem * gridItem);
 	void ShowCharacter(GridItem * gridItem);
+
+	static const float kPlayer1TimeTextX;
+	static const float kPlayer1TimeTextY;
+	static const float kLabelHeight;
+	static const float kLabelWidth;
+	static const float kPlayer1ScoreTextX;
+	static const float kPlayer1ScoreTextY;
+
+	static const float kPlayer2TimeTextX;
+	static const float kPlayer2TimeTextY;
+	static const float kPlayer2ScoreTextX;
+	static const float kPlayer2ScoreTextY;
+	
+	static const float kPlayer1StarXOffset;
+	static const float kPlayer1StarYOffset;
+	static const float kPlayer2StarXOffset;
+	static const float kPlayer2StarYOffset;
+	static const float kStarXSpacing;
+	static const float kStarYSpacing;
+	static const float kStarSize;
+
+	static const float kGoldProb;
+	static const float kSilverProb;
 };
 
 }

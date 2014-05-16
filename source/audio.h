@@ -9,10 +9,7 @@
  * Please do not use this program/source code before you have read the
  * EULA and have agreed to be bound by its terms.
  */
-
-#if !defined(__AUDIO_H__)
-#define __AUDIO_H__
-
+#pragma once
 #include "IwSound.h"
 #include <list>
 
@@ -87,7 +84,7 @@ public:
      *
      * @return    null if it fails, else the found sound effect.
      */
-    AudioSound* findSound(unsigned int name_hash);
+    AudioSound* findSound(unsigned int name_hash) const;
 
     /**
      * @fn    void Audio::Update()
@@ -153,5 +150,4 @@ public:
  */
 extern Audio*   g_pAudio;
 
-#endif  // __AUDIO_H__
 

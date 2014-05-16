@@ -16,7 +16,7 @@
 #include "s3ePointer.h"
 
 
-#define MAX_TOUCHES     10
+#define MAX_TOUCHES    20
 
 /**
  * @class Input

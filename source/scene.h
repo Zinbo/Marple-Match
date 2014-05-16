@@ -95,41 +95,7 @@ public:
     virtual void    Render();
 };
 
-/**
- * @class SceneManager
- *
- * @brief Manages a collection of scenes.
- *
- * The Scene Manager manages a collection of scenes. It also manages the update and rendering of those scenes and provides a mechanism to
- * easily switch between them.
- *
- * Example usage:
- * @code
- *    // Create scene manager
- *    g_pSceneManager = new SceneManager();
- *
- *    // Create a scene (Game is a class that is derived from Scene)
- *    Game* game = new Game();
- *    game->SetName("game");
- *    g_pSceneManager->Add(game);
- *
- *    while (!s3eDeviceCheckQuitRequest())
- *    {
- *        // Update scene manager
- *        g_pSceneManager->Update(FRAME_TIME);
- *
- *        // Render scene manager
- *        g_pSceneManager->Render();
- *    }
- *
- *    // Cleanup
- *    delete g_pSceneManager;
- * @endcode
- *
- * The scene manager uses the concept of the "current scene" where only one scene can be active at any given time. To change from one
- * scene tp another you use the SwitchTo() method.
- *
- */
+
 class SceneManager
 {
 protected:

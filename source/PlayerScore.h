@@ -7,7 +7,7 @@ class PlayerScore
 public:
 	PlayerScore(void);
 	~PlayerScore(void);
-	int GetScore();
+	int GetScore() const;
 	char* GetName();
 	void SetScore(int score);
 	void SetName(char playerName[]);

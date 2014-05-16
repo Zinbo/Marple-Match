@@ -1,29 +1,29 @@
 #include "MultiplayerGameScene.h"
 
-#define PLAYER_1_TIME_TEXT_X 7.0f
-#define PLAYER_1_TIME_TEXT_Y 275.0f
-#define LABEL_HEIGHT 20.0f
-#define LABEL_WIDTH 100.0f
-#define PLAYER_1_SCORE_TEXT_X 214.0f
-#define PLAYER_1_SCORE_TEXT_Y 275.0f
-
-#define PLAYER_2_TIME_TEXT_X 7.0f
-#define PLAYER_2_TIME_TEXT_Y 185.0f
-#define PLAYER_2_SCORE_TEXT_X 214.0f
-#define PLAYER_2_SCORE_TEXT_Y 185.0f
-
-#define PLAYER_1_STAR_X_OFFSET 60.0f
-#define PLAYER_1_STAR_Y_OFFSET 335.0f
-#define PLAYER_2_STAR_X_OFFSET 60.0f
-#define PLAYER_2_STAR_Y_OFFSET 35.0f
-#define STAR_X_SPACING 66.0f
-#define STAR_Y_SPACING 55.0f
-#define STAR_SIZE 50.0f
-
-#define GOLD_PROB 0.2
-#define SILVER_PROB 0.3
-
 using namespace SFAS2014;
+
+const float MultiplayerGameScene::kPlayer1TimeTextX = 7.0f;
+const float MultiplayerGameScene::kPlayer1TimeTextY = 275.0f;
+const float MultiplayerGameScene::kLabelHeight = 20.0f;
+const float MultiplayerGameScene::kLabelWidth = 100.0f;
+const float MultiplayerGameScene::kPlayer1ScoreTextX = 214.0f;
+const float MultiplayerGameScene::kPlayer1ScoreTextY = 275.0f;
+
+const float MultiplayerGameScene::kPlayer2TimeTextX = 7.0f;
+const float MultiplayerGameScene::kPlayer2TimeTextY = 185.0f;
+const float MultiplayerGameScene::kPlayer2ScoreTextX = 214.0f;
+const float MultiplayerGameScene::kPlayer2ScoreTextY = 185.0f;
+
+const float MultiplayerGameScene::kPlayer1StarXOffset = 60.0f;
+const float MultiplayerGameScene::kPlayer1StarYOffset = 335.0f;
+const float MultiplayerGameScene::kPlayer2StarXOffset = 60.0f;
+const float MultiplayerGameScene::kPlayer2StarYOffset = 35.0f;
+const float MultiplayerGameScene::kStarXSpacing = 66.0f;
+const float MultiplayerGameScene::kStarYSpacing = 55.0f;
+const float MultiplayerGameScene::kStarSize = 50.0f;
+
+const float MultiplayerGameScene::kGoldProb = 0.2f;
+const float MultiplayerGameScene::kSilverProb = 0.3f;
 
 MultiplayerGameScene::MultiplayerGameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu)
 	: m_Time((float) TimeLimit), m_GameState(keGamePlaying)
@@ -684,10 +684,10 @@ void MultiplayerGameScene::InitLabels()
 {
 	// Create the score text
 	m_Player1ScoreLabel = new CLabel();
-	m_Player1ScoreLabel->m_X = PLAYER_1_SCORE_TEXT_X * m_XGraphicsScale;
-	m_Player1ScoreLabel->m_Y = PLAYER_1_SCORE_TEXT_Y * m_YGraphicsScale;
-	m_Player1ScoreLabel->m_W = LABEL_WIDTH;
-	m_Player1ScoreLabel->m_H = LABEL_HEIGHT;
+	m_Player1ScoreLabel->m_X = kPlayer1ScoreTextX * m_XGraphicsScale;
+	m_Player1ScoreLabel->m_Y = kPlayer1ScoreTextY * m_YGraphicsScale;
+	m_Player1ScoreLabel->m_W = kLabelWidth;
+	m_Player1ScoreLabel->m_H = kLabelHeight;
 	m_Player1ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1ScoreLabel->SetFont(g_pResources->GetSize20Font());
@@ -699,10 +699,10 @@ void MultiplayerGameScene::InitLabels()
 
 	// Create the time text
 	m_Player1TimeLabel = new CLabel();
-	m_Player1TimeLabel->m_X = PLAYER_1_TIME_TEXT_X*m_XGraphicsScale;
-	m_Player1TimeLabel->m_Y = PLAYER_1_TIME_TEXT_Y*m_YGraphicsScale;
-	m_Player1TimeLabel->m_W = LABEL_WIDTH;
-	m_Player1TimeLabel->m_H = LABEL_HEIGHT;
+	m_Player1TimeLabel->m_X = kPlayer1TimeTextX*m_XGraphicsScale;
+	m_Player1TimeLabel->m_Y = kPlayer1TimeTextY*m_YGraphicsScale;
+	m_Player1TimeLabel->m_W = kLabelWidth;
+	m_Player1TimeLabel->m_H = kLabelHeight;
 	m_Player1TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1TimeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_Player1TimeLabel->SetFont(g_pResources->GetSize20Font());
@@ -714,10 +714,10 @@ void MultiplayerGameScene::InitLabels()
 
 	// Create the score text
 	m_Player2ScoreLabel = new CLabel();
-	m_Player2ScoreLabel->m_X = PLAYER_2_SCORE_TEXT_X * m_XGraphicsScale + (LABEL_WIDTH*m_XGraphicsScale)/2;
-	m_Player2ScoreLabel->m_Y = PLAYER_2_SCORE_TEXT_Y * m_YGraphicsScale + (LABEL_HEIGHT*m_YGraphicsScale)/2;
-	m_Player2ScoreLabel->m_H = LABEL_HEIGHT;
-	m_Player2ScoreLabel->m_W = LABEL_WIDTH;
+	m_Player2ScoreLabel->m_X = kPlayer2ScoreTextX * m_XGraphicsScale + (kLabelWidth*m_XGraphicsScale)/2;
+	m_Player2ScoreLabel->m_Y = kPlayer2ScoreTextY * m_YGraphicsScale + (kLabelHeight*m_YGraphicsScale)/2;
+	m_Player2ScoreLabel->m_H = kLabelHeight;
+	m_Player2ScoreLabel->m_W = kLabelWidth;
 	m_Player2ScoreLabel->m_AnchorX = 0.5f;
 	m_Player2ScoreLabel->m_AnchorY = 0.5f;
 	m_Player2ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
@@ -732,10 +732,10 @@ void MultiplayerGameScene::InitLabels()
 
 	// Create the time text
 	m_Player2TimeLabel = new CLabel();
-	m_Player2TimeLabel->m_X = PLAYER_2_TIME_TEXT_X*m_XGraphicsScale + (LABEL_WIDTH*m_XGraphicsScale)/2;
-	m_Player2TimeLabel->m_Y = PLAYER_2_TIME_TEXT_Y*m_YGraphicsScale + (LABEL_HEIGHT*m_YGraphicsScale)/2;
-	m_Player2TimeLabel->m_H = LABEL_HEIGHT;
-	m_Player2TimeLabel->m_W = LABEL_WIDTH;
+	m_Player2TimeLabel->m_X = kPlayer2TimeTextX*m_XGraphicsScale + (kLabelWidth*m_XGraphicsScale)/2;
+	m_Player2TimeLabel->m_Y = kPlayer2TimeTextY*m_YGraphicsScale + (kLabelHeight*m_YGraphicsScale)/2;
+	m_Player2TimeLabel->m_H = kLabelHeight;
+	m_Player2TimeLabel->m_W = kLabelWidth;
 	m_Player2TimeLabel->m_AnchorX = 0.5f;
 	m_Player2TimeLabel->m_AnchorY = 0.5f;
 	m_Player2TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
@@ -793,7 +793,7 @@ void MultiplayerGameScene::ResetGrid(std::vector<CharacterBuilder> characterType
 		m_Grid[player][i]->GetStarSprite()->m_IsVisible = true;
 		m_Grid[player][i]->SetCharacterImage(charToMake);
 
-		float characterScale = STAR_SIZE / (m_Grid[player][i]->GetCharacterSprite()->m_H);
+		float characterScale = kStarSize / (m_Grid[player][i]->GetCharacterSprite()->m_H);
 		m_Grid[player][i]->GetCharacterSprite()->m_ScaleX = characterScale*m_XGraphicsScale;
 		m_Grid[player][i]->GetCharacterSprite()->m_ScaleY = characterScale*m_YGraphicsScale;
 
@@ -811,11 +811,11 @@ void MultiplayerGameScene::SetupCharactersArray(std::vector<CharacterBuilder> &c
 	{
 		CharacterBuilder charToMake(i);
 		float randNum = ((float) rand() / RAND_MAX );
-		if(randNum <= GOLD_PROB)
+		if(randNum <= kGoldProb)
 		{
 			charToMake.SetGold(true);
 		}
-		else if(randNum <= SILVER_PROB)
+		else if(randNum <= kSilverProb)
 		{
 			charToMake.SetSilver(true);
 		}
@@ -832,13 +832,13 @@ void MultiplayerGameScene::AddGridToScene(std::vector<CharacterBuilder> &charact
 	float yOffset = 0;
 	if(0 == player)
 	{
-		xOffset = PLAYER_1_STAR_X_OFFSET*m_XGraphicsScale;
-		yOffset = PLAYER_1_STAR_Y_OFFSET*m_YGraphicsScale;
+		xOffset = kPlayer1StarXOffset*m_XGraphicsScale;
+		yOffset = kPlayer1StarYOffset*m_YGraphicsScale;
 	}
 	else
 	{
-		xOffset = PLAYER_2_STAR_X_OFFSET*m_XGraphicsScale;
-		yOffset = PLAYER_2_STAR_Y_OFFSET*m_YGraphicsScale;
+		xOffset = kPlayer2StarXOffset*m_XGraphicsScale;
+		yOffset = kPlayer2StarYOffset*m_YGraphicsScale;
 	}
 	y = yOffset;
 	for( int row = 0; row < GridHeight; row++ )
@@ -855,18 +855,18 @@ void MultiplayerGameScene::AddGridToScene(std::vector<CharacterBuilder> &charact
 				grid->GetStarSprite()->m_Angle = 180.0f;
 				grid->GetCharacterSprite()->m_Angle = 180.0f;
 			}
-			grid->GetStarSprite()->m_ScaleX = (STAR_SIZE / (grid->GetStarSprite()->m_W)) * m_XGraphicsScale;
-			grid->GetStarSprite()->m_ScaleY = (STAR_SIZE / (grid->GetStarSprite()->m_H)) * m_XGraphicsScale;
+			grid->GetStarSprite()->m_ScaleX = (kStarSize / (grid->GetStarSprite()->m_W)) * m_XGraphicsScale;
+			grid->GetStarSprite()->m_ScaleY = (kStarSize / (grid->GetStarSprite()->m_H)) * m_XGraphicsScale;
 			
-			float characterScale = STAR_SIZE / (grid->GetCharacterSprite()->m_H);
+			float characterScale = kStarSize / (grid->GetCharacterSprite()->m_H);
 			grid->GetCharacterSprite()->m_ScaleX = characterScale*m_XGraphicsScale;
 			grid->GetCharacterSprite()->m_ScaleY = characterScale*m_YGraphicsScale;
 			AddChild( grid->GetStarSprite() );
 			AddChild(grid->GetCharacterSprite());
 
-			x += STAR_X_SPACING*m_XGraphicsScale;
+			x += kStarXSpacing*m_XGraphicsScale;
 		}
 
-		y += STAR_Y_SPACING*m_YGraphicsScale;
+		y += kStarYSpacing*m_YGraphicsScale;
 	}
 }

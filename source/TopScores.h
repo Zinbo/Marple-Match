@@ -3,10 +3,10 @@
 class TopScores
 {
 public:
-	TopScores(void);
-	~TopScores(void);
-	PlayerScore GetNameScorePair(int index);
-	void SetNameScorePair(PlayerScore playerScore, int index);
+	TopScores(void) {};
+	~TopScores(void) {};
+	PlayerScore GetNameScorePair(int index) const;
+	void SetNameScorePair(const PlayerScore playerScore, int index);
 	void SetRandomVariable();
 private:
 	PlayerScore m_PlayerScores[5];

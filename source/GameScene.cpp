@@ -5,40 +5,39 @@
 
 #include "GameScene.h"
 
-#define TIME_TEXT_X 7.0f
-#define TIME_TEXT_Y 25.0f
-#define SCORE_TEXT_X 213.0f
-#define SCORE_TEXT_Y 25.0f
-#define TIME_TEXT_HEIGHT 20.0f
-#define TIME_TEXT_WIDTH 100.0f
-#define STAR_X_OFFSET 61.0f
-#define STAR_Y_OFFSET 111.0f
-#define STAR_SPACING 66.0f
-#define BUTTON_SPACING 50.0f
-#define BUTTON_STARTING_X 1.0f
-#define BUTTON_STARTING_Y 1.0f
-#define GOLD_PROB 0.2
-#define SILVER_PROB 0.3
-
-#define UPDATE_TO_SCORE_X 160.0f
-#define UPDATE_TO_SCORE_Y 55.0f
-#define UPDATE_TO_SCORE_HEIGHT 15.0f
-#define UPDATE_TO_SCORE_WIDTH 150.0f
-
-#define UPDATE_TO_TIME_X 10.0f
-#define UPDATE_TO_TIME_Y 55.0f
-#define UPDATE_TO_TIME_HEIGHT 15.0f
-#define UPDATE_TO_TIME_WIDTH 150.0f
 
 using namespace SFAS2014;
 
-//
-//
-// GameScene class
-//
-//
+const float GameScene::kTimeTextX = 7.0f;
+const float GameScene::kTimeTextY = 25.0f;
+
+const float GameScene::kScoreTextX = 213.0f;
+const float GameScene::kScoreTextY = 25.0f;
+
+const float GameScene::kLabelHeight = 20.0f;
+const float GameScene::kLabelWidth = 100.0f;
+
+const float GameScene::kStarXOffset = 61.0f;
+const float GameScene::kStarYOffset = 111.0f;
+const float GameScene::kStarSpacing = 66.0f;
+const float GameScene::kButtonSpacing = 50.0f;
+const float GameScene::kButtonStartingX = 1.0f;
+const float GameScene::kButtonStartingY = 1.0f;
+const float GameScene::kGoldProb = 0.2f;
+const float GameScene::kSilverProb = 0.3f;
+
+const float GameScene::kUpdateToScoreX = 160.0f;
+const float GameScene::kUpdateToScoreY = 55.0f;
+const float GameScene::kUpdateToScoreHeight = 15.0f;
+const float GameScene::kUpdateToScoreWidth = 150.0f;
+
+const float GameScene::kUpdateToTimeX = 10.0f;
+const float GameScene::kUpdateToTimeY = 55.0f;
+const float GameScene::kUpdateToTimeHeight = 15.0f;
+const float GameScene::kUpdateToTimeWidth = 150.0f;
+
 GameScene::GameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu) 
-	: m_Time((float) TimeLimit), m_DoublePointsTimer(NULL), m_FirstSelectedItem(NULL), 
+	: m_Time((float) keTimeLimit), m_DoublePointsTimer(NULL), m_FirstSelectedItem(NULL), 
 	m_SecondSelectedItem(NULL), m_DelayTime(0), m_DoublePoints(false),
 	m_GameState(keGamePlaying), m_NoOfMatchedPairs(0)
 	
@@ -53,7 +52,7 @@ GameScene::~GameScene()
 {
 	delete m_DoublePointsTimer;
 
-	for(int i = 0; i < GridHeight*GridWidth; i++)
+	for(int i = 0; i < keGridHeight*keGridWidth; i++)
 	{
 		if(m_Grid[i] !=0)
 		{
@@ -91,7 +90,7 @@ void GameScene::Reset()
 		ResetBoard();
 	}
 	
-	m_Time = (float)TimeLimit;
+	m_Time = (float)keTimeLimit;
 	((GameSceneManager*) m_Manager)->SetScore(0, 0);
 	Audio::PlayMusic(g_pResources->GetGameMusicFilename(), true);
 	UpdateLabels();
@@ -146,7 +145,7 @@ void GameScene::Update(float deltaTime, float alphaMul)
 void GameScene::UpdateTime(float deltaTime)
 {
 	// If a minute has gone by, or we're in the final 10 seconds of the game, then beep to alert the user.
-	if((m_Time < TimeLimit) && 
+	if((m_Time < keTimeLimit) && 
 		AMinuteHasGoneBy(deltaTime) || 
 		InTheFinal10Seconds(deltaTime))
 	{
@@ -171,16 +170,16 @@ void GameScene::Render()
 void GameScene::SetupCharactersArray(std::vector<CharacterBuilder> &characterTypes)
 {
 	//Fill vector with exactly 2 of each character type
-	int numberOfPairs = (GridHeight*GridWidth)/2;
+	int numberOfPairs = (keGridHeight*keGridWidth)/2;
 	for(int i = 0; i < numberOfPairs; i++)
 	{
 		CharacterBuilder charToMake(i);
 		float randNum = ((float) rand() / RAND_MAX );
-		if(randNum <= GOLD_PROB)
+		if(randNum <= kGoldProb)
 		{
 			charToMake.SetGold(true);
 		}
-		else if(randNum <= SILVER_PROB)
+		else if(randNum <= kSilverProb)
 		{
 			charToMake.SetSilver(true);
 		}
@@ -219,25 +218,25 @@ void GameScene::FadeLabels()
 
 void GameScene::AddGridToScene(std::vector<CharacterBuilder> &characterTypes)
 {
-	float x = STAR_X_OFFSET*m_XGraphicsScale;
-	float y = STAR_Y_OFFSET*m_YGraphicsScale;
-	for( int row = 0; row < GridHeight; row++ )
+	float x = kStarXOffset*m_XGraphicsScale;
+	float y = kStarYOffset*m_YGraphicsScale;
+	for( int row = 0; row < keGridHeight; row++ )
 	{
-		x = STAR_X_OFFSET*m_XGraphicsScale;
-		for( int column = 0; column < GridWidth; column++ )
+		x = kStarXOffset*m_XGraphicsScale;
+		for( int column = 0; column < keGridWidth; column++ )
 		{
 			int characterTypeIndex = rand() % characterTypes.size();
 			GridItem* grid = new GridItem( x, y, characterTypes.at(characterTypeIndex));
 			characterTypes.erase(characterTypes.begin() + characterTypeIndex);
 
-			m_Grid[(row*GridWidth)+column] = grid; 
+			m_Grid[(row*keGridWidth)+column] = grid; 
 			AddChild( grid->GetStarSprite() );
 			AddChild(grid->GetCharacterSprite());
 
-			x += STAR_SPACING*m_XGraphicsScale;
+			x += kStarSpacing*m_XGraphicsScale;
 		}
 
-		y += STAR_SPACING*m_YGraphicsScale;
+		y += kStarSpacing*m_YGraphicsScale;
 	}
 }
 
@@ -375,7 +374,7 @@ void GameScene::CheckForMatches()
 	//If the screen has been touched, then cycle through each grid item and see if it has been touched.
 	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
 	{
-		for(int gridIndex = 0; gridIndex < GridWidth*GridHeight; gridIndex++ )
+		for(int gridIndex = 0; gridIndex < keGridWidth*keGridHeight; gridIndex++ )
 		{
 			g_pInput->Reset();
 			if(StarHasBeenTouched(gridIndex))
@@ -483,7 +482,7 @@ void GameScene::ResetBoard()
 	SetupCharactersArray(characterTypes);
 
 	//Cycle through each grid item, make the star visible and add a new random character underneath
-	for(int i = 0; i < GridHeight*GridWidth; i++)
+	for(int i = 0; i < keGridHeight*keGridWidth; i++)
 	{
 		int characterTypeIndex = rand() % characterTypes.size();
 		
@@ -510,9 +509,9 @@ void GameScene::InitButtons()
 	AddChild(m_SettingsButton);
 }
 
-GridItem * GameScene::FindOtherHalfOfPair(GridItem* gridItem)
+GridItem * GameScene::FindOtherHalfOfPair(const GridItem* gridItem) const
 {
-	for(int i = 0; i < GridHeight*GridWidth; i++)
+	for(int i = 0; i < keGridHeight*keGridWidth; i++)
 	{
 		if(gridItem->GetCharacterIndex() == m_Grid[i]->GetCharacterIndex() && m_Grid[i] != gridItem)
 		{
@@ -558,10 +557,10 @@ void GameScene::InitLabels()
 {
 	// Create the score text
 	m_ScoreLabel = new CLabel();
-	m_ScoreLabel->m_X = SCORE_TEXT_X * m_XGraphicsScale;
-	m_ScoreLabel->m_Y = SCORE_TEXT_Y * m_YGraphicsScale;
-	m_ScoreLabel->m_W = TIME_TEXT_WIDTH;
-	m_ScoreLabel->m_H = TIME_TEXT_HEIGHT;
+	m_ScoreLabel->m_X = kScoreTextX * m_XGraphicsScale;
+	m_ScoreLabel->m_Y = kScoreTextY * m_YGraphicsScale;
+	m_ScoreLabel->m_W = kLabelWidth;
+	m_ScoreLabel->m_H = kLabelHeight;
 	m_ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_ScoreLabel->SetFont(g_pResources->GetSize20Font());
@@ -573,10 +572,10 @@ void GameScene::InitLabels()
 
 	// Create the time text
 	m_TimeLabel = new CLabel();
-	m_TimeLabel->m_X = TIME_TEXT_X*m_XGraphicsScale;
-	m_TimeLabel->m_Y = TIME_TEXT_Y*m_YGraphicsScale;
-	m_TimeLabel->m_W = TIME_TEXT_WIDTH;
-	m_TimeLabel->m_H = TIME_TEXT_HEIGHT;
+	m_TimeLabel->m_X = kTimeTextX*m_XGraphicsScale;
+	m_TimeLabel->m_Y = kTimeTextY*m_YGraphicsScale;
+	m_TimeLabel->m_W = kLabelWidth;
+	m_TimeLabel->m_H = kLabelHeight;
 	m_TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
 	m_TimeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
 	m_TimeLabel->SetFont(g_pResources->GetSize20Font());
@@ -587,10 +586,10 @@ void GameScene::InitLabels()
 	AddChild(m_TimeLabel);
 
 	m_UpdateToScoreLabel = new CLabel();
-	m_UpdateToScoreLabel->m_X = UPDATE_TO_SCORE_X * m_XGraphicsScale;
-	m_UpdateToScoreLabel->m_Y = UPDATE_TO_SCORE_Y * m_YGraphicsScale;
-	m_UpdateToScoreLabel->m_H = UPDATE_TO_SCORE_HEIGHT;
-	m_UpdateToScoreLabel->m_W = UPDATE_TO_SCORE_WIDTH;
+	m_UpdateToScoreLabel->m_X = kUpdateToScoreX * m_XGraphicsScale;
+	m_UpdateToScoreLabel->m_Y = kUpdateToScoreY * m_YGraphicsScale;
+	m_UpdateToScoreLabel->m_H = kUpdateToScoreHeight;
+	m_UpdateToScoreLabel->m_W = kUpdateToScoreWidth;
 	m_UpdateToScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_RIGHT;
 	m_UpdateToScoreLabel->SetFont(g_pResources->GetSize8Font());
 	m_UpdateToScoreLabel->m_Color = CColor(0,0,0,255);
@@ -599,10 +598,10 @@ void GameScene::InitLabels()
 	AddChild(m_UpdateToScoreLabel);
 
 	m_UpdateToTimeLabel = new CLabel();
-	m_UpdateToTimeLabel->m_X = UPDATE_TO_TIME_X * m_XGraphicsScale;
-	m_UpdateToTimeLabel->m_Y = UPDATE_TO_TIME_Y * m_YGraphicsScale;
-	m_UpdateToTimeLabel->m_H = UPDATE_TO_TIME_HEIGHT;
-	m_UpdateToTimeLabel->m_W = UPDATE_TO_TIME_WIDTH;
+	m_UpdateToTimeLabel->m_X = kUpdateToTimeX * m_XGraphicsScale;
+	m_UpdateToTimeLabel->m_Y = kUpdateToTimeY * m_YGraphicsScale;
+	m_UpdateToTimeLabel->m_H = kUpdateToTimeHeight;
+	m_UpdateToTimeLabel->m_W = kUpdateToTimeWidth;
 	m_UpdateToTimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
 	m_UpdateToTimeLabel->SetFont(g_pResources->GetSize8Font());
 	m_UpdateToTimeLabel->m_Color = CColor(0,0,0,255);
@@ -645,12 +644,12 @@ void GameScene::ToggleButtons()
 	}
 }
 
-bool GameScene::AMinuteHasGoneBy(float deltaTime)
+bool GameScene::AMinuteHasGoneBy(float deltaTime) const
 {
 	return ((0 == ((int)m_Time % 60)) && ((int)m_Time > (int)(m_Time - deltaTime)));
 }
 
-bool GameScene::InTheFinal10Seconds(float deltaTime)
+bool GameScene::InTheFinal10Seconds(float deltaTime) const
 {
 	return ((m_Time <= 11) && ((int)m_Time > (int)(m_Time - deltaTime)));
 }

@@ -11,11 +11,6 @@ SettingsMenu::SettingsMenu(float xGraphicsScale, float yGraphicsScale)
 	InitButtons();
 }
 
-
-SettingsMenu::~SettingsMenu(void)
-{
-}
-
 void SettingsMenu::InitButtons()
 {
 	m_PlayButton = new CSprite();
@@ -69,31 +64,31 @@ void SettingsMenu::InitButtons()
 	AddChild(m_ExitButton);
 }
 
-CSprite* SettingsMenu::GetPlayButton()
+CSprite* SettingsMenu::GetPlayButton() const
 {
 	return m_PlayButton;
 }
-CSprite* SettingsMenu::GetMusicButton()
+CSprite* SettingsMenu::GetMusicButton() const
 {
 	return m_MusicButton;
 }
 
-CSprite* SettingsMenu::GetMuteMusicButton()
+CSprite* SettingsMenu::GetMuteMusicButton() const
 {
 	return m_MuteMusicButton;
 }
 
-CSprite* SettingsMenu::GetSoundButton()
+CSprite* SettingsMenu::GetSoundButton() const
 {
 	return m_SoundButton;
 }
 
-CSprite* SettingsMenu::GetMuteSoundButton()
+CSprite* SettingsMenu::GetMuteSoundButton() const
 {
 	return m_MuteSoundButton;
 }
 
-CSprite* SettingsMenu::GetExitButton()
+CSprite* SettingsMenu::GetExitButton() const
 {
 	return m_ExitButton;
 }

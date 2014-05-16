@@ -64,7 +64,7 @@ protected:
 	TopScores* m_TopScores;
 
 	//Labels
-	CLabel * m_ScoreLabel;
+	CLabel* m_ScoreLabel;
 	CLabel* m_TopScoreLabels[5];
 	CLabel* m_TopScoreNames[5];
 
@@ -89,8 +89,17 @@ protected:
 	void SetupLeaderboard();
 	void UpdateForNewScore();
 	void PopulateScores();
-	void ReadScores();
-	void WriteScores();
+	void ReadScoresFromFile();
+	void WriteScoresToFile();
+
+	static const float kButtonSpacing;
+	static const float kButtonStartingX;
+	static const float kButtonStartingY;
+	static const float kMainMenuButtonX;
+	static const float kMainMenuButtonY;
+	static const float kPlayAgainButtonX;
+	static const float kPlayAgainButtonY;
+
 };
 }
 

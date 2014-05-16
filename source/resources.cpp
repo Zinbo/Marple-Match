@@ -27,18 +27,18 @@ Resources::Resources()
 	m_MultiplayerResultBackground = Iw2DCreateImage( "textures/multiplayerResultScreen.png" );
 	m_SettingsMenuDialog = Iw2DCreateImage("textures/settingsMenuDialog.png");
 	m_InstructionsBackground = Iw2DCreateImage("textures/instructionsBackground.png");
-	for(int i = 0; i < NUMBER_OF_CHARACTER_COLOURS; i++)
+	for(int i = 0; i < keNoOfCharacterColours; i++)
 	{
-		for(int j = 0; j < NUMBER_OF_CHARACTER_TYPES; j++)
+		for(int j = 0; j < keNoOfCharacterTypes; j++)
 		{
 			char filename[50];
 			sprintf(filename, "textures/char-%i-%i.png", j, i);
-			m_Characters[(i*NUMBER_OF_CHARACTER_TYPES)+j] = Iw2DCreateImage(filename);
+			m_Characters[(i*keNoOfCharacterTypes)+j] = Iw2DCreateImage(filename);
 		}
 		
 	}
-	m_Characters[(NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES)] = Iw2DCreateImage("textures/char-gold.png");
-	m_Characters[(NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES)+1] = Iw2DCreateImage("textures/char-silver.png");
+	m_Characters[(keNoOfCharacterColours*keNoOfCharacterTypes)] = Iw2DCreateImage("textures/char-gold.png");
+	m_Characters[(keNoOfCharacterColours*keNoOfCharacterTypes)+1] = Iw2DCreateImage("textures/char-silver.png");
 
 
 	// Load fonts
@@ -104,13 +104,13 @@ Resources::~Resources()
 	delete		m_MainMenuButton;
 
 
-	for(int i = 0; i < NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS; i++)
+	for(int i = 0; i < keNoOfCharacterTypes*keNoOfCharacterColours; i++)
 	{
 		delete m_Characters[i];
 	}
 	//Delete gold and silver characters
-	delete m_Characters[NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES];
-	delete m_Characters[NUMBER_OF_CHARACTER_COLOURS*NUMBER_OF_CHARACTER_TYPES+1];
+	delete m_Characters[keNoOfCharacterColours*keNoOfCharacterTypes];
+	delete m_Characters[keNoOfCharacterColours*keNoOfCharacterTypes+1];
 }
 
 // Global resources

@@ -11,7 +11,7 @@ PlayerScore::~PlayerScore(void)
 {
 }
 
-int PlayerScore::GetScore()
+int PlayerScore::GetScore() const
 {
 	return m_Score;
 }

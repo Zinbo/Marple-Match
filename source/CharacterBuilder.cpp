@@ -11,12 +11,12 @@ CharacterBuilder::~CharacterBuilder(void)
 {
 }
 
-bool CharacterBuilder::IsGold()
+bool CharacterBuilder::IsGold() const
 {
 	return m_IsGold;
 }
 
-bool CharacterBuilder::IsSilver()
+bool CharacterBuilder::IsSilver() const
 {
 	return m_IsSilver;
 }
@@ -31,7 +31,7 @@ void CharacterBuilder::SetSilver(bool isSilver)
 	m_IsSilver = isSilver;
 }
 
-int CharacterBuilder::GetCharacterIndex()
+int CharacterBuilder::GetCharacterIndex() const
 {
 	return m_CharacterIndex;
 }

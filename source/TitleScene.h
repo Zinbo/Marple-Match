@@ -1,10 +1,8 @@
+#pragma once
 /*
  * (C) 2014 Search for a Star
  * 
  */
-
-#if !defined(__TITLESCENE_H__)
-#define __TITLESCENE_H__
 
 #include "scene.h"
 #include "input.h"
@@ -84,9 +82,18 @@ private:
 	//Scene helpers
 	void CleanUp();
 	void SwitchScene(Scene *scene);
+
+	static const float kButtonSpacing;
+	static const float kButtonStartingX;
+	static const float kButtonStartingY;
+	static const float kPlayer1X;
+	static const float kPlayer1Y;
+	static const float kPlayer2X;
+	static const float kPlayer2Y;
+	static const float kInstructionsX;
+	static const float kInstructionsY;
 };
 }
 
-#endif  // __TITLESCENE_H__
 
 

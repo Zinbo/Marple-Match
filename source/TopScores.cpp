@@ -1,21 +1,11 @@
 #include "TopScores.h"
 
-
-TopScores::TopScores(void)
-{
-}
-
-
-TopScores::~TopScores(void)
-{
-}
-
-PlayerScore TopScores::GetNameScorePair(int index)
+PlayerScore TopScores::GetNameScorePair(int index) const
 {
 	return m_PlayerScores[index];
 }
 
-void TopScores::SetNameScorePair(PlayerScore playerScore, int index)
+void TopScores::SetNameScorePair(const PlayerScore playerScore, int index)
 {
 	m_PlayerScores[index] = playerScore;
 }

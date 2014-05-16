@@ -15,8 +15,6 @@
 #if !defined(__RESOURCES_H__)
 #define __RESOURCES_H__
 
-#define NUMBER_OF_CHARACTER_TYPES 3
-#define NUMBER_OF_CHARACTER_COLOURS 4
 #include "Iw2D.h"
 #include "Iw2DSceneGraph.h"
 
@@ -34,7 +32,9 @@ using namespace Iw2DSceneGraph;
  */
 class Resources
 {
-protected:
+private:
+	enum characterElements { keNoOfCharacterColours = 4, keNoOfCharacterTypes = 3};
+
     CIw2DImage*     m_Star;
 	CIw2DImage*		m_TitleBackground;
 	CIw2DImage*		m_ResultBackground;
@@ -47,7 +47,7 @@ protected:
 	CIw2DFont*      m_Size15Font;
 	CIw2DFont*		m_Size20Font;
 	CIw2DFont*		m_Size30Font;
-	CIw2DImage*		m_Characters[(NUMBER_OF_CHARACTER_TYPES*NUMBER_OF_CHARACTER_COLOURS)+2];
+	CIw2DImage*		m_Characters[(keNoOfCharacterColours*keNoOfCharacterTypes)+2];
 	
 	//Buttons
 	CIw2DImage *	m_MusicButton;
@@ -111,8 +111,6 @@ public:
 	char*			GetBoardCompleteSoundFilename()				{ return m_BoardComplete; }
 	char*			GetEmptySoundFilename()						{ return m_EmptySound; }
 
-
-public:
     Resources();
     ~Resources();
 };

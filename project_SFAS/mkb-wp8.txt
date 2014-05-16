@@ -1,1 +1,0 @@
-VC11_WP8TOOLSET;build_sfas_vc11_wp8toolset

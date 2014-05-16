@@ -1,10 +1,10 @@
 #include "InstructionsScene.h"
 
-#define MAIN_MENU_BUTTON_X 124.0f
-#define MAIN_MENU_BUTTON_Y 418.0f
-#define MAIN_MENU_BUTTON_Y_SCALE 60.0f
-
 using namespace SFAS2014;
+
+const float InstructionsScene::kMainMenuButtonX = 124.0f;
+const float InstructionsScene::kMainMenuButtonY = 418.0f;
+const float InstructionsScene::kMainMenuButtonYScale = 60.0f;
 
 InstructionsScene::InstructionsScene(float xGraphicsScale, float yGraphicsScale)
 {
@@ -74,12 +74,12 @@ void InstructionsScene::InitUI()
 void InstructionsScene::InitButtons()
 {
 	m_MainMenuButton = new CSprite();
-	m_MainMenuButton->m_X = MAIN_MENU_BUTTON_X * m_XGraphicsScale;
-	m_MainMenuButton->m_Y = MAIN_MENU_BUTTON_Y * m_YGraphicsScale;
+	m_MainMenuButton->m_X = kMainMenuButtonX * m_XGraphicsScale;
+	m_MainMenuButton->m_Y = kMainMenuButtonY * m_YGraphicsScale;
 	m_MainMenuButton->SetImage(g_pResources->GetMainMenuButton());
 	m_MainMenuButton->m_H = m_MainMenuButton->GetImage()->GetHeight();
 	m_MainMenuButton->m_W = m_MainMenuButton->GetImage()->GetWidth();
-	float buttonScale = MAIN_MENU_BUTTON_Y_SCALE / m_MainMenuButton->m_H; 
+	float buttonScale = kMainMenuButtonYScale / m_MainMenuButton->m_H; 
 	m_MainMenuButton->m_ScaleX = buttonScale*m_XGraphicsScale;
 	m_MainMenuButton->m_ScaleY = buttonScale*m_YGraphicsScale;
 	AddChild(m_MainMenuButton);

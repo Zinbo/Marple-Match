@@ -4,9 +4,9 @@ class CharacterBuilder
 public:
 	CharacterBuilder(int characterIndex);
 	~CharacterBuilder(void);
-	bool IsGold();
-	bool IsSilver();
-	int GetCharacterIndex();
+	bool IsGold() const;
+	bool IsSilver() const;
+	int GetCharacterIndex() const;
 	void SetGold(bool isGold);
 	void SetSilver(bool isSilver);
 private:
