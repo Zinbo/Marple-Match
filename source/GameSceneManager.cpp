@@ -52,6 +52,8 @@ GameSceneManager::GameSceneManager()
 	m_pScenes[InstructionState]->SetName( "InstructionsState" );
 	m_pScenes[MultiplayerResultsState]->SetName( "MultiplayerResultsState" );
 
+	InitSound();
+
 	// Add and init all the scenes
 	for( int count = 0; count < NumberOfStates; count++ )
 	{
@@ -62,6 +64,14 @@ GameSceneManager::GameSceneManager()
 
 	SwitchTo( GameSceneManager::TitleState );
 
+}
+
+void GameSceneManager::InitSound()
+{
+	//Known bug in Marmalade SDK, need to play a sound first before sound starts working in some environments. We turn off sound first, so that this sound never plays.
+	g_pAudio->MuteSound();
+	g_pAudio->PlaySound(g_pResources->GetEmptySoundFilename());
+	g_pAudio->UnmuteSound();
 }
 
 void GameSceneManager::IncrementScore(int incrementValue, int player)

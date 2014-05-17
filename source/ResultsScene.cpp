@@ -35,10 +35,8 @@ using namespace SFAS2014;
 //
 //
 ResultsScene::ResultsScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu)
+	:MasterScene(xGraphicsScale, yGraphicsScale, settingMenu)
 {
-	m_XGraphicsScale = xGraphicsScale;
-	m_YGraphicsScale = yGraphicsScale;
-	m_SettingsMenu = settingMenu;
 	m_TopScores = new TopScores();
 }
 
@@ -88,23 +86,18 @@ void ResultsScene::Update(float deltaTime, float alphaMul)
 
 	if( m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
 	{
-		if(m_SettingsMenu->m_IsVisible && m_SettingsMenu->HitTest(g_pInput->m_X, g_pInput->m_Y))
+		if(!SettingsMenuHitTest())
 		{
-			ToggleButtons();
-		}
-		else if(m_SettingsButton->HitTest(g_pInput->m_X, g_pInput->m_Y) || m_SettingsMenu->m_IsVisible)
-		{
-			ToggleSettingMenu();
-		}
-		else if(m_PlayAgainButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
-		{
-			GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
-			SwitchScene(gameScene);
-		}
-		else if(m_MainMenuButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
-		{
-			TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
-			SwitchScene(titleScene);
+			if(m_PlayAgainButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+			{
+				GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
+				SwitchScene(gameScene);
+			}
+			else if(m_MainMenuButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+			{
+				TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
+				SwitchScene(titleScene);
+			}
 		}
 		g_pInput->Reset();
 	}
@@ -144,70 +137,12 @@ void ResultsScene::InitButtons()
 
 }
 
-void ResultsScene::ToggleButtons()
-{
-	if(m_SettingsMenu->GetPlayButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		//TODO
-		g_pInput->Reset();
-		ToggleSettingMenu();
-	}
-	else if(m_SettingsMenu->GetMusicButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-		m_SettingsMenu->ToggleMusic();
-			
-	}
-	else if(m_SettingsMenu->GetSoundButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-
-		m_SettingsMenu->ToggleSound();
-	}
-	else if(m_SettingsMenu->GetExitButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		ToggleSettingMenu();
-		TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
-		SwitchScene(titleScene);
-		g_pInput->Reset();
-	}
-}
-
-void ResultsScene::ToggleSettingMenu()
-{
-	if(m_SettingsMenu->m_IsVisible)
-	{
-		m_SettingsMenu->m_IsVisible = false;
-	}
-	else
-	{
-		m_SettingsMenu->m_IsVisible = true;
-	}
-}
-
-void ResultsScene::CleanUp()
-{
-	Audio::StopMusic();
-}
-
-void ResultsScene::SwitchScene(Scene* scene)
-{
-	CleanUp();
-	m_Manager->SwitchTo(scene);
-}
-
 void ResultsScene::Reset()
 {
-	Scene::Reset();
-	Audio::PlayMusic(g_pResources->GetMenuMusicFilename(), true);
+	MasterScene::Reset();
 	UpdateForNewScore();
 	SetupLeaderboard();
 	SetupRecentScoreLabels();
-	//If the sound and music has been turned off in another scene then set the buttons on this scene to reflect this.
-}
-void ResultsScene::Render()
-{
-	Scene::Render();
 }
 
 void ResultsScene::InitUI()
@@ -282,7 +217,6 @@ void ResultsScene::SetupLeaderboard()
 
 void ResultsScene::PopulateScores()
 {
-
 	if(!IwFileCheckExists("scores.data"))
 	{
 		for(int i = 0; i < 5; i++)
@@ -373,4 +307,19 @@ void ResultsScene::UpdateForNewScore()
 
 		WriteScoresToFile();
 	}
+}
+
+void ResultsScene::ExitScene()
+{
+	//Not needed
+}
+
+void ResultsScene::ResumeGame()
+{
+	//Not needed
+}
+
+void ResultsScene::PauseGame()
+{
+	//Not needed
 }

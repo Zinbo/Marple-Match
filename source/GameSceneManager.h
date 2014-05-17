@@ -67,7 +67,8 @@ public:
 
 
 private: 
-	
+	void InitSound();
+
 	Scene * m_pScenes[NumberOfStates];
 	int m_GameScore[2];
 	bool	m_MusicPlaying;

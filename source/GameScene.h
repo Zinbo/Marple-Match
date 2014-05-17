@@ -27,7 +27,7 @@ class GridItem;
  * @brief Displays and updates the game
  *
  */
-class GameScene : public Scene
+class GameScene : public MasterScene
 {
 
 public:
@@ -58,14 +58,7 @@ public:
      * @param deltaTime   Number of seconds that has passed since Update() was last called.
      * @param alphaMul    The alpha value being passed down to this node. Default value is 1.
      */
-    void Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
-
-    /**
-     * @fn    virtual void GameScene::Render();
-     *
-     * @brief Render the scene.
-     */
-    void Render(); 
+    void Update(float deltaTime = 0.0f, float alphaMul = 1.0f); 
 
 private: 
 	//Enums
@@ -107,10 +100,6 @@ private:
 	static const float kUpdateToTimeWidth;
 
 	GameState m_GameState;
-
-	//Sprites
-	CSprite* m_Background;
-	CSprite* m_SettingsButton;
 
 	//Labels
 	CLabel* m_ScoreLabel;
@@ -158,15 +147,12 @@ private:
 	void InitButtons();
 	void InitLabels();
 	void InitUI();
-	void InitSound();
 	void StartGame();
 
 	//Reset helpers
 	void ResetBoard();
 
 	//Settings helpers
-	void ToggleButtons();
-	void ToggleSettingMenu();
 	void PauseGame();
 	void ResumeGame();
 	
@@ -180,7 +166,7 @@ private:
 	void UpdateTime(float deltaTime);
 
 	//Endgame helpers
-	void CleanUpAndChangeScene();
+	void ExitScene();
 
 	//Update scene helpers
 	void UpdateLabels();

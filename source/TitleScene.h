@@ -4,8 +4,7 @@
  * 
  */
 
-#include "scene.h"
-#include "input.h"
+#include "MasterScene.h"
 #include "GameScene.h"
 #include "MultiplayerGameScene.h"
 
@@ -25,19 +24,12 @@ namespace SFAS2014
  * @brief Displays the title screen 
  *
  */
-class TitleScene : public Scene
+class TitleScene : public MasterScene
 {
 
 public:
 	TitleScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * SettingsMenu);
-    ~TitleScene();
-
-    /**
-     * @fn    virtual void TitleScene::Init();
-     *
-     * @brief Initialise the scene.
-     */
-    void    Init();
+	~TitleScene() {};
 
     /**
      * @fn    virtual void TitleScene::Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
@@ -51,37 +43,23 @@ public:
      */
 	void Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
 
-    /**
-     * @fn    virtual void TitleScene::Render();
-     *
-     * @brief Render the scene.
-     */
-    void Render();
-
-	void Reset();
-
 private: 
 
+	//Init methods
+	void InitButtons();
+	void InitUI();
+
 	//Sprites
-	CSprite* m_Background;
-	CSprite* m_SettingsButton;
 	CSprite* m_Player1Button;
 	CSprite* m_Player2Button;
 	CSprite* m_InstructionsButton;
 
-	//Helper methods
+	//Methods for cleaning up
+	void ExitScene();
 
-	//Init helpers
-	void InitUI();
-	void InitButtons();
-
-	//Button helpers
-	void ToggleButtons();
-	void ToggleSettingMenu();
-
-	//Scene helpers
-	void CleanUp();
-	void SwitchScene(Scene *scene);
+	//Method for game control
+	void ResumeGame();
+	void PauseGame();
 
 	static const float kButtonSpacing;
 	static const float kButtonStartingX;

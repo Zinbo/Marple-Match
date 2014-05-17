@@ -14,7 +14,7 @@ namespace SFAS2014
 
 class GridItem;
 
-class MultiplayerGameScene : public Scene
+class MultiplayerGameScene : public MasterScene
 {
 public:
 	MultiplayerGameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu);
@@ -46,13 +46,6 @@ public:
      */
     void Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
 
-    /**
-     * @fn    virtual void GameScene::Render();
-     *
-     * @brief Render the scene.
-     */
-    void Render(); 
-
 private:
 	enum { GridWidth = 4, GridHeight = 3 };
 	enum { TimeLimit = 120 };
@@ -66,10 +59,6 @@ private:
 	};
 
 	GameState m_GameState;
-
-	//Sprites
-	CSprite* m_Background;
-	CSprite* m_SettingsButton;
 
 	//Labels
 	CLabel* m_Player1ScoreLabel;
@@ -127,8 +116,6 @@ private:
 	void ResetGrid(std::vector<CharacterBuilder> characterTypes, int player);
 
 	//Settings helpers
-	void ToggleButtons();
-	void ToggleSettingMenu();
 	void PauseGame();
 	void ResumeGame();
 	
@@ -145,7 +132,7 @@ private:
 	void UpdateTime(float deltaTime);
 
 	//Endgame helpers
-	void CleanUpAndChangeScene();
+	void ExitScene();
 
 	//Update scene helpers
 	void UpdateLabels();

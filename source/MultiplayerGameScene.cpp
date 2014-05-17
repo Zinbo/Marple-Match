@@ -25,8 +25,8 @@ const float MultiplayerGameScene::kStarSize = 50.0f;
 const float MultiplayerGameScene::kGoldProb = 0.2f;
 const float MultiplayerGameScene::kSilverProb = 0.3f;
 
-MultiplayerGameScene::MultiplayerGameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu)
-	: m_Time((float) TimeLimit), m_GameState(keGamePlaying)
+MultiplayerGameScene::MultiplayerGameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingsMenu)
+	: m_Time((float) TimeLimit), m_GameState(keGamePlaying), MasterScene(xGraphicsScale, yGraphicsScale, settingsMenu)
 {
 	IwRandSeed( time( 0 ) );
 
@@ -48,10 +48,6 @@ MultiplayerGameScene::MultiplayerGameScene(float xGraphicsScale, float yGraphics
 
 	m_NoOfMatchedPairs[0] = 0;
 	m_NoOfMatchedPairs[1] = 0;
-
-	m_XGraphicsScale = xGraphicsScale;
-	m_YGraphicsScale = yGraphicsScale;
-	m_SettingsMenu = settingMenu;
 
 	m_FirstSelectedItem[0] = NULL;
 	m_FirstSelectedItem[1] = NULL;
@@ -83,13 +79,7 @@ MultiplayerGameScene::~MultiplayerGameScene(void)
 
 void MultiplayerGameScene::Init()
 {
-	Scene::Init();
-
-	//Initialise background
-	InitUI();
-
-	//Initialise buttons for controlling sound and music
-	InitButtons();
+	MasterScene::Init();
 
 	//Initialise labels for score and time
 	InitLabels();
@@ -100,7 +90,7 @@ void MultiplayerGameScene::Init()
 
 void MultiplayerGameScene::Reset()
 {
-	Scene::Reset();
+	MasterScene::Reset();
 	if(keGameOver == m_GameState)
 	{
 		ResetBoard(0);
@@ -110,7 +100,6 @@ void MultiplayerGameScene::Reset()
 	m_Time = (float)TimeLimit;
 	((GameSceneManager*) m_Manager)->SetScore(0, 0);
 	((GameSceneManager*) m_Manager)->SetScore(0, 1);
-	Audio::PlayMusic(g_pResources->GetGameMusicFilename(), true);
 	UpdateLabels();
 	//If the sound and music has been turned off in another scene then set the buttons on this scene to reflect this.
 	//SetSoundAndMusicButtons();
@@ -128,14 +117,7 @@ void MultiplayerGameScene::Update(float deltaTime, float alphaMul)
 
 	if( m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
 	{
-		if(m_SettingsMenu->m_IsVisible && m_SettingsMenu->HitTest(g_pInput->m_X, g_pInput->m_Y))
-		{
-			ToggleButtons();
-		}
-		else if(m_SettingsButton->HitTest(g_pInput->m_X, g_pInput->m_Y) || m_SettingsMenu->m_IsVisible)
-		{
-			ToggleSettingMenu();
-		}
+		SettingsMenuHitTest();
 	}
 
 	//call the right method for the correct game state
@@ -179,7 +161,7 @@ void MultiplayerGameScene::UpdateTime(float deltaTime)
 	//If there is no time left, then clean up a few variables and change to the results scene
 	if( ( m_Time) <= 0 )
 	{
-		CleanUpAndChangeScene();
+		ExitScene();
 	}
 
 	//Update the timer
@@ -325,11 +307,6 @@ void MultiplayerGameScene::RemoveMatchedCharacterPairFromList(int player)
 	RemoveChild(char1->GetCharacterSprite());
 	RemoveChild(char2->GetCharacterSprite());
 	
-}
-
-void MultiplayerGameScene::Render()
-{
-	Scene::Render();
 }
 
 void MultiplayerGameScene::ShowCharacter(GridItem * gridItem)
@@ -560,46 +537,6 @@ void MultiplayerGameScene::IncrementScore(int amount, int player)
 	((GameSceneManager*) m_Manager)->IncrementScore(amount, player);
 }
 
-void MultiplayerGameScene::ToggleButtons()
-{
-	if(m_SettingsMenu->GetPlayButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-		ToggleSettingMenu();
-	}
-	else if(m_SettingsMenu->GetMusicButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-		m_SettingsMenu->ToggleMusic();
-			
-	}
-	else if(m_SettingsMenu->GetSoundButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-		m_SettingsMenu->ToggleSound();
-	}
-	else if(m_SettingsMenu->GetExitButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-		ToggleSettingMenu();
-		CleanUpAndChangeScene();
-	}
-}
-
-void MultiplayerGameScene::ToggleSettingMenu()
-{
-	if(m_SettingsMenu->m_IsVisible)
-	{
-		m_SettingsMenu->m_IsVisible = false;
-		ResumeGame();
-	}
-	else
-	{
-		m_SettingsMenu->m_IsVisible = true;
-		PauseGame();
-	}
-}
-
 void MultiplayerGameScene::PauseGame()
 {
 	m_GameState = keGamePause;
@@ -626,8 +563,10 @@ void MultiplayerGameScene::ResumeGame()
 	}
 }
 
-void MultiplayerGameScene::CleanUpAndChangeScene()
+void MultiplayerGameScene::ExitScene()
 {
+	MasterScene::CleanUp();
+
 	m_Timers.Cancel(m_DoublePointsTimer[0]);
 	m_Timers.Cancel(m_DoublePointsTimer[1]);
 	m_DoublePointsTimer[0] = NULL;
@@ -639,7 +578,6 @@ void MultiplayerGameScene::CleanUpAndChangeScene()
 	m_NoOfMatchedPairs[0] = 0;
 	m_NoOfMatchedPairs[1] = 0;
 	MultiplayerResultsScene * resultsScene= (MultiplayerResultsScene*) m_Manager->Find("MultiplayerResultsState");
-	Audio::StopMusic();
 	m_Manager->SwitchTo(resultsScene);	
 	m_GameState = keGameOver;
 }

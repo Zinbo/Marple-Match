@@ -18,29 +18,9 @@ const float TitleScene::kInstructionsX = 44.0f;
 const float TitleScene::kInstructionsY = 259.0f;
 
 
-
-//
-//
-// TitleScene class
-//
-//
-TitleScene::TitleScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu)
+TitleScene::TitleScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingsMenu)
+	:MasterScene(xGraphicsScale, yGraphicsScale, settingsMenu)
 {
-	m_XGraphicsScale = xGraphicsScale;
-	m_YGraphicsScale = yGraphicsScale;
-	m_SettingsMenu = settingMenu;
-}
-
-TitleScene::~TitleScene()
-{
-}
-
-void TitleScene::Init()
-{
-	Scene::Init();
-	
-	InitUI();
-	InitButtons();
 }
 
 void TitleScene::Update(float deltaTime, float alphaMul)
@@ -56,46 +36,30 @@ void TitleScene::Update(float deltaTime, float alphaMul)
 	//Check to see if any buttons have been pressed if the menu is open.
 	if( m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
 	{
-		if(m_SettingsMenu->m_IsVisible && m_SettingsMenu->HitTest(g_pInput->m_X, g_pInput->m_Y))
+		//Check firstly to see if settings menu has been hit, if it hasn't go through each element to see if it has been hit.
+		if(!SettingsMenuHitTest())
 		{
-			ToggleButtons();
-		}
-		else if(m_SettingsButton->HitTest(g_pInput->m_X, g_pInput->m_Y) || m_SettingsMenu->m_IsVisible)
-		{
-			ToggleSettingMenu();
-		}
-		else if(m_Player1Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
-		{
-			GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
-			SwitchScene(gameScene);
-		}
-		else if(m_Player2Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
-		{
-			MultiplayerGameScene * multiplayerScene = (MultiplayerGameScene *) m_Manager->Find("MultiplayerState");
-			SwitchScene(multiplayerScene);
-		}
-		else if(m_InstructionsButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
-		{
-			InstructionsScene * instructionsScene = (InstructionsScene *) m_Manager->Find("InstructionsState");
-			SwitchScene(instructionsScene);
+			if(m_Player1Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
+			{
+				GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
+				SwitchScene(gameScene);
+			}
+			else if(m_Player2Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
+			{
+				MultiplayerGameScene * multiplayerScene = (MultiplayerGameScene *) m_Manager->Find("MultiplayerState");
+				SwitchScene(multiplayerScene);
+			}
+			else if(m_InstructionsButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+			{
+				InstructionsScene * instructionsScene = (InstructionsScene *) m_Manager->Find("InstructionsState");
+				SwitchScene(instructionsScene);
+			}
+			
 		}
 		g_pInput->Reset();
 	}
-
 }
 
-void TitleScene::Render()
-{
-	Scene::Render();
-}
-
-void TitleScene::Reset()
-{
-	Scene::Reset();
-	Audio::PlayMusic(g_pResources->GetMenuMusicFilename(), true);
-	AddChild(m_SettingsMenu);
-	//If the sound and music has been turned off in another scene then set the buttons on this scene to reflect this.
-}
 
 void TitleScene::InitButtons()
 {
@@ -141,69 +105,34 @@ void TitleScene::InitButtons()
 	AddChild(m_InstructionsButton);
 }
 
-void TitleScene::ToggleButtons()
-{
-	if(m_SettingsMenu->GetPlayButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		ToggleSettingMenu();
-		g_pInput->Reset();
-	}
-	else if(m_SettingsMenu->GetMusicButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-		m_SettingsMenu->ToggleMusic();
-			
-	}
-	else if(m_SettingsMenu->GetSoundButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-		m_SettingsMenu->ToggleSound();
-	}
-	else if(m_SettingsMenu->GetExitButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		ToggleSettingMenu();
-		g_pInput->Reset();
-	}
-}
-
-void TitleScene::ToggleSettingMenu()
-{
-	if(m_SettingsMenu->m_IsVisible)
-	{
-		m_SettingsMenu->m_IsVisible = false;
-	}
-	else
-	{
-		m_SettingsMenu->m_IsVisible = true;
-	}
-}
-
 void TitleScene::InitUI()
 {
+	//Add background
 	m_Background = new CSprite();
-	m_Background->m_X = (float)IwGxGetScreenWidth() * 0.5f;
-	m_Background->m_Y = (float)IwGxGetScreenHeight() * 0.5f;
+	m_Background->m_X = 0;
+	m_Background->m_Y = 0;
 	m_Background->SetImage(g_pResources->GetTitleBackground());
 	m_Background->m_W = m_Background->GetImage()->GetWidth();
-	
 	m_Background->m_H = m_Background->GetImage()->GetHeight();
-	
-	m_Background->m_AnchorX = 0.5;
-	m_Background->m_AnchorY = 0.5;
- 
-	//Fit background to screen size
+
+	// Fit background to screen size
 	m_Background->m_ScaleX = (float)IwGxGetScreenWidth() / m_Background->m_W;
 	m_Background->m_ScaleY = (float)IwGxGetScreenHeight() / m_Background->m_H;
+	
 	AddChild(m_Background);
 }
 
-void TitleScene::CleanUp()
+void TitleScene::ExitScene()
 {
-	Audio::StopMusic();
+	//No need to exit scene, always stay on title screen.
 }
 
-void TitleScene::SwitchScene(Scene* scene)
+void TitleScene::ResumeGame()
 {
-	CleanUp();
-	m_Manager->SwitchTo(scene);
+	//Not needed
+}
+
+void TitleScene::PauseGame()
+{
+	//Not needed
 }

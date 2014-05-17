@@ -39,13 +39,10 @@ const float GameScene::kUpdateToTimeWidth = 150.0f;
 GameScene::GameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu) 
 	: m_Time((float) keTimeLimit), m_DoublePointsTimer(NULL), m_FirstSelectedItem(NULL), 
 	m_SecondSelectedItem(NULL), m_DelayTime(0), m_DoublePoints(false),
-	m_GameState(keGamePlaying), m_NoOfMatchedPairs(0)
+	m_GameState(keGamePlaying), m_NoOfMatchedPairs(0), MasterScene(xGraphicsScale, yGraphicsScale, settingMenu)
 	
 {
 	IwRandSeed( time( 0 ) );
-	m_XGraphicsScale = xGraphicsScale;
-	m_YGraphicsScale = yGraphicsScale;
-	m_SettingsMenu = settingMenu;
 }
 
 GameScene::~GameScene()
@@ -63,19 +60,10 @@ GameScene::~GameScene()
 
 void GameScene::Init()
 {
-	Scene::Init();
-
-	//Initialise background
-	InitUI();
-
-	//Initialise buttons for controlling sound and music
-	InitButtons();
+	MasterScene::Init();
 
 	//Initialise labels for score and time
 	InitLabels();
-
-	//Initialise sound engine
-	InitSound();
 
 	//Initialise the game board
 	InitBoard();
@@ -84,7 +72,7 @@ void GameScene::Init()
 
 void GameScene::Reset()
 {
-	Scene::Reset();
+	MasterScene::Reset();
 	if(m_GameState = keGameOver)
 	{
 		ResetBoard();
@@ -92,11 +80,7 @@ void GameScene::Reset()
 	
 	m_Time = (float)keTimeLimit;
 	((GameSceneManager*) m_Manager)->SetScore(0, 0);
-	Audio::PlayMusic(g_pResources->GetGameMusicFilename(), true);
 	UpdateLabels();
-	//If the sound and music has been turned off in another scene then set the buttons on this scene to reflect this.
-	//SetSoundAndMusicButtons();
-	
 }
 
 void GameScene::Update(float deltaTime, float alphaMul)
@@ -110,15 +94,9 @@ void GameScene::Update(float deltaTime, float alphaMul)
 
 	if( m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
 	{
-		if(m_SettingsMenu->m_IsVisible && m_SettingsMenu->HitTest(g_pInput->m_X, g_pInput->m_Y))
-		{
-			ToggleButtons();
-		}
-		else if(m_SettingsButton->HitTest(g_pInput->m_X, g_pInput->m_Y) || m_SettingsMenu->m_IsVisible)
-		{
-			ToggleSettingMenu();
-		}
+		SettingsMenuHitTest();
 	}
+	
 
 	//call the right method for the correct game state
 	switch(m_GameState)
@@ -140,6 +118,11 @@ void GameScene::Update(float deltaTime, float alphaMul)
 		break;
 	}
 	
+	//If the user has clicked elsewhere just swallow the touch
+	if( m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
+	{
+		g_pInput->Reset();
+	}
 }
 
 void GameScene::UpdateTime(float deltaTime)
@@ -155,16 +138,11 @@ void GameScene::UpdateTime(float deltaTime)
 	//If there is no time left, then clean up a few variables and change to the results scene
 	if( ( m_Time) <= 0 )
 	{
-		CleanUpAndChangeScene();
+		ExitScene();
 	}
 
 	//Update the timer
 	m_Time -= deltaTime;
-}
-
-void GameScene::Render()
-{
-	Scene::Render();
 }
 
 void GameScene::SetupCharactersArray(std::vector<CharacterBuilder> &characterTypes)
@@ -610,40 +588,6 @@ void GameScene::InitLabels()
 	AddChild(m_UpdateToTimeLabel);
 }
 
-void GameScene::InitSound()
-{
-	//Known bug in Marmalade SDK, need to play a sound first before sound starts working in some environments. We turn off sound first, so that this sound never plays.
-	g_pAudio->MuteSound();
-	g_pAudio->PlaySound(g_pResources->GetEmptySoundFilename());
-	g_pAudio->UnmuteSound();
-}
-
-void GameScene::ToggleButtons()
-{
-	if(m_SettingsMenu->GetPlayButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-		ToggleSettingMenu();
-	}
-	else if(m_SettingsMenu->GetMusicButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-		m_SettingsMenu->ToggleMusic();
-			
-	}
-	else if(m_SettingsMenu->GetSoundButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-		m_SettingsMenu->ToggleSound();
-	}
-	else if(m_SettingsMenu->GetExitButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
-	{
-		g_pInput->Reset();
-		ToggleSettingMenu();
-		CleanUpAndChangeScene();
-	}
-}
-
 bool GameScene::AMinuteHasGoneBy(float deltaTime) const
 {
 	return ((0 == ((int)m_Time % 60)) && ((int)m_Time > (int)(m_Time - deltaTime)));
@@ -654,7 +598,7 @@ bool GameScene::InTheFinal10Seconds(float deltaTime) const
 	return ((m_Time <= 11) && ((int)m_Time > (int)(m_Time - deltaTime)));
 }
 
-void GameScene::CleanUpAndChangeScene()
+void GameScene::ExitScene()
 {
 	m_Timers.Cancel(m_DoublePointsTimer);
 	m_DoublePointsTimer = NULL;
@@ -680,21 +624,6 @@ void GameScene::UpdateLabels()
 	char timeBuffer[256];
 	sprintf(timeBuffer, "%.2d:%.2d", minutes, seconds );
 	m_TimeLabel->SetText(timeBuffer);
-}
-
-void GameScene::ToggleSettingMenu()
-{
-	if(m_SettingsMenu->m_IsVisible)
-	{
-		m_SettingsMenu->m_IsVisible = false;
-		ResumeGame();
-	}
-	else
-	{
-		m_SettingsMenu->m_IsVisible = true;
-		PauseGame();
-	}
-	g_pInput->Reset();
 }
 
 void GameScene::PauseGame()

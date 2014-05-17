@@ -47,23 +47,18 @@ void MultiplayerResultsScene::Update(float deltaTime, float alphaMul)
 
 	if( m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
 	{
-		if(m_SettingsMenu->m_IsVisible && m_SettingsMenu->HitTest(g_pInput->m_X, g_pInput->m_Y))
+		if(!SettingsMenuHitTest())
 		{
-			ToggleButtons();
-		}
-		else if(m_SettingsButton->HitTest(g_pInput->m_X, g_pInput->m_Y) || m_SettingsMenu->m_IsVisible)
-		{
-			ToggleSettingMenu();
-		}
-		else if(m_PlayAgainButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
-		{
-			MultiplayerGameScene * gameScene = (MultiplayerGameScene *) m_Manager->Find("MultiplayerState");
-			SwitchScene(gameScene);
-		}
-		else if(m_MainMenuButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
-		{
-			TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
-			SwitchScene(titleScene);
+			if(m_PlayAgainButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+			{
+				MultiplayerGameScene * gameScene = (MultiplayerGameScene *) m_Manager->Find("MultiplayerState");
+				SwitchScene(gameScene);
+			}
+			else if(m_MainMenuButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+			{
+				TitleScene * titleScene = (TitleScene *) m_Manager->Find("TitleState");
+				SwitchScene(titleScene);
+			}
 		}
 		g_pInput->Reset();
 	}

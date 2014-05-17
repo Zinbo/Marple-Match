@@ -22,11 +22,13 @@ files
     main.cpp
     resources.cpp
     scene.cpp
+	MasterScene.cpp
 
     audio.h
     input.h
     resources.h
     scene.h
+	MasterScene.h
 
 	GameSceneManager.cpp
 	TitleScene.cpp
@@ -47,6 +49,7 @@ files
 	PlayerScore.cpp
 	TopScores.cpp
 	InstructionsScene.cpp
+	SinglePlayerGameScene.cpp
 	MultiplayerResultsScene.cpp
 
 	Timer.h
@@ -56,6 +59,7 @@ files
 	PlayerScore.h
 	TopScores.h
 	InstructionsScene.h
+	SinglePlayerGameScene.h
 	MultiplayerResultsScene.h
 }
 

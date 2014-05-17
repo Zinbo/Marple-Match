@@ -9,6 +9,7 @@
 #include "scene.h"
 #include <sstream>
 #include "TopScores.h"
+#include "MasterScene.h"
 
 
 namespace SFAS2014
@@ -20,7 +21,7 @@ namespace SFAS2014
  * @brief Displays the results of the game
  *
  */
-class ResultsScene : public Scene
+class ResultsScene : public MasterScene
 {
 
 public:
@@ -46,19 +47,8 @@ public:
      */
     void Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
 
-    /**
-     * @fn    virtual void ResultsScene::Render();
-     *
-     * @brief Render the scene.
-     */
-    void Render();
-
-	void    Reset();
-
 protected: 
 	//Sprites
-	CSprite* m_Background;
-	CSprite* m_SettingsButton;
 	CSprite* m_PlayAgainButton;
 	CSprite* m_MainMenuButton;
 	TopScores* m_TopScores;
@@ -68,29 +58,27 @@ protected:
 	CLabel* m_TopScoreLabels[5];
 	CLabel* m_TopScoreNames[5];
 
-	//Helper methods
-
 	//Init helpers
 	void InitUI();
 	void InitRecentScoreLabels();
 	void InitLeaderboardLabels();
 	void InitButtons();
 
-	//Button helpers
-	void ToggleButtons();
-	void ToggleSettingMenu();
-
-	//Scene helpers
-	void CleanUp();
-	void SwitchScene(Scene* scene);
-	void SetupRecentScoreLabels();
-
 	//Leaderboard helpers
 	void SetupLeaderboard();
+	void SetupRecentScoreLabels();
 	void UpdateForNewScore();
 	void PopulateScores();
 	void ReadScoresFromFile();
 	void WriteScoresToFile();
+
+	//Clean up helpers
+	void ExitScene();
+	void Reset();
+
+	//Game control helpers
+	void ResumeGame();
+	void PauseGame();
 
 	static const float kButtonSpacing;
 	static const float kButtonStartingX;
