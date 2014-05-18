@@ -25,6 +25,25 @@ void GameScene::Create()
 	m_NoOfMatchedPairs.reserve(m_NoOfPlayers);
 	m_DoublePointsTimer.reserve(m_NoOfPlayers);
 	m_TriplePointsTimer.reserve(m_NoOfPlayers);
+
+	Clear();
+}
+
+void GameScene::Clear()
+{
+	//Initialise variables
+	for(int i = 0; i < m_NoOfPlayers; i++)
+	{
+		m_DoublePointsTimer[i] = NULL;
+		m_TriplePointsTimer[i] = NULL;
+		m_DoublePoints[i] = NULL;
+		m_TriplePoints[i] = NULL;
+		m_DelayTime[i] = NULL;
+		m_Delayed[i] = NULL;
+		m_NoOfMatchedPairs[i] = NULL;
+		m_FirstSelectedItem[i] = NULL;
+		m_SecondSelectedItem[i] = NULL;
+	}
 }
 
 void GameScene::Update(float deltaTime, float alphaMul)

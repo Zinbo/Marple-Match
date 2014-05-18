@@ -94,6 +94,7 @@ protected:
 	//Reset helpers
 	void ResetBoard(int player);
 	void ResetGrid(std::vector<CharacterBuilder> characterTypes, int player);
+	void Clear();
 
 	//Settings helpers
 	void PauseGame();
