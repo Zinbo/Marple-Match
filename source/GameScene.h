@@ -23,7 +23,7 @@ public:
 	void Reset();
 	void Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
 
-private:
+protected:
 	void Create();
 	void Destroy();
 

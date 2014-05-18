@@ -15,7 +15,7 @@ namespace SFAS2014
 
 class GridItem;
 
-class MultiplayerGameScene : public MasterScene
+class MultiplayerGameScene : public GameScene
 {
 public:
 	MultiplayerGameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu);

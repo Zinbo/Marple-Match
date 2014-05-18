@@ -26,7 +26,7 @@ const float MultiplayerGameScene::kGoldProb = 0.2f;
 const float MultiplayerGameScene::kSilverProb = 0.3f;
 
 MultiplayerGameScene::MultiplayerGameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingsMenu)
-	: m_Time((float) TimeLimit), m_GameState(keGamePlaying), MasterScene(xGraphicsScale, yGraphicsScale, settingsMenu)
+	: m_Time((float) TimeLimit), m_GameState(keGamePlaying), GameScene(2, xGraphicsScale, yGraphicsScale, settingsMenu, 50.0f)
 {
 	IwRandSeed( time( 0 ) );
 
