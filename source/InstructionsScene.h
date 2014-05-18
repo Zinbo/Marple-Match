@@ -16,21 +16,21 @@ public:
 	~InstructionsScene(void);
 	
 	/**
-     * @fn    void GameScene::Init();
+     * @fn    void SinglePlayerGameScene::Init();
      *
      * @brief Initialise the scene.
      */
     void    Init();
 
     /**
-     * @fn    void GameScene::Reset();
+     * @fn    void SinglePlayerGameScene::Reset();
      *
      * @brief Resets the scene.
      */
     void    Reset();
 
     /**
-     * @fn    virtual void GameScene::Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
+     * @fn    virtual void SinglePlayerGameScene::Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
      *
      * @brief Update the scene.
      *
@@ -42,7 +42,7 @@ public:
     void Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
 
     /**
-     * @fn    virtual void GameScene::Render();
+     * @fn    virtual void SinglePlayerGameScene::Render();
      *
      * @brief Render the scene.
      */

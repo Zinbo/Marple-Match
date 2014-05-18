@@ -10,7 +10,7 @@
 #include "SettingsMenu.h"
 
 #include "TitleScene.h"
-#include "GameScene.h"
+#include "SinglePlayerGameScene.h"
 #include "ResultsScene.h"
 #include "MultiplayerGameScene.h"
 #include "MultiplayerResultsScene.h"
@@ -35,7 +35,7 @@ public:
 	enum State
 	{
 		TitleState,
-		GameState,
+		SinglePlayerGameState,
 		ResultsState,
 		MultiplayerGameState,
 		InstructionState,

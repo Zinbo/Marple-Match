@@ -38,7 +38,7 @@ GameSceneManager::GameSceneManager()
 
 	// Create the game scenes 
 	m_pScenes[TitleState] = new TitleScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
-	m_pScenes[GameState] = new GameScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
+	m_pScenes[SinglePlayerGameState] = new SinglePlayerGameScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
 	m_pScenes[ResultsState] = new ResultsScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
 	m_pScenes[MultiplayerGameState] = new MultiplayerGameScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
 	m_pScenes[InstructionState] = new InstructionsScene(xGraphicsScale, yGraphicsScale);
@@ -46,7 +46,7 @@ GameSceneManager::GameSceneManager()
 
 	// Set the scene names
 	m_pScenes[TitleState]->SetName( "TitleState" );
-	m_pScenes[GameState]->SetName( "GameState" );
+	m_pScenes[SinglePlayerGameState]->SetName( "SinglePlayerGameState" );
 	m_pScenes[ResultsState]->SetName( "ResultsState" );
 	m_pScenes[MultiplayerGameState]->SetName( "MultiplayerState" );
 	m_pScenes[InstructionState]->SetName( "InstructionsState" );

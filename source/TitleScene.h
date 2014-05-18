@@ -5,7 +5,7 @@
  */
 
 #include "MasterScene.h"
-#include "GameScene.h"
+#include "SinglePlayerGameScene.h"
 #include "MultiplayerGameScene.h"
 
 #include "InstructionsScene.h"

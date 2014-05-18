@@ -19,7 +19,7 @@
 #include "resources.h"
 
 #include "TitleScene.h"
-#include "GameScene.h"
+#include "SinglePlayerGameScene.h"
 #include "ResultsScene.h"
 #include "GameSceneManager.h"
 

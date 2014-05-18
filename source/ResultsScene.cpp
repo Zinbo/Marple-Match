@@ -90,7 +90,7 @@ void ResultsScene::Update(float deltaTime, float alphaMul)
 		{
 			if(m_PlayAgainButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
 			{
-				GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
+				SinglePlayerGameScene * gameScene = (SinglePlayerGameScene *) m_Manager->Find("GameState");
 				SwitchScene(gameScene);
 			}
 			else if(m_MainMenuButton->HitTest(g_pInput->m_X, g_pInput->m_Y))

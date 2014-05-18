@@ -1,5 +1,6 @@
 #pragma once
 #include "scene.h"
+#include "GameScene.h"
 #include "CharacterBuilder.h"
 #include "audio.h"
 #include "resources.h"
@@ -21,21 +22,21 @@ public:
 	~MultiplayerGameScene(void);
 
 	/**
-     * @fn    void GameScene::Init();
+     * @fn    void SinglePlayerGameScene::Init();
      *
      * @brief Initialise the scene.
      */
     void    Init();
 
     /**
-     * @fn    void GameScene::Reset();
+     * @fn    void SinglePlayerGameScene::Reset();
      *
      * @brief Resets the scene.
      */
     void    Reset();
 
     /**
-     * @fn    virtual void GameScene::Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
+     * @fn    virtual void SinglePlayerGameScene::Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
      *
      * @brief Update the scene.
      *
@@ -109,7 +110,6 @@ private:
 	void InitButtons();
 	void InitLabels();
 	void InitUI();
-	void StartGame();
 
 	//Reset helpers
 	void ResetBoard(int player);

@@ -41,7 +41,7 @@ void TitleScene::Update(float deltaTime, float alphaMul)
 		{
 			if(m_Player1Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
 			{
-				GameScene * gameScene = (GameScene *) m_Manager->Find("GameState");
+				SinglePlayerGameScene * gameScene = (SinglePlayerGameScene *) m_Manager->Find("SinglePlayerGameState");
 				SwitchScene(gameScene);
 			}
 			else if(m_Player2Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
