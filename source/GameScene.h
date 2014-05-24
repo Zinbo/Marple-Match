@@ -1,4 +1,6 @@
-#pragma once
+#if !defined(__GAMESCENE_H__)
+#define __GAMESCENE_H__
+
 #include "MasterScene.h"
 #include "CharacterBuilder.h"
 #include "audio.h"
@@ -6,7 +8,7 @@
 #include "IwGx.h"
 #include "input.h"
 #include "GridItem.h"
-#include "GameSceneManager.h"
+#include <vector>
 
 namespace SFAS2014
 {
@@ -27,10 +29,10 @@ protected:
 	void Create();
 	void Destroy();
 
-	enum GridElements 
+	struct GridElements
 	{
-		keGridWidth = 4,
-		keGridHeight = 6
+		int gridWidth;
+		int gridHeight;
 	};
 
 	enum GameElements 
@@ -48,25 +50,26 @@ protected:
 
 	GameState m_GameState;
 	int m_NoOfPlayers;
+	GridElements m_GridElements;
 
-	vector<CLabel*> m_ScoreLabel;
-	vector<CLabel*> m_TimeLabel;
+	std::vector<CLabel*> m_ScoreLabel;
+	std::vector<CLabel*> m_TimeLabel;
 
-	vector<bool> m_DoublePoints;
-	vector<bool> m_TriplePoints;
-	vector<bool> m_Delayed;
+	std::vector<bool> m_DoublePoints;
+	std::vector<bool> m_TriplePoints;
+	std::vector<bool> m_Delayed;
 
-	vector<vector<GridItem*>> m_Grid;
-	vector<GridItem*> m_FirstSelectedItem;
-	vector<GridItem*> m_SecondSelectedItem;
-	vector<vector<GridItem*>> m_CharactersToRemove;
+	std::vector<std::vector<GridItem*>> m_Grid;
+	std::vector<GridItem*> m_FirstSelectedItem;
+	std::vector<GridItem*> m_SecondSelectedItem;
+	std::vector<std::vector<GridItem*>> m_CharactersToRemove;
 
-	vector<int> m_NoOfMatchedPairs;
+	std::vector<int> m_NoOfMatchedPairs;
 
 	float m_Time;
-	vector<float> m_DelayTime;
-	vector<Timer*> m_DoublePointsTimer;
-	vector<Timer*> m_TriplePointsTimer;
+	std::vector<float> m_DelayTime;
+	std::vector<Timer*> m_DoublePointsTimer;
+	std::vector<Timer*> m_TriplePointsTimer;
 
 	//Methods
 
@@ -144,3 +147,5 @@ protected:
 	const float kSilverProb;
 };
 }
+
+#endif  // __GAMESCENE_H__

@@ -20,12 +20,19 @@ const float MultiplayerGameScene::kPlayer2StarXOffset = 60.0f;
 const float MultiplayerGameScene::kPlayer2StarYOffset = 35.0f;
 const float MultiplayerGameScene::kStarXSpacing = 66.0f;
 const float MultiplayerGameScene::kStarYSpacing = 55.0f;
-const float MultiplayerGameScene::kStarSize = 50.0f;
 
 MultiplayerGameScene::MultiplayerGameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingsMenu)
-	: m_Time((float) TimeLimit), m_GameState(keGamePlaying), GameScene(2, xGraphicsScale, yGraphicsScale, settingsMenu, 50.0f)
+	:  GameScene(2, xGraphicsScale, yGraphicsScale, settingsMenu, 50.0f)
 {
+	m_GridElements.gridHeight = 3;
+	m_GridElements.gridWidth = 4;
+
+	m_Time = ((float) keTimeLimit);
+	m_GameState = keGamePlaying;
 	IwRandSeed( time( 0 ) );
+
+	Create();
+	Clear();
 }
 
 void MultiplayerGameScene::ExitScene()
@@ -58,71 +65,87 @@ void MultiplayerGameScene::InitUI()
 void MultiplayerGameScene::InitLabels()
 {
 	// Create the score text
-	m_Player1ScoreLabel = new CLabel();
-	m_Player1ScoreLabel->m_X = kPlayer1ScoreTextX * m_XGraphicsScale;
-	m_Player1ScoreLabel->m_Y = kPlayer1ScoreTextY * m_YGraphicsScale;
-	m_Player1ScoreLabel->m_W = kLabelWidth;
-	m_Player1ScoreLabel->m_H = kLabelHeight;
-	m_Player1ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player1ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player1ScoreLabel->SetFont(g_pResources->GetSize20Font());
-	m_Player1ScoreLabel->SetText("0000");
-	m_Player1ScoreLabel->m_Color = CColor(0,0,0,255);
-	m_Player1ScoreLabel->m_ScaleX = m_XGraphicsScale;
-	m_Player1ScoreLabel->m_ScaleY = m_YGraphicsScale;
-	AddChild(m_Player1ScoreLabel);
+	m_ScoreLabel[0] = new CLabel();
+	m_ScoreLabel[0]->m_X = kPlayer1ScoreTextX * m_XGraphicsScale;
+	m_ScoreLabel[0]->m_Y = kPlayer1ScoreTextY * m_YGraphicsScale;
+	m_ScoreLabel[0]->m_W = kLabelWidth;
+	m_ScoreLabel[0]->m_H = kLabelHeight;
+	m_ScoreLabel[0]->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
+	m_ScoreLabel[0]->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
+	m_ScoreLabel[0]->SetFont(g_pResources->GetSize20Font());
+	m_ScoreLabel[0]->SetText("0000");
+	m_ScoreLabel[0]->m_Color = CColor(0,0,0,255);
+	m_ScoreLabel[0]->m_ScaleX = m_XGraphicsScale;
+	m_ScoreLabel[0]->m_ScaleY = m_YGraphicsScale;
+	AddChild(m_ScoreLabel[0]);
 
 	// Create the time text
-	m_Player1TimeLabel = new CLabel();
-	m_Player1TimeLabel->m_X = kPlayer1TimeTextX*m_XGraphicsScale;
-	m_Player1TimeLabel->m_Y = kPlayer1TimeTextY*m_YGraphicsScale;
-	m_Player1TimeLabel->m_W = kLabelWidth;
-	m_Player1TimeLabel->m_H = kLabelHeight;
-	m_Player1TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player1TimeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player1TimeLabel->SetFont(g_pResources->GetSize20Font());
-	m_Player1TimeLabel->SetText("02:00");
-	m_Player1TimeLabel->m_Color = CColor(0,0,0,255);
-	m_Player1TimeLabel->m_ScaleX = m_XGraphicsScale;
-	m_Player1TimeLabel->m_ScaleY = m_YGraphicsScale;
-	AddChild(m_Player1TimeLabel);
+	m_TimeLabel[0] = new CLabel();
+	m_TimeLabel[0]->m_X = kPlayer1TimeTextX*m_XGraphicsScale;
+	m_TimeLabel[0]->m_Y = kPlayer1TimeTextY*m_YGraphicsScale;
+	m_TimeLabel[0]->m_W = kLabelWidth;
+	m_TimeLabel[0]->m_H = kLabelHeight;
+	m_TimeLabel[0]->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
+	m_TimeLabel[0]->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
+	m_TimeLabel[0]->SetFont(g_pResources->GetSize20Font());
+	m_TimeLabel[0]->SetText("02:00");
+	m_TimeLabel[0]->m_Color = CColor(0,0,0,255);
+	m_TimeLabel[0]->m_ScaleX = m_XGraphicsScale;
+	m_TimeLabel[0]->m_ScaleY = m_YGraphicsScale;
+	AddChild(m_TimeLabel[0]);
 
 	// Create the score text
-	m_Player2ScoreLabel = new CLabel();
-	m_Player2ScoreLabel->m_X = kPlayer2ScoreTextX * m_XGraphicsScale + (kLabelWidth*m_XGraphicsScale)/2;
-	m_Player2ScoreLabel->m_Y = kPlayer2ScoreTextY * m_YGraphicsScale + (kLabelHeight*m_YGraphicsScale)/2;
-	m_Player2ScoreLabel->m_H = kLabelHeight;
-	m_Player2ScoreLabel->m_W = kLabelWidth;
-	m_Player2ScoreLabel->m_AnchorX = 0.5f;
-	m_Player2ScoreLabel->m_AnchorY = 0.5f;
-	m_Player2ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player2ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player2ScoreLabel->SetFont(g_pResources->GetSize20Font());
-	m_Player2ScoreLabel->SetText("0000");
-	m_Player2ScoreLabel->m_Color = CColor(0,0,0,255);
-	m_Player2ScoreLabel->m_Angle = 180.0f;
-	m_Player2ScoreLabel->m_ScaleX = m_XGraphicsScale;
-	m_Player2ScoreLabel->m_ScaleY = m_YGraphicsScale;
-	AddChild(m_Player2ScoreLabel);
+	m_ScoreLabel[1] = new CLabel();
+	m_ScoreLabel[1]->m_X = kPlayer2ScoreTextX * m_XGraphicsScale + (kLabelWidth*m_XGraphicsScale)/2;
+	m_ScoreLabel[1]->m_Y = kPlayer2ScoreTextY * m_YGraphicsScale + (kLabelHeight*m_YGraphicsScale)/2;
+	m_ScoreLabel[1]->m_H = kLabelHeight;
+	m_ScoreLabel[1]->m_W = kLabelWidth;
+	m_ScoreLabel[1]->m_AnchorX = 0.5f;
+	m_ScoreLabel[1]->m_AnchorY = 0.5f;
+	m_ScoreLabel[1]->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
+	m_ScoreLabel[1]->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
+	m_ScoreLabel[1]->SetFont(g_pResources->GetSize20Font());
+	m_ScoreLabel[1]->SetText("0000");
+	m_ScoreLabel[1]->m_Color = CColor(0,0,0,255);
+	m_ScoreLabel[1]->m_Angle = 180.0f;
+	m_ScoreLabel[1]->m_ScaleX = m_XGraphicsScale;
+	m_ScoreLabel[1]->m_ScaleY = m_YGraphicsScale;
+	AddChild(m_ScoreLabel[1]);
 
 	// Create the time text
-	m_Player2TimeLabel = new CLabel();
-	m_Player2TimeLabel->m_X = kPlayer2TimeTextX*m_XGraphicsScale + (kLabelWidth*m_XGraphicsScale)/2;
-	m_Player2TimeLabel->m_Y = kPlayer2TimeTextY*m_YGraphicsScale + (kLabelHeight*m_YGraphicsScale)/2;
-	m_Player2TimeLabel->m_H = kLabelHeight;
-	m_Player2TimeLabel->m_W = kLabelWidth;
-	m_Player2TimeLabel->m_AnchorX = 0.5f;
-	m_Player2TimeLabel->m_AnchorY = 0.5f;
-	m_Player2TimeLabel->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player2TimeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_Player2TimeLabel->SetFont(g_pResources->GetSize20Font());
-	m_Player2TimeLabel->SetText("02:00");
-	m_Player2TimeLabel->m_Color = CColor(0,0,0,255);
-	m_Player2TimeLabel->m_Angle = 180.0f;
-	m_Player2TimeLabel->m_ScaleX = m_XGraphicsScale;
-	m_Player2TimeLabel->m_ScaleY = m_YGraphicsScale;
-	AddChild(m_Player2TimeLabel);
+	m_TimeLabel[1] = new CLabel();
+	m_TimeLabel[1]->m_X = kPlayer2TimeTextX*m_XGraphicsScale + (kLabelWidth*m_XGraphicsScale)/2;
+	m_TimeLabel[1]->m_Y = kPlayer2TimeTextY*m_YGraphicsScale + (kLabelHeight*m_YGraphicsScale)/2;
+	m_TimeLabel[1]->m_H = kLabelHeight;
+	m_TimeLabel[1]->m_W = kLabelWidth;
+	m_TimeLabel[1]->m_AnchorX = 0.5f;
+	m_TimeLabel[1]->m_AnchorY = 0.5f;
+	m_TimeLabel[1]->m_AlignHor = IW_2D_FONT_ALIGN_CENTRE;
+	m_TimeLabel[1]->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
+	m_TimeLabel[1]->SetFont(g_pResources->GetSize20Font());
+	m_TimeLabel[1]->SetText("02:00");
+	m_TimeLabel[1]->m_Color = CColor(0,0,0,255);
+	m_TimeLabel[1]->m_Angle = 180.0f;
+	m_TimeLabel[1]->m_ScaleX = m_XGraphicsScale;
+	m_TimeLabel[1]->m_ScaleY = m_YGraphicsScale;
+	AddChild(m_TimeLabel[1]);
 
+}
+
+void MultiplayerGameScene::InitButtons()
+{
+	m_SettingsButton = new CSprite();
+	m_SettingsButton->m_X = (float)IwGxGetScreenWidth() / 2;
+	m_SettingsButton->m_Y = (float)IwGxGetScreenHeight() / 2;
+	m_SettingsButton->SetImage(g_pResources->GetSettingsButton());
+	m_SettingsButton->m_H = m_SettingsButton->GetImage()->GetHeight();
+	m_SettingsButton->m_W = m_SettingsButton->GetImage()->GetWidth();
+	m_SettingsButton->m_AnchorX = 0.5f;
+	m_SettingsButton->m_AnchorY = 0.5f;
+	float buttonScale = (50 / m_SettingsButton->m_H);
+	m_SettingsButton->m_ScaleX = (buttonScale * m_XGraphicsScale);
+	m_SettingsButton->m_ScaleY = (buttonScale * m_YGraphicsScale);
+	AddChild(m_SettingsButton);
 }
 
 void MultiplayerGameScene::AddGridToScene(std::vector<CharacterBuilder> &characterTypes, int player)
@@ -142,15 +165,15 @@ void MultiplayerGameScene::AddGridToScene(std::vector<CharacterBuilder> &charact
 		yOffset = kPlayer2StarYOffset*m_YGraphicsScale;
 	}
 	y = yOffset;
-	for( int row = 0; row < GridHeight; row++ )
+	for( int row = 0; row < m_GridElements.gridHeight; row++ )
 	{
 		x = xOffset;
-		for( int column = 0; column < GridWidth; column++ )
+		for( int column = 0; column < m_GridElements.gridWidth; column++ )
 		{
 			int characterTypeIndex = rand() % characterTypes.size();
 			GridItem* grid = new GridItem( x, y, characterTypes.at(characterTypeIndex));
 			characterTypes.erase(characterTypes.begin() + characterTypeIndex);
-			m_Grid[player][(row*GridWidth)+column] = grid; 
+			m_Grid[player][(row*m_GridElements.gridWidth)+column] = grid; 
 			if(1 == player)
 			{
 				grid->GetStarSprite()->m_Angle = 180.0f;

@@ -1,14 +1,8 @@
 #pragma once
-#include "scene.h"
-#include "GameScene.h"
-#include "CharacterBuilder.h"
-#include "audio.h"
-#include "resources.h"
-#include "IwGx.h"
-#include "input.h"
-#include "GridItem.h"
-#include "GameSceneManager.h"
 #include "MultiplayerResultsScene.h"
+#include "GameScene.h"
+
+using namespace SFAS2014;
 
 namespace SFAS2014
 {
@@ -24,6 +18,8 @@ private:
 	
 	//Init helpers
 	void InitLabels();
+	void InitUI();
+	void InitButtons();
 
 	//Powerup helpers
 	void RemovePairsPowerUp(GridItem* selected, int player);

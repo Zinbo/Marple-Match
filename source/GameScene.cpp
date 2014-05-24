@@ -1,12 +1,12 @@
 #include "GameScene.h"
-
+#include "GameSceneManager.h"
 using namespace SFAS2014;
 
 GameScene::GameScene(int noOfPlayers, float xGraphicsScale, float yGraphicsScale, SettingsMenu* settingsMenu, const float starSize)
 	:MasterScene(xGraphicsScale, yGraphicsScale, settingsMenu), m_Time((float) keTimeLimit), kGoldProb(0.3), kSilverProb(0.2),
 	m_GameState(keGamePlaying), m_NoOfPlayers(noOfPlayers), kStarSize(starSize)
 {
-	Create();
+	
 }
 
 void GameScene::Create()
@@ -17,16 +17,21 @@ void GameScene::Create()
 	m_DoublePoints.reserve(m_NoOfPlayers);
 	m_TriplePoints.reserve(m_NoOfPlayers);
 	m_Delayed.reserve(m_NoOfPlayers);
-	m_Grid.reserve(m_NoOfPlayers);
+	m_DelayTime.reserve(m_NoOfPlayers);
+	m_Grid.resize(m_NoOfPlayers);
 	m_FirstSelectedItem.reserve(m_NoOfPlayers);
 	m_SecondSelectedItem.reserve(m_NoOfPlayers);
-	m_CharactersToRemove.reserve(m_NoOfPlayers);
+	m_CharactersToRemove.resize(m_NoOfPlayers);
 
 	m_NoOfMatchedPairs.reserve(m_NoOfPlayers);
 	m_DoublePointsTimer.reserve(m_NoOfPlayers);
 	m_TriplePointsTimer.reserve(m_NoOfPlayers);
 
-	Clear();
+	for(int i = 0; i < m_NoOfPlayers; i++)
+	{
+		m_Grid[i].reserve(m_GridElements.gridWidth*m_GridElements.gridHeight);
+	}
+
 }
 
 void GameScene::Clear()
@@ -104,13 +109,14 @@ void GameScene::CheckGridForMatch(int player)
 {
 	if(!m_Delayed[player])
 	{
-		for(int gridIndex = 0; gridIndex < keGridWidth*keGridHeight; gridIndex++ )
+		for(int gridIndex = 0; gridIndex < m_GridElements.gridWidth*m_GridElements.gridHeight; gridIndex++ )
 	{
 		if(StarHasBeenTouched(m_Grid[player][gridIndex]))
 		{
 			//if the star has been touched then show the character underneath. If the player has already selected a star
 			//then see if we have a match or not. Else set m_FirstSelectedItem to the touched star
 			ShowCharacter(m_Grid[player][gridIndex]);
+			
 			if(m_FirstSelectedItem[player])
 			{
 				m_SecondSelectedItem[player] = m_Grid[player][gridIndex];
@@ -136,6 +142,7 @@ void GameScene::CheckGridForMatch(int player)
 				m_FirstSelectedItem[player] = m_Grid[player][gridIndex];
 			}	
 			break;
+			
 		}
 	}
 	}
@@ -177,7 +184,7 @@ GameScene::~GameScene()
 		delete m_TriplePointsTimer[i];
 	}
 
-	for(int i = 0; i < keGridHeight*keGridWidth; i++)
+	for(int i = 0; i < m_GridElements.gridWidth*m_GridElements.gridHeight; i++)
 	{
 		for(int j = 0; j < m_NoOfPlayers; j++)
 		{
@@ -332,7 +339,7 @@ void GameScene::remove_player_1_matched_characters(Timer* timer, void* userData)
 	self->m_NoOfMatchedPairs[0]++;
 
 	//If the player has matched 12 pairs then reset the board.
-	if(((keGridWidth*keGridHeight)/2) == self->m_NoOfMatchedPairs[0])
+	if(((self->m_GridElements.gridWidth*self->m_GridElements.gridHeight)/2) == self->m_NoOfMatchedPairs[0])
 	{
 		g_pAudio->PlaySound(g_pResources->GetBoardCompleteSoundFilename());
 		self->m_NoOfMatchedPairs[0] = 0;
@@ -350,7 +357,7 @@ void GameScene::remove_player_2_matched_characters(Timer* timer, void* userData)
 	self->m_NoOfMatchedPairs[1]++;
 
 	//If the player has matched 12 pairs then reset the board.
-	if(((keGridWidth*keGridHeight)/2) == self->m_NoOfMatchedPairs[1])
+	if(((self->m_GridElements.gridWidth*self->m_GridElements.gridHeight)/2) == self->m_NoOfMatchedPairs[1])
 	{
 		g_pAudio->PlaySound(g_pResources->GetBoardCompleteSoundFilename());
 		self->m_NoOfMatchedPairs[1] = 0;
@@ -406,7 +413,7 @@ void GameScene::ProcessOddPowerupMatch(int player)
 
 GridItem * GameScene::FindOtherHalfOfPair(GridItem* gridItem, int player)
 {
-	for(int i = 0; i < keGridHeight*keGridWidth; i++)
+	for(int i = 0; i < m_GridElements.gridHeight*m_GridElements.gridWidth; i++)
 	{
 		if(gridItem->GetCharacterIndex() == m_Grid[player][i]->GetCharacterIndex() && m_Grid[player][i] != gridItem)
 		{
@@ -424,13 +431,6 @@ void GameScene::InitBoard()
 		SetupCharactersArray(characterTypes);
 		AddGridToScene(characterTypes, i);
 	}
-	std::vector<CharacterBuilder> player1CharacterTypes;
-	SetupCharactersArray(player1CharacterTypes);	
-	AddGridToScene(player1CharacterTypes, 0);
-
-	std::vector<CharacterBuilder> player2CharacterTypes;
-	SetupCharactersArray(player2CharacterTypes);	
-	AddGridToScene(player2CharacterTypes, 1);
 }
 
 void GameScene::ResetBoard(int player)
@@ -442,7 +442,7 @@ void GameScene::ResetBoard(int player)
 
 void GameScene::ResetGrid(std::vector<CharacterBuilder> characterTypes, int player)
 {
-	for(int i = 0; i < keGridHeight*keGridWidth; i++)
+	for(int i = 0; i < m_GridElements.gridHeight*m_GridElements.gridWidth; i++)
 	{
 		int characterTypeIndex = rand() % characterTypes.size();
 		
@@ -552,7 +552,7 @@ void GameScene::UpdateLabels()
 void GameScene::SetupCharactersArray(std::vector<CharacterBuilder> &characterTypes)
 {
 	//Fill vector with exactly 2 of each character type
-	int numberOfPairs = (keGridHeight*keGridWidth)/2;
+	int numberOfPairs = (m_GridElements.gridHeight*m_GridElements.gridWidth)/2;
 	for(int i = 0; i < numberOfPairs; i++)
 	{
 		CharacterBuilder charToMake(i);
