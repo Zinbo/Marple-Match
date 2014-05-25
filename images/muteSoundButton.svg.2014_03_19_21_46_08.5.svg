@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="25"
+   height="25"
+   id="svg4256"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="C:\Users\Zinbo\search for a star\muteSoundButton.svg"
+   inkscape:export-filename="C:\Users\Zinbo\search for a star\sfas2014_shanejennings\data\textures\muteSoundButton.png"
+   inkscape:export-xdpi="298.79999"
+   inkscape:export-ydpi="298.79999">
+  <defs
+     id="defs4258" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="11.2"
+     inkscape:cx="17.111237"
+     inkscape:cy="16.599026"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4261">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1027.3622)">
+    <g
+       id="g4229"
+       transform="matrix(0.94945806,0,0,1.0037625,-88.565069,445.97409)">
+      <rect
+         ry="4.6794109"
+         y="579.8645"
+         x="93.889999"
+         height="23.719482"
+         width="25.111359"
+         id="rect3078"
+         style="fill:#01a7bf;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.22027516px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path3116"
+         d="m 105.40028,598.52804 c -0.0799,-0.0392 -0.59966,-0.49201 -1.15485,-1.00584 -0.55518,-0.51381 -1.33696,-1.23743 -1.73728,-1.60806 -0.40027,-0.37059 -1.01617,-0.94049 -1.36862,-1.26639 l -0.64081,-0.59251 -1.306291,0 -1.306295,0 -0.183171,-0.11719 c -0.100822,-0.0644 -0.211479,-0.16373 -0.246137,-0.22071 -0.04756,-0.0783 -0.06682,-0.57737 -0.07895,-2.03231 -0.01949,-2.3641 -0.01189,-2.4574 0.225165,-2.67366 l 0.176394,-0.16114 1.338704,-9.4e-4 1.338711,-9.4e-4 1.52092,-1.40422 c 0.8365,-0.77232 1.89256,-1.74803 2.34673,-2.16824 0.93374,-0.8639 1.06691,-0.96167 1.36716,-1.00403 0.22329,-0.0314 0.57029,0.0769 0.57029,0.17802 0,0.0271 0.0389,0.0895 0.0864,0.13899 0.0814,0.0845 0.0866,0.47075 0.0866,6.71889 0,3.64595 -0.0177,6.70685 -0.0391,6.80194 -0.0216,0.0953 -0.11295,0.24675 -0.20347,0.33693 -0.14669,0.14632 -0.19042,0.16347 -0.4056,0.15907 -0.13274,-0.004 -0.30664,-0.0372 -0.38662,-0.0767 l 0,0 z"
+         style="opacity:0.98000004;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.8071875;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    </g>
+  </g>
+</svg>
