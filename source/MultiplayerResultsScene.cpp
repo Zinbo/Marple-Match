@@ -1,5 +1,5 @@
 #include "MultiplayerResultsScene.h"
-
+#include "GameSceneManager.h"
 using namespace SFAS2014;
 
 const float MultiplayerResultsScene::kPlayer1ScoreX = 7.0f;

@@ -8,6 +8,7 @@
 #include "resources.h"
 #include "TitleScene.h"
 #include "s3eOSReadString.h"
+#include "GameSceneManager.h"
 
 #define BUTTON_SPACING 50.0f
 #define BUTTON_STARTING_X 1.0f
