@@ -126,21 +126,6 @@ protected:
 	void HideCharacter(GridItem * gridItem);
 	void ShowCharacter(GridItem * gridItem);
 
-	//consts
-	/*
-	static const float kLabelHeight;
-	static const float kLabelWidth;
-
-	static const vector<float> kTimeTextX;
-	static const vector<float> kTimeTextY;
-	static const vector<float> kScoreTextX;
-	static const vector<float> kScoreTextY;
-	
-	static const vector<float> kStarXOffset;
-	static const vector<float> kStarYOffset;
-	static const float kStarXSpacing;
-	static const float kStarYSpacing;
-	*/
 	const float kStarSize;
 
 	const float kGoldProb;

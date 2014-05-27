@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg21726"
+   version="1.1"
+   inkscape:version="0.48.4 r"
+   sodipodi:docname="ExitGameDialog.svg">
+  <defs
+     id="defs21728">
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10555-6"
+       id="radialGradient6294"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.338845,0,0,0.68944122,103.53377,315.65765)"
+       cx="102.11694"
+       cy="1006.909"
+       fx="102.11694"
+       fy="1006.909"
+       r="55.55653" />
+    <linearGradient
+       id="linearGradient10555-6">
+      <stop
+         style="stop-color:#ffdd5c;stop-opacity:1;"
+         offset="0"
+         id="stop10557-3" />
+      <stop
+         style="stop-color:#ffdd5c;stop-opacity:1;"
+         offset="1"
+         id="stop10559-4" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="145.33502"
+     inkscape:cy="113.86231"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata21731">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       ry="7.7446675"
+       y="853.06433"
+       x="1.0592847"
+       height="198.59572"
+       width="198.59572"
+       id="rect8273"
+       style="fill:#01a7bf;fill-opacity:0.61702127;fill-rule:evenodd;stroke:#000000;stroke-width:1.40428364px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-size:31.41669083px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.04722297;stroke-opacity:1;font-family:Zorque;-inkscape-font-specification:Zorque"
+       x="103.75117"
+       y="853.46155"
+       id="text21741"
+       sodipodi:linespacing="125%"
+       transform="scale(0.96333712,1.0380582)"><tspan
+         sodipodi:role="line"
+         id="tspan21743"
+         x="107.43281"
+         y="853.46155"
+         style="text-align:center;text-anchor:middle;stroke-width:1.04722297">Used a </tspan><tspan
+         sodipodi:role="line"
+         x="103.75117"
+         y="892.73242"
+         style="text-align:center;text-anchor:middle;stroke-width:1.04722297"
+         id="tspan24989">Life Saver!</tspan></text>
+    <g
+       id="g10611"
+       transform="matrix(1.0076266,0,0,1.0000573,-142.08702,-11.059963)">
+      <rect
+         ry="7.9176888"
+         y="971.94055"
+         x="166.39641"
+         height="75.843124"
+         width="147.71222"
+         id="rect7216-1-2-9"
+         style="fill:url(#radialGradient6294);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.15244281;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         transform="scale(0.99923498,1.0007656)"
+         sodipodi:linespacing="125%"
+         id="text7218-7-5-6"
+         y="1001.1678"
+         x="240.35054"
+         style="font-size:32.61893082px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.98164266;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           id="tspan10519"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;stroke-width:0.98164266;stroke-miterlimit:4;stroke-dasharray:none;font-family:Zorque;-inkscape-font-specification:Zorque"
+           y="1001.1678"
+           x="240.35054"
+           sodipodi:role="line">Restart</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;stroke-width:0.98164266;stroke-miterlimit:4;stroke-dasharray:none;font-family:Zorque;-inkscape-font-specification:Zorque"
+           y="1041.9414"
+           x="240.35054"
+           sodipodi:role="line"
+           id="tspan24987">Level</tspan></text>
+    </g>
+  </g>
+</svg>

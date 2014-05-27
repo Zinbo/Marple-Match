@@ -511,5 +511,27 @@
          d="m 2146.786,713.11027 3.7579,-0.60125 -1.7286,1.7286 z"
          style="fill:#c4c4bf;fill-opacity:1;stroke:#000000;stroke-width:0.42087841px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     </g>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Zorque;-inkscape-font-specification:Zorque"
+       x="40"
+       y="603.36218"
+       id="text6499"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6501"
+         x="40"
+         y="603.36218">28/50</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Zorque;-inkscape-font-specification:Zorque"
+       x="215"
+       y="600.36218"
+       id="text6503"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6505"
+         x="215"
+         y="600.36218">02:00</tspan></text>
   </g>
 </svg>
