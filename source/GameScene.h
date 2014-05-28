@@ -21,9 +21,9 @@ public:
 	GameScene(int noOfPlayers, float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingMenu, const float starSize);
 	~GameScene();
 
-	void Init();
+	virtual void Init();
 	void Reset();
-	void Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
+	virtual void Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
 
 protected:
 	void Create();
@@ -122,7 +122,7 @@ protected:
 	void ExitScene() = 0;
 
 	//Update scene helpers
-	void UpdateLabels();
+	virtual void UpdateLabels();
 	virtual void SetupCharactersArray(std::vector<CharacterBuilder> &characterTypes);
 	virtual void AddGridToScene(std::vector<CharacterBuilder> &characterTypes, int player) = 0;
 	virtual void RemoveCharactersAfterDelay(int player);

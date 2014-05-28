@@ -6,6 +6,7 @@
 #include "LevelGameScene.h"
 #include <math.h>
 #include <iostream>
+#include "GameSceneManager.h"
 
 using namespace SFAS2014;
 
@@ -35,10 +36,11 @@ const float LevelGameScene::kUpdateToTimeY = 55.0f;
 const float LevelGameScene::kUpdateToTimeHeight = 15.0f;
 const float LevelGameScene::kUpdateToTimeWidth = 150.0f;
 
-const int LevelGameScene::Level::ratioLookUp[][2] = {{2, 2}, {2, 4}, {3, 4}, {4, 4}, {4, 5}, {4, 6}};
+const int LevelGameScene::Level::ratioLookUp[][2] = {{2, 2}, {4, 2}, {4, 3}, {4, 4}, {5, 4}, {6, 4}};
 
 LevelGameScene::LevelGameScene(float xGraphicsScale, float yGraphicsScale, SettingsMenu * settingsMenu) 
-	: GameScene(1, xGraphicsScale, yGraphicsScale, settingsMenu, 60.0f), m_ActiveLevel(0), noOfLevels(36)
+	: GameScene(1, xGraphicsScale, yGraphicsScale, settingsMenu, 60.0f), m_ActiveLevel(0), noOfLevels(36),
+	m_TotalNumberOfPairs(0)
 	
 {
 	m_GridElements.gridHeight = 6;
@@ -50,10 +52,17 @@ LevelGameScene::LevelGameScene(float xGraphicsScale, float yGraphicsScale, Setti
 
 	Create();
 	InitLevels();
-	InitDialogs();
+	
 	Clear();
+	m_Time = m_Levels[0].timeLimit;
 }
 
+void LevelGameScene::Init()
+{
+	GameScene::Init();
+
+	InitDialogs();
+}
 
 void LevelGameScene::InitLevels()
 {
@@ -90,10 +99,13 @@ void LevelGameScene::InitGameOverDialog()
 	m_GameOverDialog->m_ScaleY = (dialogScale * m_YGraphicsScale);
 	m_GameOverDialog->m_IsVisible = false;
 
+	// NOTE - Do not need to scale elements inside another element 
+	// if the parent element has already been scaled.
+
 	//add score board button to game over dialog
 	CSprite* scoreBoardButton = new CSprite();
-	scoreBoardButton->m_X = 90*m_XGraphicsScale;
-	scoreBoardButton->m_Y = 213*m_XGraphicsScale;
+	scoreBoardButton->m_X = 90;
+	scoreBoardButton->m_Y = 213;
 	scoreBoardButton->SetImage(g_pResources->GetScoreBoardButton());
 	scoreBoardButton->m_H = scoreBoardButton->GetImage()->GetHeight();
 	scoreBoardButton->m_W = scoreBoardButton->GetImage()->GetWidth();
@@ -101,9 +113,9 @@ void LevelGameScene::InitGameOverDialog()
 
 	//Add score label
 	CLabel* scoreLabel = new CLabel();
-	scoreLabel->m_X = 135 * m_XGraphicsScale;
-	scoreLabel->m_Y = 130 * m_YGraphicsScale;
-	scoreLabel->m_W = 80;
+	scoreLabel->m_X = 135;
+	scoreLabel->m_Y = 130;
+	scoreLabel->m_W = 200;
 	scoreLabel->m_H = 40;
 	scoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
 	scoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
@@ -180,60 +192,18 @@ void LevelGameScene::InitGameStartDialog()
 void LevelGameScene::InitLevelWonDialog()
 {
 	//Init Level Cleared Dialog
-	m_LevelWonDialog = new CSprite();
-	m_LevelWonDialog->m_X = 10*m_XGraphicsScale;
-	m_LevelWonDialog->m_Y = 90*m_XGraphicsScale;
-	m_LevelWonDialog->SetImage(g_pResources->GetLevelWonDialog());
-	m_LevelWonDialog->m_H = m_LevelWonDialog->GetImage()->GetHeight();
-	m_LevelWonDialog->m_W = m_LevelWonDialog->GetImage()->GetWidth();
-	m_LevelWonDialog->m_IsVisible = false;
+	m_LevelClearedDialog = new LevelClearedDialog();
+	m_LevelClearedDialog->m_X = 10*m_XGraphicsScale;
+	m_LevelClearedDialog->m_Y = 90*m_XGraphicsScale;
+	m_LevelClearedDialog->SetImage(g_pResources->GetLevelWonDialog());
+	m_LevelClearedDialog->m_H = m_LevelClearedDialog->GetImage()->GetHeight();
+	m_LevelClearedDialog->m_W = m_LevelClearedDialog->GetImage()->GetWidth();
+	float dialogScale = (300 / m_LevelClearedDialog->m_H);
+	m_LevelClearedDialog->m_ScaleX = (dialogScale * m_XGraphicsScale);
+	m_LevelClearedDialog->m_ScaleY = (dialogScale * m_YGraphicsScale);
+	m_LevelClearedDialog->m_IsVisible = false;
 
-	//Add score label
-	CLabel* scoreLabel = new CLabel();
-	scoreLabel->m_X = 55 * m_XGraphicsScale;
-	scoreLabel->m_Y = 150 * m_YGraphicsScale;
-	scoreLabel->m_W = 100;
-	scoreLabel->m_H = 40;
-	scoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
-	scoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	scoreLabel->SetFont(g_pResources->GetSize30Font());
-	scoreLabel->SetText("0000");
-	scoreLabel->m_Color = CColor(0,0,0,255);
-	m_LevelWonDialog->AddChild(scoreLabel);
-	
-	//Add gold label
-	CLabel* goldLabel = new CLabel();
-	goldLabel->m_X = 245 * m_XGraphicsScale;
-	goldLabel->m_Y = 150 * m_YGraphicsScale;
-	goldLabel->m_W = 100;
-	goldLabel->m_H = 40;
-	goldLabel->m_AnchorX = 1;
-	goldLabel->m_AlignHor = IW_2D_FONT_ALIGN_RIGHT;
-	goldLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	goldLabel->SetFont(g_pResources->GetSize30Font());
-	goldLabel->SetText("0000");
-	goldLabel->m_Color = CColor(0,0,0,255);
-	m_LevelWonDialog->AddChild(goldLabel);
-
-	//Add Item Shop Label
-	CSprite* itemShopButton = new CSprite();
-	itemShopButton->m_X = 10*m_XGraphicsScale;
-	itemShopButton->m_Y = 213*m_XGraphicsScale;
-	itemShopButton->SetImage(g_pResources->GetItemShopButton());
-	itemShopButton->m_H = itemShopButton->GetImage()->GetHeight();
-	itemShopButton->m_W = itemShopButton->GetImage()->GetWidth();
-	m_LevelWonDialog->AddChild(itemShopButton);
-
-	//Add Item Shop Label
-	CSprite* nextLevelButton = new CSprite();
-	nextLevelButton->m_X = 178*m_XGraphicsScale;
-	nextLevelButton->m_Y = 213*m_XGraphicsScale;
-	nextLevelButton->SetImage(g_pResources->GetNextLevelButton());
-	nextLevelButton->m_H = itemShopButton->GetImage()->GetHeight();
-	nextLevelButton->m_W = itemShopButton->GetImage()->GetWidth();
-	m_LevelWonDialog->AddChild(nextLevelButton);
-
-	AddChild(m_LevelWonDialog);
+	AddChild(m_LevelClearedDialog);
 }
 
 void LevelGameScene::InitExitDialog()
@@ -394,6 +364,21 @@ void LevelGameScene::InitUI()
 	AddChild(m_Background);
 }
 
+void LevelGameScene::UpdateLabels()
+{
+	int minutes, seconds;
+	minutes = (int)( m_Time / 60 );
+	seconds = (int)( m_Time - ( minutes * 60.0f ) );
+	char timeBuffer[256];
+	sprintf(timeBuffer, "%.2d:%.2d", minutes, seconds );
+
+	char scoreBuffer[6];
+	sprintf(scoreBuffer, "%d/%d", m_TotalNumberOfPairs, m_Levels[m_ActiveLevel].noOfMatchesToWin);
+
+	m_ScoreLabel[0]->SetText(scoreBuffer);
+	m_TimeLabel[0]->SetText(timeBuffer);
+}
+
 void LevelGameScene::InitLabels()
 {
 	// Create the score text
@@ -488,10 +473,16 @@ void LevelGameScene::remove_player_1_matched_characters(Timer* timer, void* user
 	self->RemoveMatchedCharacterPairFromList(0);
 
 	self->m_NoOfMatchedPairs[0]++;
+	self->m_TotalNumberOfPairs++;
 
 	//If the player has matched 12 pairs then reset the board
 	int a =  (self->m_Levels[self->m_ActiveLevel].noOfPairsPerBoard);
 	int b =  self->m_NoOfMatchedPairs[0];
+	if(self->m_Levels[self->m_ActiveLevel].noOfMatchesToWin == self->m_TotalNumberOfPairs)
+	{
+		self->m_GameState = keGameWon;
+		self->m_LevelClearedDialog->m_IsVisible = true;
+	}
 	if((self->m_Levels[self->m_ActiveLevel].noOfPairsPerBoard) == self->m_NoOfMatchedPairs[0])
 	{
 		g_pAudio->PlaySound(g_pResources->GetBoardCompleteSoundFilename());
@@ -499,6 +490,93 @@ void LevelGameScene::remove_player_1_matched_characters(Timer* timer, void* user
 		self->ResetBoard(0);
 	}
 	
+}
+
+void LevelGameScene::Update(float deltaTime, float alphaMul)
+{
+	//if not current scene, don't bother updating.
+	if(!(m_Manager->GetCurrent() == this))
+	{
+		return;
+	}
+	Scene::Update(deltaTime, alphaMul);
+
+	if( m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
+	{
+		SettingsMenuHitTest();
+	}
+
+	//call the right method for the correct game state
+	switch(m_GameState)
+	{
+	case keGameOver:
+		m_GameState = keGamePlaying;
+		break;
+	case keGamePlaying:
+		for(int i = 0; i < m_NoOfPlayers; i++)
+		{
+			if(m_Delayed[i])
+			{
+				DelayGameForNonmatch(deltaTime, i);
+			}
+		}
+		CheckForAnyMatches();
+		UpdateTime(deltaTime);
+		UpdateLabels();
+		break;
+	case keGameWon:
+		if(NextLevelButtonPressed())
+		{
+			m_LevelClearedDialog->m_IsVisible = false;
+			//Clear the board of all elements
+			ClearBoard();
+
+			m_ActiveLevel++;
+			m_GameState = keGamePlaying;
+			m_Time = m_Levels[m_ActiveLevel].timeLimit;
+			m_TotalNumberOfPairs = 0;
+			
+			//Reinitialise the board
+			InitBoard();
+		}
+	}
+	
+	//If the user has clicked elsewhere just swallow the touch
+	if( m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched)
+	{
+		g_pInput->Reset();
+	}
+}
+
+void LevelGameScene::ClearBoard()
+{
+	for(int i = 0; i < Level::ratioLookUp[m_ActiveLevel][0]*Level::ratioLookUp[m_ActiveLevel][1]; i++)
+	{
+		if(m_Grid[0][i] != 0)
+		{
+			CSprite * chara = m_Grid[0][i]->GetCharacterSprite();
+			CSprite * star = m_Grid[0][i]->GetStarSprite();
+
+			//If the character hasn't already been removed from the scene then remove them
+			if(IsChild(chara))
+			{
+			RemoveChild(chara);
+			RemoveChild(star);
+			}
+			
+			delete m_Grid[0][i];
+		}
+	}
+}
+
+bool LevelGameScene::NextLevelButtonPressed()
+{
+	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched &&
+		m_LevelClearedDialog->m_IsVisible && m_LevelClearedDialog->GetNextLevelButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
+	{
+		return true;
+	}
+	return false;
 }
 
 void LevelGameScene::CheckGridForMatch(int player)

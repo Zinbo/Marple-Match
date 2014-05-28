@@ -613,12 +613,9 @@ void GameScene::Init()
 void GameScene::Reset()
 {
 	MasterScene::Reset();
-	if(keGameOver == m_GameState)
+	for(int i = 0; i < m_NoOfPlayers; i++)
 	{
-		for(int i = 0; i < m_NoOfPlayers; i++)
-		{
-			ResetBoard(i);
-		}
+		ResetBoard(i);
 	}
 	
 	m_Time = (float)keTimeLimit;

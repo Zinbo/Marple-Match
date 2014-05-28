@@ -6,6 +6,7 @@
 
 #include "GameScene.h"
 #include "ResultsScene.h"
+#include "LevelClearedDialog.h"
 
 namespace SFAS2014
 {
@@ -33,10 +34,11 @@ private:
 	//Dialog boxes
 	CSprite * m_GameStartDialog;
 	CSprite * m_GameOverDialog;
-	CSprite * m_LevelWonDialog;
+	LevelClearedDialog * m_LevelClearedDialog;
 	CSprite * m_ExitGameDialog;
 
 	//Init Helpers
+	void Init();
 	void InitLabels();
 	void InitButtons();
 	void InitUI();
@@ -47,6 +49,10 @@ private:
 	void InitLevelWonDialog();
 	void InitExitDialog();
 	void InitBoard();
+
+	void ClearBoard();
+
+	void UpdateLabels();
 
 	//Powerup helpers
 	void RemovePairsPowerUp(GridItem* selected);
@@ -60,6 +66,8 @@ private:
 	static void remove_player_1_matched_characters(Timer* timer, void* userData);
 	void CheckGridForMatch(int player);
 	void RemoveCharactersAfterDelay(int player);
+	void Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
+	bool NextLevelButtonPressed();
 
 	//Endgame helpers
 	void ExitScene();
@@ -103,6 +111,7 @@ private:
 	const int noOfLevels;
 	std::vector<Level> m_Levels;
 	int m_ActiveLevel;
+	int m_TotalNumberOfPairs;
 };
 }
 

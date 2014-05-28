@@ -19,6 +19,8 @@ GridItem::GridItem(float x, float y, CharacterBuilder charToMake)
 
 GridItem::~GridItem()
 {
+	delete m_StarSprite;
+	delete m_CharacterSprite;
 }
 
 void GridItem::SetCharacterImage(CharacterBuilder charToMake)
