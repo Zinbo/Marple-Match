@@ -9,12 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="60"
+   height="60"
    id="svg22459"
    version="1.1"
    inkscape:version="0.48.4 r"
-   sodipodi:docname="New document 134">
+   sodipodi:docname="ConfirmationButton.svg"
+   inkscape:export-filename="D:\Game Development\Marmalade Games\marplematch\data\textures\ConfirmationButton.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs22461" />
   <sodipodi:namedview
@@ -24,15 +27,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="790.05786"
-     inkscape:cy="601.65062"
+     inkscape:zoom="10.353222"
+     inkscape:cx="-4.5878352"
+     inkscape:cy="32.652202"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1024"
-     inkscape:window-height="705"
-     inkscape:window-x="1912"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
@@ -50,10 +53,11 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(0,-992.36218)">
     <g
        id="g22402"
-       transform="translate(-51.607134,-877.14285)">
+       transform="translate(-67.321386,4.2857609)">
       <g
          transform="matrix(2.3408572,0,0,2.4782141,-402.29193,-448.39539)"
          id="g4252-7">

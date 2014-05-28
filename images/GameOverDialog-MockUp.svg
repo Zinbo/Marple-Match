@@ -10,12 +10,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="300"
+   height="300"
    id="svg20951"
    version="1.1"
    inkscape:version="0.48.4 r"
-   sodipodi:docname="New document 111">
+   sodipodi:docname="GameOverDialog.svg"
+   inkscape:export-filename="D:\Game Development\Marmalade Games\marplematch\data\textures\GameOverDialog.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs20953">
     <radialGradient
@@ -60,6 +63,28 @@
          offset="1"
          id="stop6439-7" />
     </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient10555-6-2"
+       id="radialGradient6294-5"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0782405,0,0,0.69050864,133.89323,314.58285)"
+       cx="102.11694"
+       cy="1006.909"
+       fx="102.11694"
+       fy="1006.909"
+       r="55.55653" />
+    <linearGradient
+       id="linearGradient10555-6-2">
+      <stop
+         style="stop-color:#ffdd5c;stop-opacity:1;"
+         offset="0"
+         id="stop10557-3-3" />
+      <stop
+         style="stop-color:#ffdd5c;stop-opacity:1;"
+         offset="1"
+         id="stop10559-4-0" />
+    </linearGradient>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -69,14 +94,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="303.83547"
-     inkscape:cy="189.59661"
+     inkscape:cx="164.92198"
+     inkscape:cy="119.56478"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="-8"
+     inkscape:window-width="1024"
+     inkscape:window-height="705"
+     inkscape:window-x="1912"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
@@ -94,7 +119,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(0,-752.36218)">
     <rect
        ry="11.617003"
        y="753.41541"
@@ -105,55 +131,25 @@
        style="fill:#ff0000;fill-opacity:0.61702127;fill-rule:evenodd;stroke:#000000;stroke-width:2.10642552px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <text
        xml:space="preserve"
-       style="font-size:39.61593628px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.98079681;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Zorque;-inkscape-font-specification:Zorque"
-       x="150.67206"
-       y="788.10876"
+       style="font-size:40.38201904px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:2.0191009;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Zorque;-inkscape-font-specification:Zorque"
+       x="147.79465"
+       y="803.74902"
        id="text20266"
        sodipodi:linespacing="125%"
-       transform="scale(0.99573943,1.0042788)"><tspan
+       transform="scale(1.0154933,0.98474306)"><tspan
          sodipodi:role="line"
-         x="150.67206"
-         y="788.10876"
+         x="147.79465"
+         y="803.74902"
          id="tspan20347"
-         style="stroke-width:1.98079681">Game</tspan><tspan
+         style="stroke-width:2.0191009">Game</tspan><tspan
          sodipodi:role="line"
-         x="150.67206"
-         y="837.62866"
-         style="stroke-width:1.98079681"
+         x="147.79465"
+         y="854.22656"
+         style="stroke-width:2.0191009"
          id="tspan20988">Over</tspan></text>
     <g
-       id="g10611"
-       transform="matrix(1.0000396,0,0,1.0000573,-94.009487,-6.0578383)">
-      <rect
-         ry="7.9299469"
-         y="971.8819"
-         x="184.51971"
-         height="75.960548"
-         width="118.96022"
-         id="rect7216-1-2-9"
-         style="fill:url(#radialGradient6294);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.03501821;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <text
-         transform="scale(1.0016709,0.99833188)"
-         sodipodi:linespacing="125%"
-         id="text7218-7-5-6"
-         y="1003.5461"
-         x="243.0002"
-         style="font-size:32.74642563px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.98547965;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
-         xml:space="preserve"><tspan
-           id="tspan10519"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;stroke-width:0.98547965;stroke-miterlimit:4;stroke-dasharray:none;font-family:Zorque;-inkscape-font-specification:Zorque"
-           y="1003.5461"
-           x="243.0002"
-           sodipodi:role="line">Score</tspan><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;stroke-width:0.98547965;stroke-miterlimit:4;stroke-dasharray:none;font-family:Zorque;-inkscape-font-specification:Zorque"
-           y="1044.4791"
-           x="243.0002"
-           sodipodi:role="line"
-           id="tspan21546">Board</tspan></text>
-    </g>
-    <g
        id="g7886"
-       transform="matrix(1.0782798,0,0,1.2879178,-2204.0262,58.539075)">
+       transform="matrix(1.0782798,0,0,1.2879178,-2204.0262,61.354963)">
       <rect
          ry="1.5"
          y="638.06903"
@@ -196,5 +192,46 @@
          id="rect7724-0-4"
          style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.00007665;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     </g>
+    <g
+       id="g10611"
+       transform="matrix(1.0000396,0,0,1.0000573,-94.009488,-6.0578409)">
+      <rect
+         ry="7.9299469"
+         y="971.8819"
+         x="184.51971"
+         height="75.960548"
+         width="118.96022"
+         id="rect7216-1-2-9"
+         style="fill:url(#radialGradient6294-5);fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.03501821;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         transform="scale(1.0016709,0.99833188)"
+         sodipodi:linespacing="125%"
+         id="text7218-7-5-6"
+         y="1003.5461"
+         x="243.0002"
+         style="font-size:32.74642563px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.98547965;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           id="tspan10519"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;stroke-width:0.98547965;stroke-miterlimit:4;stroke-dasharray:none;font-family:Zorque;-inkscape-font-specification:Zorque"
+           y="1003.5461"
+           x="243.0002"
+           sodipodi:role="line">Score</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;stroke-width:0.98547965;stroke-miterlimit:4;stroke-dasharray:none;font-family:Zorque;-inkscape-font-specification:Zorque"
+           y="1044.4791"
+           x="243.0002"
+           sodipodi:role="line"
+           id="tspan21546">Board</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:30px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Zorque;-inkscape-font-specification:Zorque"
+       x="133.82996"
+       y="912.24225"
+       id="text10248"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan10250"
+         x="133.82996"
+         y="912.24225">200</tspan></text>
   </g>
 </svg>

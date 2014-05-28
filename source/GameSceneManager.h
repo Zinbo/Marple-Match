@@ -35,7 +35,8 @@ public:
 	enum State
 	{
 		TitleState,
-		SinglePlayerGameState,
+		LevelGameState,
+		TimeAttackState,
 		ResultsState,
 		MultiplayerGameState,
 		InstructionState,

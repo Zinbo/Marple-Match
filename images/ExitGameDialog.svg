@@ -9,12 +9,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="320"
+   height="100"
    id="svg21726"
    version="1.1"
    inkscape:version="0.48.4 r"
-   sodipodi:docname="ExitGameDialog-MockUp.svg">
+   sodipodi:docname="ExitGameDialog.svg"
+   inkscape:export-filename="D:\Game Development\Marmalade Games\marplematch\data\textures\ExitGameDialog.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs21728" />
   <sodipodi:namedview
@@ -24,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="54.009415"
-     inkscape:cy="134.59262"
+     inkscape:zoom="1.4"
+     inkscape:cx="190.78726"
+     inkscape:cy="107.688"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -50,7 +53,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(0,-952.36218)">
     <rect
        ry="3.8507943"
        y="952.98944"

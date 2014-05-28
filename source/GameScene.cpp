@@ -31,8 +31,8 @@ void GameScene::Create()
 	{
 		m_Grid[i].reserve(m_GridElements.gridWidth*m_GridElements.gridHeight);
 	}
-
 }
+
 
 void GameScene::Clear()
 {
@@ -471,7 +471,7 @@ void GameScene::PauseGame()
 		}
 		if(m_TriplePointsTimer[i])
 		{
-			m_DoublePointsTimer[i]->Pause();
+			m_TriplePointsTimer[i]->Pause();
 		}
 	}
 }
@@ -487,7 +487,7 @@ void GameScene::ResumeGame()
 		}
 		if(m_TriplePointsTimer[i])
 		{
-			m_DoublePointsTimer[i]->Resume();
+			m_TriplePointsTimer[i]->Resume();
 		}
 	}
 }
@@ -552,7 +552,7 @@ void GameScene::UpdateLabels()
 void GameScene::SetupCharactersArray(std::vector<CharacterBuilder> &characterTypes)
 {
 	//Fill vector with exactly 2 of each character type
-	int numberOfPairs = (m_GridElements.gridHeight*m_GridElements.gridWidth)/2;
+	int numberOfPairs = (m_GridElements.gridWidth*m_GridElements.gridHeight)/2;
 	for(int i = 0; i < numberOfPairs; i++)
 	{
 		CharacterBuilder charToMake(i);

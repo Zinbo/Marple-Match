@@ -19,14 +19,16 @@
 Resources::Resources()
 {
     // Load images
-    m_Star = Iw2DCreateImage("textures/Star.png");
+    //Backgrounds
 	m_TitleBackground = Iw2DCreateImage( "textures/startMenu.png" );
 	m_GameBackground = Iw2DCreateImage( "textures/gameBackground.png" );
 	m_MultiplayerGameBackground = Iw2DCreateImage( "textures/multiplayerGameBackground.png" );
 	m_ResultBackground = Iw2DCreateImage( "textures/resultScreen.png" );
 	m_MultiplayerResultBackground = Iw2DCreateImage( "textures/multiplayerResultScreen.png" );
-	m_SettingsMenuDialog = Iw2DCreateImage("textures/settingsMenuDialog.png");
 	m_InstructionsBackground = Iw2DCreateImage("textures/instructionsBackground.png");
+	
+	//Board Elements
+	m_Star = Iw2DCreateImage("textures/Star.png");
 	for(int i = 0; i < keNoOfCharacterColours; i++)
 	{
 		for(int j = 0; j < keNoOfCharacterTypes; j++)
@@ -60,6 +62,23 @@ Resources::Resources()
 	m_InstructionsButton  = Iw2DCreateImage("textures/instructionsButton.png");
 	m_PlayAgainButton = Iw2DCreateImage("textures/PlayAgainButton.png");
 	m_MainMenuButton  = Iw2DCreateImage("textures/MainMenuButton.png");
+	m_StartButton  = Iw2DCreateImage("textures/StartButton.png");
+	m_ConfirmButton  = Iw2DCreateImage("textures/ConfirmationButton.png");
+	m_CancelButton  = Iw2DCreateImage("textures/CancellationButton.png");
+	m_InvButton  = Iw2DCreateImage("textures/InvButton.png");
+	m_ScoreBoardButton = Iw2DCreateImage("textures/ScoreBoardButton.png");
+	m_ItemShopButton = Iw2DCreateImage("textures/ItemShopButton.png");
+	m_NextLevelButton = Iw2DCreateImage("textures/NextLevelButton.png");
+	m_TimeAttackButton = Iw2DCreateImage("textures/TimeAttackButton.png");
+
+	//Load Dialogs
+	m_SettingsMenuDialog = Iw2DCreateImage("textures/settingsMenuDialog.png");
+	m_PauseMenu = Iw2DCreateImage("textures/pauseMenu.png");
+	m_GameStartDialog = Iw2DCreateImage("textures/gameStartDialog.png");
+	m_LevelWonDialog = Iw2DCreateImage("textures/LevelClearedDialog.png");
+	m_GameOverDialog = Iw2DCreateImage("textures/GameOverDialog.png");
+	m_ExitGameDialog = Iw2DCreateImage("textures/ExitGameDialog.png");
+
 
 	//Store sound filenames;
 	m_MatchSound = "audio/Match.wav";

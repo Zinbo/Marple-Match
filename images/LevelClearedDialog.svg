@@ -10,12 +10,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="300"
+   height="300"
    id="svg20240"
    version="1.1"
    inkscape:version="0.48.4 r"
-   sodipodi:docname="LevelClearedDialog-MockUp.svg">
+   sodipodi:docname="LevelClearedDialog.svg"
+   inkscape:export-filename="D:\Game Development\Marmalade Games\marplematch\data\textures\LevelClearedDialog.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs20242">
     <radialGradient
@@ -90,9 +93,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="230.57233"
-     inkscape:cy="177.09649"
+     inkscape:zoom="1.4"
+     inkscape:cx="323.13023"
+     inkscape:cy="91.335452"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -116,7 +119,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(0,-752.36218)">
     <rect
        ry="11.617003"
        y="753.41541"
@@ -207,7 +211,7 @@
        sodipodi:cy="519.86218"
        sodipodi:rx="11.785714"
        sodipodi:ry="11.785714"
-       d="m 2137.8572,519.86218 a 11.785714,11.785714 0 1 1 -23.5714,0 11.785714,11.785714 0 1 1 23.5714,0 z"
+       d="m 2137.8572,519.86218 c 0,6.50907 -5.2766,11.78572 -11.7857,11.78572 -6.509,0 -11.7857,-5.27665 -11.7857,-11.78572 0,-6.50907 5.2767,-11.78571 11.7857,-11.78571 6.5091,0 11.7857,5.27664 11.7857,11.78571 z"
        transform="matrix(1.627907,0,0,1.627907,-3191.0467,76.074896)" />
   </g>
 </svg>

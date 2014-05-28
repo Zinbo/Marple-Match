@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="155"
+   height="80"
+   id="svg10027"
+   version="1.1"
+   inkscape:version="0.48.4 r"
+   sodipodi:docname="New document 50">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     inkscape:document-units="mm"
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="59.386194"
+     inkscape:cy="53.053288"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     units="px"
+     inkscape:window-width="1024"
+     inkscape:window-height="705"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-972.36218)">
+    <g
+       transform="translate(-83.696392,291.30082)"
+       id="g10073">
+      <rect
+         ry="8.165657"
+         y="681.95215"
+         x="84.587181"
+         height="78.218422"
+         width="153.21843"
+         id="rect7216-1-2-8"
+         style="fill:#ffdd5c;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.78157806;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <text
+         transform="scale(0.96784996,1.033218)"
+         sodipodi:linespacing="125%"
+         id="text7218-7-5-1"
+         y="689.45972"
+         x="165.31488"
+         style="font-size:32.68344879px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.99020094;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;stroke-width:0.99020094;stroke-miterlimit:4;stroke-dasharray:none;font-family:Zorque;-inkscape-font-specification:Zorque"
+           y="689.45972"
+           x="169.14497"
+           id="tspan7220-6-2-4"
+           sodipodi:role="line">Time </tspan><tspan
+           id="tspan10014"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;stroke-width:0.99020094;stroke-miterlimit:4;stroke-dasharray:none;font-family:Zorque;-inkscape-font-specification:Zorque"
+           y="730.31403"
+           x="165.31488"
+           sodipodi:role="line">Attack!</tspan></text>
+    </g>
+  </g>
+</svg>

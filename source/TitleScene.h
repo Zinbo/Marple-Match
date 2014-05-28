@@ -14,6 +14,7 @@
 #include "audio.h"
 #include "ResultsScene.h"
 #include "MultiplayerResultsScene.h"
+#include "LevelGameScene.h"
 
 namespace SFAS2014
 {
@@ -53,6 +54,7 @@ private:
 	CSprite* m_Player1Button;
 	CSprite* m_Player2Button;
 	CSprite* m_InstructionsButton;
+	CSprite* m_TimeAttackButton;
 
 	//Methods for cleaning up
 	void ExitScene();

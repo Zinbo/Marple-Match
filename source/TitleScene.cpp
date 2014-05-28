@@ -41,8 +41,8 @@ void TitleScene::Update(float deltaTime, float alphaMul)
 		{
 			if(m_Player1Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
 			{
-				SinglePlayerGameScene * gameScene = (SinglePlayerGameScene *) m_Manager->Find("SinglePlayerGameState");
-				SwitchScene(gameScene);
+				LevelGameScene * levelGameScene = (LevelGameScene *) m_Manager->Find("LevelGameState");
+				SwitchScene(levelGameScene);
 			}
 			else if(m_Player2Button->HitTest(g_pInput->m_X, g_pInput->m_Y))
 			{
@@ -53,6 +53,11 @@ void TitleScene::Update(float deltaTime, float alphaMul)
 			{
 				InstructionsScene * instructionsScene = (InstructionsScene *) m_Manager->Find("InstructionsState");
 				SwitchScene(instructionsScene);
+			}
+			else if(m_TimeAttackButton->HitTest(g_pInput->m_X, g_pInput->m_Y))
+			{
+				SinglePlayerGameScene * gameScene = (SinglePlayerGameScene *) m_Manager->Find("TimeAttackGameState");
+				SwitchScene(gameScene);
 			}
 			
 		}
@@ -103,6 +108,16 @@ void TitleScene::InitButtons()
 	m_InstructionsButton->m_ScaleX = m_XGraphicsScale;
 	m_InstructionsButton->m_ScaleY = m_YGraphicsScale;
 	AddChild(m_InstructionsButton);
+
+	m_TimeAttackButton = new CSprite();
+	m_TimeAttackButton->m_X = (kInstructionsX * m_XGraphicsScale);
+	m_TimeAttackButton->m_Y = 10;
+	m_TimeAttackButton->SetImage(g_pResources->GetTimeAttackButton());
+	m_TimeAttackButton->m_H = m_TimeAttackButton->GetImage()->GetHeight();
+	m_TimeAttackButton->m_W = m_TimeAttackButton->GetImage()->GetWidth();
+	m_TimeAttackButton->m_ScaleX = m_XGraphicsScale;
+	m_TimeAttackButton->m_ScaleY = m_YGraphicsScale;
+	AddChild(m_TimeAttackButton);
 }
 
 void TitleScene::InitUI()

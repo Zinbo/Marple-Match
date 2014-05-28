@@ -41,11 +41,14 @@ protected:
 	};
 
 	enum GameState
-	{                                                                                                                                                                                                                                                                
+	{
+		keGameStart,
 		keGamePlaying,
 		keGamePause,
 		keNonMatch,
+		keGameWon,
 		keGameOver
+		
 	};
 
 	GameState m_GameState;
@@ -75,7 +78,7 @@ protected:
 
 	//Matching characters
 	void CheckForAnyMatches();
-	void CheckGridForMatch(int player);
+	virtual void CheckGridForMatch(int player);
 	void ProcessMatch(int player);
 	void ProcessGoldMatch(int player);
 	void ProcessSilverMatch(int player);
@@ -96,7 +99,7 @@ protected:
 
 	//Reset helpers
 	void ResetBoard(int player);
-	void ResetGrid(std::vector<CharacterBuilder> characterTypes, int player);
+	virtual void ResetGrid(std::vector<CharacterBuilder> characterTypes, int player);
 	void Clear();
 
 	//Settings helpers
@@ -120,9 +123,9 @@ protected:
 
 	//Update scene helpers
 	void UpdateLabels();
-	void SetupCharactersArray(std::vector<CharacterBuilder> &characterTypes);
+	virtual void SetupCharactersArray(std::vector<CharacterBuilder> &characterTypes);
 	virtual void AddGridToScene(std::vector<CharacterBuilder> &characterTypes, int player) = 0;
-	void RemoveCharactersAfterDelay(int player);
+	virtual void RemoveCharactersAfterDelay(int player);
 	void HideCharacter(GridItem * gridItem);
 	void ShowCharacter(GridItem * gridItem);
 

@@ -38,7 +38,8 @@ GameSceneManager::GameSceneManager()
 
 	// Create the game scenes 
 	m_pScenes[TitleState] = new TitleScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
-	m_pScenes[SinglePlayerGameState] = new SinglePlayerGameScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
+	m_pScenes[TimeAttackState] = new SinglePlayerGameScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu); 
+	m_pScenes[LevelGameState] = new LevelGameScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
 	m_pScenes[ResultsState] = new ResultsScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
 	m_pScenes[MultiplayerGameState] = new MultiplayerGameScene(xGraphicsScale, yGraphicsScale, m_SettingsMenu);
 	m_pScenes[InstructionState] = new InstructionsScene(xGraphicsScale, yGraphicsScale);
@@ -46,7 +47,8 @@ GameSceneManager::GameSceneManager()
 
 	// Set the scene names
 	m_pScenes[TitleState]->SetName( "TitleState" );
-	m_pScenes[SinglePlayerGameState]->SetName( "SinglePlayerGameState" );
+	m_pScenes[TimeAttackState]->SetName( "TimeAttackGameState" );
+	m_pScenes[LevelGameState]->SetName( "LevelGameState" );
 	m_pScenes[ResultsState]->SetName( "ResultsState" );
 	m_pScenes[MultiplayerGameState]->SetName( "MultiplayerState" );
 	m_pScenes[InstructionState]->SetName( "InstructionsState" );

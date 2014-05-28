@@ -23,12 +23,14 @@ files
     resources.cpp
     scene.cpp
 	MasterScene.cpp
+	LevelGameScene.cpp
 
     audio.h
     input.h
     resources.h
     scene.h
 	MasterScene.h
+	LevelGameScene.h
 
 	GameSceneManager.cpp
 	TitleScene.cpp
