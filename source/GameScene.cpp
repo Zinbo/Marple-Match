@@ -303,6 +303,8 @@ void GameScene::RemoveMatchedCharacterPairFromList(int player)
 	m_CharactersToRemove[player].erase(m_CharactersToRemove[player].begin());
 	m_CharactersToRemove[player].erase(m_CharactersToRemove[player].begin());
 
+	int noOfChars = m_CharactersToRemove[player].size();
+
 	RemoveChild(char1->GetCharacterSprite());
 	RemoveChild(char2->GetCharacterSprite());
 	

@@ -265,7 +265,9 @@ void LevelGameScene::ResetBoard(int player)
 
 void LevelGameScene::ResetGrid(std::vector<CharacterBuilder> characterTypes, int player)
 {
-	for(int i = 0; i < Level::ratioLookUp[m_ActiveLevel][0]*Level::ratioLookUp[m_ActiveLevel][1]; i++)
+	int width = Level::ratioLookUp[m_ActiveLevel % 6][0];
+	int height = Level::ratioLookUp[m_ActiveLevel % 6][1];
+	for(int i = 0; i < width*height; i++)
 	{
 		int characterTypeIndex = rand() % characterTypes.size();
 		
@@ -285,8 +287,10 @@ void LevelGameScene::ResetGrid(std::vector<CharacterBuilder> characterTypes, int
 
 void LevelGameScene::SetupCharactersArray(std::vector<CharacterBuilder> &characterTypes)
 {
+	int width = Level::ratioLookUp[m_ActiveLevel % 6][0];
+	int height = Level::ratioLookUp[m_ActiveLevel % 6][1];
 	//Fill vector with exactly 2 of each character type
-	int numberOfPairs = (Level::ratioLookUp[m_ActiveLevel][0]*Level::ratioLookUp[m_ActiveLevel][1])/2;
+	int numberOfPairs = (width*height)/2;
 	for(int i = 0; i < numberOfPairs; i++)
 	{
 		CharacterBuilder charToMake(i);
@@ -308,16 +312,20 @@ void LevelGameScene::AddGridToScene(std::vector<CharacterBuilder> &characterType
 {
 	float x = kStarXOffset*m_XGraphicsScale;
 	float y = kStarYOffset*m_YGraphicsScale;
-	for( int row = 0; row < Level::ratioLookUp[m_ActiveLevel][0]; row++ )
+
+	int width = Level::ratioLookUp[m_ActiveLevel % 6][0];
+	int height = Level::ratioLookUp[m_ActiveLevel % 6][1];
+
+	for( int row = 0; row < width; row++ )
 	{
 		x = kStarXOffset*m_XGraphicsScale;
-		for( int column = 0; column < Level::ratioLookUp[m_ActiveLevel][1]; column++ )
+		for( int column = 0; column < height; column++ )
 		{
 			int characterTypeIndex = rand() % characterTypes.size();
 			GridItem* grid = new GridItem( x, y, characterTypes.at(characterTypeIndex));
 			characterTypes.erase(characterTypes.begin() + characterTypeIndex);
 
-			m_Grid[0][(row*Level::ratioLookUp[m_ActiveLevel][1])+column] = grid; 
+			m_Grid[0][(row*height)+column] = grid; 
 			AddChild( grid->GetStarSprite() );
 			AddChild(grid->GetCharacterSprite());
 
@@ -357,6 +365,9 @@ void LevelGameScene::InitUI()
 	m_Background->SetImage(g_pResources->GetGameBackground());
 	m_Background->m_W = m_Background->GetImage()->GetWidth();
 	m_Background->m_H = m_Background->GetImage()->GetHeight();
+	/*m_Background->m_Color.r = 255;
+	m_Background->m_Color.b = 50;
+	m_Background->m_Color.g = 50;*/
 
 	// Fit background to screen size
 	m_Background->m_ScaleX = (float)IwGxGetScreenWidth() / m_Background->m_W;
@@ -482,6 +493,10 @@ void LevelGameScene::remove_player_1_matched_characters(Timer* timer, void* user
 	{
 		self->m_GameState = keGameWon;
 		self->m_LevelClearedDialog->m_IsVisible = true;
+		
+		//Need to remove and add level cleared so that it displays in front..?
+		self->RemoveChild(self->m_LevelClearedDialog);
+		self->AddChild(self->m_LevelClearedDialog);
 	}
 	if((self->m_Levels[self->m_ActiveLevel].noOfPairsPerBoard) == self->m_NoOfMatchedPairs[0])
 	{
@@ -538,6 +553,31 @@ void LevelGameScene::Update(float deltaTime, float alphaMul)
 			
 			//Reinitialise the board
 			InitBoard();
+			
+
+			m_DoublePoints[0] = false;
+			m_TriplePoints[0] = false;
+			m_Delayed[0] = false;
+
+			m_FirstSelectedItem[0] = NULL;
+			m_SecondSelectedItem[0] = NULL;
+			for(std::vector<GridItem*>::iterator it = m_CharactersToRemove[0].begin(); it != m_CharactersToRemove[0].end(); ++it)
+			{ 
+				*it = NULL;
+			}
+			m_NoOfMatchedPairs[0] = 0;
+			m_DelayTime[0] = 0;
+			if(m_DoublePointsTimer[0])
+			{
+				m_Timers.Cancel(m_DoublePointsTimer[0]);
+				m_DoublePointsTimer[0] = NULL;
+			}
+			if(m_TriplePointsTimer[0])
+			{
+				m_Timers.Cancel(m_TriplePointsTimer[0]);
+				m_TriplePointsTimer[0] = NULL;
+			}
+
 		}
 	}
 	
@@ -550,7 +590,10 @@ void LevelGameScene::Update(float deltaTime, float alphaMul)
 
 void LevelGameScene::ClearBoard()
 {
-	for(int i = 0; i < Level::ratioLookUp[m_ActiveLevel][0]*Level::ratioLookUp[m_ActiveLevel][1]; i++)
+	int width = Level::ratioLookUp[m_ActiveLevel % 6][0];
+	int height = Level::ratioLookUp[m_ActiveLevel % 6][1];
+
+	for(int i = 0; i < width*height; i++)
 	{
 		if(m_Grid[0][i] != 0)
 		{
@@ -561,10 +604,14 @@ void LevelGameScene::ClearBoard()
 			if(IsChild(chara))
 			{
 			RemoveChild(chara);
-			RemoveChild(star);
+			}
+			if(IsChild(star))
+			{
+				RemoveChild(star);
 			}
 			
 			delete m_Grid[0][i];
+			m_Grid[0][i] = NULL;
 		}
 	}
 }
