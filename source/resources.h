@@ -83,6 +83,9 @@ private:
 	CIw2DImage*		m_NextLevelButton;
 	CIw2DImage*		m_TimeAttackButton;
 
+	//Misc
+	CIw2DImage*		m_FacebookIcon;
+
 	//Sound paths
 	char*			m_MatchSound;
 	char*			m_NonmatchSound;
@@ -142,6 +145,9 @@ public:
 	CIw2DImage*		GetNextLevelButton()						{ return m_NextLevelButton; }
 	CIw2DImage*		GetItemShopButton()							{ return m_ItemShopButton; }
 	CIw2DImage*		GetTimeAttackButton()						{ return m_TimeAttackButton; }
+
+	//Misc
+	CIw2DImage*		GetFacebookIcon()							{ return m_FacebookIcon; }
 
 	char*			GetMatchSoundFilename()						{ return m_MatchSound; }
 	char*			GetNonmatchSoundFilename()					{ return m_NonmatchSound; }

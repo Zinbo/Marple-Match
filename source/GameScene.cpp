@@ -607,18 +607,20 @@ void GameScene::Init()
 
 	//Initialise labels for score and time
 	InitLabels();
-
-	//Initialise the game board
-	InitBoard();
 }
 
 void GameScene::Reset()
 {
 	MasterScene::Reset();
-	for(int i = 0; i < m_NoOfPlayers; i++)
+	if(m_GameState != keGameStart)
 	{
-		ResetBoard(i);
+		for(int i = 0; i < m_NoOfPlayers; i++)
+		{
+			ResetBoard(i);
+		} 
+
 	}
+	
 	
 	m_Time = (float)keTimeLimit;
 	for(int i = 0; i < m_NoOfPlayers; i++)

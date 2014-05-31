@@ -79,6 +79,8 @@ Resources::Resources()
 	m_GameOverDialog = Iw2DCreateImage("textures/GameOverDialog.png");
 	m_ExitGameDialog = Iw2DCreateImage("textures/ExitGameDialog.png");
 
+	//Load Misc
+	m_FacebookIcon = Iw2DCreateImage("textures/facebook.png");
 
 	//Store sound filenames;
 	m_MatchSound = "audio/Match.wav";
@@ -121,7 +123,7 @@ Resources::~Resources()
 	delete		m_InstructionsButton;
 	delete		m_PlayAgainButton;
 	delete		m_MainMenuButton;
-
+	delete		m_FacebookIcon;
 
 	for(int i = 0; i < keNoOfCharacterTypes*keNoOfCharacterColours; i++)
 	{

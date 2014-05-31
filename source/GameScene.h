@@ -116,7 +116,7 @@ protected:
 	//Time helpers 
 	bool AMinuteHasGoneBy(float deltaTime);
 	bool InTheFinal10Seconds(float deltaTime);
-	void UpdateTime(float deltaTime);
+	virtual void UpdateTime(float deltaTime);
 
 	//Endgame helpers
 	void ExitScene() = 0;

@@ -16,7 +16,7 @@ void LevelClearedDialog::InitChildElements()
 	m_ScoreLabel->m_H = 40;
 	m_ScoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
 	m_ScoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_ScoreLabel->SetFont(g_pResources->GetSize30Font());
+	m_ScoreLabel->SetFont(g_pResources->GetSize20Font());
 	m_ScoreLabel->SetText("0000");
 	m_ScoreLabel->m_Color = CColor(0,0,0,255);
 	AddChild(m_ScoreLabel);
@@ -30,7 +30,7 @@ void LevelClearedDialog::InitChildElements()
 	m_GoldLabel->m_AnchorX = 1;
 	m_GoldLabel->m_AlignHor = IW_2D_FONT_ALIGN_RIGHT;
 	m_GoldLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	m_GoldLabel->SetFont(g_pResources->GetSize30Font());
+	m_GoldLabel->SetFont(g_pResources->GetSize20Font());
 	m_GoldLabel->SetText("0000");
 	m_GoldLabel->m_Color = CColor(0,0,0,255);
 	AddChild(m_GoldLabel);

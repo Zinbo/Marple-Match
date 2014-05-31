@@ -25,6 +25,8 @@ files
 	MasterScene.cpp
 	LevelGameScene.cpp
 	LevelClearedDialog.cpp
+	GameStartDialog.cpp
+	GameOverDialog.cpp
 
     audio.h
     input.h
@@ -33,6 +35,8 @@ files
 	MasterScene.h
 	LevelGameScene.h
 	LevelClearedDialog.h
+	GameStartDialog.h
+	GameOverDialog.h
 
 	GameSceneManager.cpp
 	TitleScene.cpp

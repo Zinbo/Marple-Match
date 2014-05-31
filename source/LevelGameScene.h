@@ -7,6 +7,8 @@
 #include "GameScene.h"
 #include "ResultsScene.h"
 #include "LevelClearedDialog.h"
+#include "GameStartDialog.h"
+#include "GameOverDialog.h"
 
 namespace SFAS2014
 {
@@ -32,8 +34,8 @@ private:
 	CLabel * m_UpdateToTimeLabel;
 
 	//Dialog boxes
-	CSprite * m_GameStartDialog;
-	CSprite * m_GameOverDialog;
+	GameStartDialog * m_GameStartDialog;
+	GameOverDialog * m_GameOverDialog;
 	LevelClearedDialog * m_LevelClearedDialog;
 	CSprite * m_ExitGameDialog;
 
@@ -54,6 +56,8 @@ private:
 
 	void UpdateLabels();
 
+	void UpdateTime(float time);
+
 	//Powerup helpers
 	void RemovePairsPowerUp(GridItem* selected);
 	static void ResetDoublePoints(Timer* timer, void* userData);
@@ -68,6 +72,8 @@ private:
 	void RemoveCharactersAfterDelay(int player);
 	void Update(float deltaTime = 0.0f, float alphaMul = 1.0f);
 	bool NextLevelButtonPressed();
+	bool GameStartButtonPressed();
+	bool ScoreButtonPressed();
 
 	//Endgame helpers
 	void ExitScene();

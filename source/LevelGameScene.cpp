@@ -46,8 +46,6 @@ LevelGameScene::LevelGameScene(float xGraphicsScale, float yGraphicsScale, Setti
 	m_GridElements.gridHeight = 6;
 	m_GridElements.gridWidth = 4;
 
-	m_Time = ((float) keTimeLimit);
-	m_GameState = keGamePlaying;
 	IwRandSeed( time( 0 ) );
 
 	Create();
@@ -55,6 +53,9 @@ LevelGameScene::LevelGameScene(float xGraphicsScale, float yGraphicsScale, Setti
 	
 	Clear();
 	m_Time = m_Levels[0].timeLimit;
+
+	rand();
+
 }
 
 void LevelGameScene::Init()
@@ -87,7 +88,7 @@ void LevelGameScene::InitLevels()
 void LevelGameScene::InitGameOverDialog()
 {
 	//Init GameOver
-	m_GameOverDialog = new CSprite();
+	m_GameOverDialog = new GameOverDialog();
 	m_GameOverDialog->m_X = 10*m_XGraphicsScale;
 	m_GameOverDialog->m_Y = 90*m_XGraphicsScale;
 	m_GameOverDialog->SetImage(g_pResources->GetGameOverDialog());
@@ -99,92 +100,39 @@ void LevelGameScene::InitGameOverDialog()
 	m_GameOverDialog->m_ScaleY = (dialogScale * m_YGraphicsScale);
 	m_GameOverDialog->m_IsVisible = false;
 
-	// NOTE - Do not need to scale elements inside another element 
-	// if the parent element has already been scaled.
-
-	//add score board button to game over dialog
-	CSprite* scoreBoardButton = new CSprite();
-	scoreBoardButton->m_X = 90;
-	scoreBoardButton->m_Y = 213;
-	scoreBoardButton->SetImage(g_pResources->GetScoreBoardButton());
-	scoreBoardButton->m_H = scoreBoardButton->GetImage()->GetHeight();
-	scoreBoardButton->m_W = scoreBoardButton->GetImage()->GetWidth();
-	m_GameOverDialog->AddChild(scoreBoardButton);
-
-	//Add score label
-	CLabel* scoreLabel = new CLabel();
-	scoreLabel->m_X = 135;
-	scoreLabel->m_Y = 130;
-	scoreLabel->m_W = 200;
-	scoreLabel->m_H = 40;
-	scoreLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
-	scoreLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	scoreLabel->SetFont(g_pResources->GetSize30Font());
-	scoreLabel->SetText("0000");
-	scoreLabel->m_Color = CColor(0,0,0,255);
-	m_GameOverDialog->AddChild(scoreLabel);
-
 	AddChild(m_GameOverDialog);
 }
 
 void LevelGameScene::InitGameStartDialog()
 {
 	//Init GameStart
-	m_GameStartDialog = new CSprite();
+	m_GameStartDialog = new GameStartDialog();
 	m_GameStartDialog->m_X = 10*m_XGraphicsScale;
 	m_GameStartDialog->m_Y = 90*m_XGraphicsScale;
 	m_GameStartDialog->SetImage(g_pResources->GetGameStartDialog());
 	m_GameStartDialog->m_H = m_GameStartDialog->GetImage()->GetHeight();
 	m_GameStartDialog->m_W = m_GameStartDialog->GetImage()->GetWidth();
-	m_GameStartDialog->m_IsVisible = false;
+	float dialogScale = (300 / m_GameOverDialog->m_H);
+	m_GameStartDialog->m_ScaleX = (dialogScale * m_XGraphicsScale);
+	m_GameStartDialog->m_ScaleY = (dialogScale * m_YGraphicsScale);
 
-	//add start button to game over dialog
-	CSprite* startButton = new CSprite();
-	startButton->m_X = 72.5*m_XGraphicsScale;
-	startButton->m_Y = 245*m_XGraphicsScale;
-	startButton->SetImage(g_pResources->GetStartButton());
-	startButton->m_H = startButton->GetImage()->GetHeight();
-	startButton->m_W = startButton->GetImage()->GetWidth();
-	m_GameStartDialog->AddChild(startButton);
+	//Show game start dialog
+	m_GameStartDialog->m_IsVisible = true;
+	m_GameState = keGameStart;
+	int minutes, seconds;
+	minutes = (int)( m_Levels[m_ActiveLevel].timeLimit / 60 );
+	seconds = (int)( m_Levels[m_ActiveLevel].timeLimit - ( minutes * 60.0f ) );
+	char timeBuffer[256];
+	sprintf(timeBuffer, "%.2d:%.2d minutes", minutes, seconds );
 
-	//Add match label
-	CLabel* matchLabel = new CLabel();
-	matchLabel->m_X = 70 * m_XGraphicsScale;
-	matchLabel->m_Y = 60 * m_YGraphicsScale;
-	matchLabel->m_W = 230;
-	matchLabel->m_H = 50;
-	matchLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
-	matchLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	matchLabel->SetFont(g_pResources->GetSize30Font());
-	matchLabel->SetText("0 Pairs");
-	matchLabel->m_Color = CColor(0,0,0,255);
-	m_GameStartDialog->AddChild(matchLabel);
+	char matchBuffer[10];
+	char pairBuffer[15];
+	sprintf(matchBuffer, "%i Pairs", m_Levels[m_ActiveLevel].noOfMatchesToWin);
+	sprintf(pairBuffer, "%i Per Board", m_Levels[m_ActiveLevel].noOfPairsPerBoard);
 
-	//Add pair label
-	CLabel* pairLabel = new CLabel();
-	pairLabel->m_X = 70 * m_XGraphicsScale;
-	pairLabel->m_Y = 125 * m_YGraphicsScale;
-	pairLabel->m_W = 230;
-	pairLabel->m_H = 50;
-	pairLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
-	pairLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	pairLabel->SetFont(g_pResources->GetSize30Font());
-	pairLabel->SetText("0 Per Board");
-	pairLabel->m_Color = CColor(0,0,0,255);
-	m_GameStartDialog->AddChild(pairLabel);
-
-	//Add time label
-	CLabel* timeLabel = new CLabel();
-	timeLabel->m_X = 70 * m_XGraphicsScale;
-	timeLabel->m_Y = 190 * m_YGraphicsScale;
-	timeLabel->m_W = 230;
-	timeLabel->m_H = 50;
-	timeLabel->m_AlignHor = IW_2D_FONT_ALIGN_LEFT;
-	timeLabel->m_AlignVer = IW_2D_FONT_ALIGN_CENTRE;
-	timeLabel->SetFont(g_pResources->GetSize30Font());
-	timeLabel->SetText("0000");
-	timeLabel->m_Color = CColor(0,0,0,255);
-	m_GameStartDialog->AddChild(timeLabel);
+	m_GameStartDialog->GetTimeLabel()->SetText(timeBuffer);
+	m_GameStartDialog->GetMatchLabel()->SetText(matchBuffer);
+	m_GameStartDialog->GetPairLabel()->SetText(pairBuffer);
 
 	AddChild(m_GameStartDialog);
 }
@@ -456,7 +404,6 @@ void LevelGameScene::ExitScene()
 	ResultsScene * resultsScene= (ResultsScene*) m_Manager->Find("ResultsState");
 	Audio::StopMusic();
 	m_Manager->SwitchTo(resultsScene);	
-	m_GameState = keGameOver;
 	m_NoOfMatchedPairs[0] = 0;
 }
 
@@ -493,6 +440,10 @@ void LevelGameScene::remove_player_1_matched_characters(Timer* timer, void* user
 	{
 		self->m_GameState = keGameWon;
 		self->m_LevelClearedDialog->m_IsVisible = true;
+		char scoreBuffer[5];
+		sprintf(scoreBuffer, "%.4d", ((GameSceneManager*) self->m_Manager)->GetScore(0) );
+
+		self->m_LevelClearedDialog->GetScoreLabel()->SetText(scoreBuffer);
 		
 		//Need to remove and add level cleared so that it displays in front..?
 		self->RemoveChild(self->m_LevelClearedDialog);
@@ -524,36 +475,16 @@ void LevelGameScene::Update(float deltaTime, float alphaMul)
 	//call the right method for the correct game state
 	switch(m_GameState)
 	{
-	case keGameOver:
-		m_GameState = keGamePlaying;
-		break;
-	case keGamePlaying:
-		for(int i = 0; i < m_NoOfPlayers; i++)
+	case keGameStart:
+		if(GameStartButtonPressed())
 		{
-			if(m_Delayed[i])
-			{
-				DelayGameForNonmatch(deltaTime, i);
-			}
-		}
-		CheckForAnyMatches();
-		UpdateTime(deltaTime);
-		UpdateLabels();
-		break;
-	case keGameWon:
-		if(NextLevelButtonPressed())
-		{
-			m_LevelClearedDialog->m_IsVisible = false;
-			//Clear the board of all elements
-			ClearBoard();
-
-			m_ActiveLevel++;
+			m_GameStartDialog->m_IsVisible = false;
+			//ClearBoard();
+			
 			m_GameState = keGamePlaying;
+			
 			m_Time = m_Levels[m_ActiveLevel].timeLimit;
 			m_TotalNumberOfPairs = 0;
-			
-			//Reinitialise the board
-			InitBoard();
-			
 
 			m_DoublePoints[0] = false;
 			m_TriplePoints[0] = false;
@@ -578,6 +509,52 @@ void LevelGameScene::Update(float deltaTime, float alphaMul)
 				m_TriplePointsTimer[0] = NULL;
 			}
 
+			InitBoard();
+
+		}
+		break;
+	case keGamePlaying:
+		for(int i = 0; i < m_NoOfPlayers; i++)
+		{
+			if(m_Delayed[i])
+			{
+				DelayGameForNonmatch(deltaTime, i);
+			}
+		}
+		CheckForAnyMatches();
+		UpdateTime(deltaTime);
+		UpdateLabels();
+		break;
+	case keGameWon:
+		if(NextLevelButtonPressed())
+		{
+			ClearBoard();
+			m_LevelClearedDialog->m_IsVisible = false;
+			m_GameStartDialog->m_IsVisible = true;
+			m_ActiveLevel++;
+			m_GameState = keGameStart;
+
+			int minutes, seconds;
+			minutes = (int)( m_Levels[m_ActiveLevel].timeLimit / 60 );
+			seconds = (int)( m_Levels[m_ActiveLevel].timeLimit - ( minutes * 60.0f ) );
+			char timeBuffer[256];
+			sprintf(timeBuffer, "%.2d:%.2d minutes", minutes, seconds );
+
+			char matchBuffer[10];
+			char pairBuffer[15];
+			sprintf(matchBuffer, "%i Pairs", m_Levels[m_ActiveLevel].noOfMatchesToWin);
+			sprintf(pairBuffer, "%i Per Board", m_Levels[m_ActiveLevel].noOfPairsPerBoard);
+
+			m_GameStartDialog->GetTimeLabel()->SetText(timeBuffer);
+			m_GameStartDialog->GetMatchLabel()->SetText(matchBuffer);
+			m_GameStartDialog->GetPairLabel()->SetText(pairBuffer);
+
+		}
+	case keGameOver:
+		if(ScoreButtonPressed())
+		{
+			m_GameState = keGameStart;
+			ExitScene();
 		}
 	}
 	
@@ -586,6 +563,42 @@ void LevelGameScene::Update(float deltaTime, float alphaMul)
 	{
 		g_pInput->Reset();
 	}
+}
+
+bool LevelGameScene::ScoreButtonPressed()
+{
+	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched &&
+		m_GameOverDialog->m_IsVisible && m_GameOverDialog->GetScoreButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
+	{
+		return true;
+	}
+	return false;
+}
+
+
+void LevelGameScene::UpdateTime(float deltaTime)
+{
+	// If a minute has gone by, or we're in the final 10 seconds of the game, then beep to alert the user.
+	if((m_Time < keTimeLimit) && 
+		AMinuteHasGoneBy(deltaTime) || 
+		InTheFinal10Seconds(deltaTime))
+	{
+		g_pAudio->PlaySound(g_pResources->GetTimeSoundFilename());
+	}
+	
+	//If there is no time left, then clean up a few variables and change to the results scene
+	if( ( m_Time) <= 0 )
+	{
+		m_GameState = keGameOver;
+		m_GameOverDialog->m_IsVisible = true;
+		char scoreBuffer[5];
+		sprintf(scoreBuffer, "%.4d", ((GameSceneManager*) m_Manager)->GetScore(0) );
+
+		m_GameOverDialog->GetScoreLabel()->SetText(scoreBuffer);
+	}
+
+	//Update the timer
+	m_Time -= deltaTime;
 }
 
 void LevelGameScene::ClearBoard()
@@ -620,6 +633,16 @@ bool LevelGameScene::NextLevelButtonPressed()
 {
 	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched &&
 		m_LevelClearedDialog->m_IsVisible && m_LevelClearedDialog->GetNextLevelButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool LevelGameScene::GameStartButtonPressed()
+{
+	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched &&
+		m_GameStartDialog->m_IsVisible && m_GameStartDialog->GetStartButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
 	{
 		return true;
 	}
