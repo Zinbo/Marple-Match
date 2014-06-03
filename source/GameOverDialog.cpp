@@ -28,6 +28,15 @@ void GameOverDialog::InitChildElements()
 	m_ScoreLabel->SetText("0000");
 	m_ScoreLabel->m_Color = CColor(0,0,0,255);
 	AddChild(m_ScoreLabel);
+
+	m_FacebookButton = new CSprite();
+	m_FacebookButton->m_X = 90;
+	m_FacebookButton->m_Y = 180;
+	m_FacebookButton->SetImage(g_pResources->GetFacebookIcon());
+	m_FacebookButton->m_H = m_ScoreBoardButton->GetImage()->GetHeight();
+	m_FacebookButton->m_W = m_ScoreBoardButton->GetImage()->GetWidth();
+	AddChild(m_FacebookButton);
+
 }
 
 CLabel * GameOverDialog::GetScoreLabel() const
@@ -38,6 +47,11 @@ CLabel * GameOverDialog::GetScoreLabel() const
 CSprite * GameOverDialog::GetScoreButton() const
 {
 	return m_ScoreBoardButton;
+}
+
+CSprite * GameOverDialog::GetFacebookButton() const
+{
+	return m_FacebookButton;
 }
 
 GameOverDialog::~GameOverDialog(void)

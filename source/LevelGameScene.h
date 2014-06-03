@@ -78,6 +78,9 @@ private:
 	//Endgame helpers
 	void ExitScene();
 
+	void PostFacebookUpdate();
+	bool FacebookButtonPressed();
+
 	//consts for labels and stars
 	static const float kTimeTextX;
 	static const float kTimeTextY;

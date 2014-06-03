@@ -7,6 +7,7 @@
 #include <math.h>
 #include <iostream>
 #include "GameSceneManager.h"
+#include "social.h"
 
 using namespace SFAS2014;
 
@@ -407,6 +408,17 @@ void LevelGameScene::ExitScene()
 	m_NoOfMatchedPairs[0] = 0;
 }
 
+void LevelGameScene::PostFacebookUpdate()
+{
+    // Post score and round update to Facebook
+    if (g_pSocial != 0)
+    {
+        char str[256];
+        snprintf(str, 64, "I just scored %d points playing Marple Match!", ((GameSceneManager*) m_Manager)->GetScore(0) );
+        g_pSocial->PostUpdate(str);
+    }
+}
+
 void LevelGameScene::RemoveCharactersAfterDelay(int player)
 {
 	m_CharactersToRemove[player].push_back(m_FirstSelectedItem[player]);
@@ -556,6 +568,10 @@ void LevelGameScene::Update(float deltaTime, float alphaMul)
 			m_GameState = keGameStart;
 			ExitScene();
 		}
+		if(FacebookButtonPressed())
+		{
+			PostFacebookUpdate();
+		}
 	}
 	
 	//If the user has clicked elsewhere just swallow the touch
@@ -563,6 +579,16 @@ void LevelGameScene::Update(float deltaTime, float alphaMul)
 	{
 		g_pInput->Reset();
 	}
+}
+
+bool LevelGameScene::FacebookButtonPressed()
+{
+	if(m_IsInputActive && !g_pInput->m_Touched && g_pInput->m_PrevTouched &&
+		m_GameOverDialog->m_IsVisible && m_GameOverDialog->GetFacebookButton()->HitTest(g_pInput->m_X, g_pInput->m_Y))
+	{
+		return true;
+	}
+	return false;
 }
 
 bool LevelGameScene::ScoreButtonPressed()

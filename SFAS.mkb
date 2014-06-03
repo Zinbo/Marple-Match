@@ -11,6 +11,13 @@ subprojects
     iw2dscenegraph
     iw2dscenegraphcore
     SoundEngine
+	s3eFacebook
+}
+
+deployment
+{
+    # Replace FACEBOOK_APP_ID with the facebook secret string id 
+    android-extra-strings='(app_id,560063667439597)'
 }
 
 files
@@ -27,6 +34,7 @@ files
 	LevelClearedDialog.cpp
 	GameStartDialog.cpp
 	GameOverDialog.cpp
+	social.cpp
 
     audio.h
     input.h
@@ -37,6 +45,7 @@ files
 	LevelClearedDialog.h
 	GameStartDialog.h
 	GameOverDialog.h
+	social.h
 
 	GameSceneManager.cpp
 	TitleScene.cpp

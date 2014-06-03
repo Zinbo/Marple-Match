@@ -22,6 +22,7 @@
 #include "SinglePlayerGameScene.h"
 #include "ResultsScene.h"
 #include "GameSceneManager.h"
+#include "social.h"
 
 // FRAME_TIME is the amount of time that a single frame should last in seconds
 #define FRAME_TIME  (30.0f / 1000.0f)
@@ -40,6 +41,8 @@ int main()
 
     // Set up audio systems
     g_pAudio = new Audio();
+
+	g_pSocial = new Social();
 
     // Create scene manager
     GameSceneManager * pSceneManager = new GameSceneManager();

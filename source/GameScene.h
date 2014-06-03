@@ -62,10 +62,10 @@ protected:
 	std::vector<bool> m_TriplePoints;
 	std::vector<bool> m_Delayed;
 
-	std::vector<std::vector<GridItem*>> m_Grid;
+	std::vector<std::vector<GridItem*> > m_Grid;
 	std::vector<GridItem*> m_FirstSelectedItem;
 	std::vector<GridItem*> m_SecondSelectedItem;
-	std::vector<std::vector<GridItem*>> m_CharactersToRemove;
+	std::vector<std::vector<GridItem*> > m_CharactersToRemove;
 
 	std::vector<int> m_NoOfMatchedPairs;
 
